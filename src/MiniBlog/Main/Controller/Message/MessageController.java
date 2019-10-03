@@ -1,0 +1,18 @@
+package MiniBlog.Main.Controller.Message;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import static java.lang.System.out;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
+@Controller
+@RequestMapping(value={"/MiniBlog_Front/message"})
+public class MessageController {
+
+    @RequestMapping(method={GET})
+    public String defaultMethod(){
+        out.println("messageController get request");
+        return "MiniBlog_Front/message";
+    }
+}
