@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Spring MVC" type="spring-mvc">
+  <library name="Spring MVC">
     <CLASSES>
       <root url="jar://D:/Spring4/spring-framework-4.3.9.RELEASE/libs/releaseJar/spring-context-support-4.3.9.RELEASE.jar!/" />
       <root url="jar://D:/Spring4/spring-framework-4.3.9.RELEASE/libs/releaseJar/spring-web-4.3.9.RELEASE.jar!/" />

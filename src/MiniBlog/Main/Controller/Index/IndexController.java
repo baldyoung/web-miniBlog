@@ -9,12 +9,12 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static java.lang.System.out;
 @Controller
-@RequestMapping(value="/MiniBlog_Front/index")
+@RequestMapping(value="/WebContext/MiniBlog_Front/index")
 public class IndexController {
 
 
 
-    @RequestMapping(value="/", method={GET})
+    @RequestMapping( method={GET})
     public String defaultMethod(){
 
         out.println("indexController get request");

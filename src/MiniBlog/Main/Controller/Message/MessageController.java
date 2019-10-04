@@ -7,7 +7,7 @@ import static java.lang.System.out;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @Controller
-@RequestMapping(value={"/MiniBlog_Front/message"})
+@RequestMapping(value={"/WebContext/MiniBlog_Front/message"})
 public class MessageController {
 
     @RequestMapping(method={GET})
