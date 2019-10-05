@@ -13,6 +13,6 @@ public class DefaultController {
 
     @RequestMapping(method={GET})
     public String defaultMethod(){
-        return "redirect:/WebContext/MiniBlog_Front/index";
+        return "redirect:/WebContext/MiniBlog_Front/X_Index/index";
     }
 }

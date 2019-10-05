@@ -13,6 +13,6 @@ public class CommentController {
 
     @RequestMapping(method={GET})
     public String defaultMethod(){
-        return "MiniBlog_Front/comment";
+        return "MiniBlog_Front/X_Details/comment";
     }
 }

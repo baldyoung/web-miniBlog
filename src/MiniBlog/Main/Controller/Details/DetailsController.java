@@ -13,6 +13,6 @@ public class DetailsController {
 
     @RequestMapping(method={GET})
     public String defaultMethod(){
-        return "MiniBlog_Front/details";
+        return "MiniBlog_Front/X_Details/details";
     }
 }
