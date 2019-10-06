@@ -8,57 +8,57 @@
 	<link rel="stylesheet" href="../A_CommonRes/css/modules/layer/default/layer.css?v=3.11">
 	<script src="../A_CommonRes/js/layui.js"></script>
 	<script src="../A_CommonRes/js/blog.js"></script>
+	<script src="../../MiniBlog_CommonRes/js/jquery.min.js"></script>
+	<script src="../A_CommonRes/js/PagingBar.js"></script>
+	<script src='js/details.js'></script>
+	
 </head>
 <body class="lay-blog">
 <!-- -->
 <!-- 引入公共头部 -->
-<div th:replace="MiniBlog_Front/common :: common_header"></div><div class="container-wrap">
+<div th:replace="MiniBlog_Front/A_CommonRes/common :: common_header"></div><div class="container-wrap">
 			<div class="container container-message container-details">
 					<div class="contar-wrap">
-						<div class="item">
+						<!-- 帖子详情区 -->
+						<div id='contentArea' class="item">
 							<div class="item-box  layer-photos-demo1 layer-photos-demo">
-								<h3><a href="details.html">拥有诗意的心态,才能拥有诗意的生活</a></h3>
-								<h5>发布于：<span>刚刚</span></h5>
-								<p>父爱如山，不善表达。回想十多年前，总记得父亲有个宽厚的肩膀，小小的自己跨坐在上面，越过人山人海去看更广阔的天空，那个时候期望自己有一双翅膀，能够像鸟儿一样飞得高，看得远。虽然父亲有时会和自己开玩笑，但在做错事的时候会受到严厉的训斥。父亲有双粗糙的大手掌，手把手教我走路、骑车，却会在该放手的时刻果断地放开让自己去大胆尝试，那个时候期望快快长大，能够做自己想做的事，不用受父亲的“控制”。父亲是智慧树，他无所不知、无所不晓，虽然你有十万个为什么，但是也难不倒他。</p>
-								<img src="res/img/item.png" alt="">
+								<h3><a href="details.html">加载中...</a></h3>
+								<h5>发布于：<span>加载中...</span></h5>
+								<p>加载中...</p>
+								<!-- 信息显示及功能区 -->
 								<div class="count layui-clear">
-									<span class="pull-left">阅读 <em>100000+</em></span>
-									<span class="pull-right like"><i class="layui-icon layui-icon-praise"></i><em>999</em></span>
+									<span class="pull-left">阅读 <em>加载中...</em></span>
+									<span class="pull-left" style='margin-left:20px; '>评论 <em>加载中...</em></span>
+									<span class="pull-left" style='margin-left:20px; '><i class="layui-icon layui-icon-praise"></i><em>加载中...</em></span>
+									<span class="pull-right" style='margin-left:20px; color:green; ' onclick='editComment()' >写评论 </span>
 								</div>
 							</div>
 						</div>	
-						<a name="comment"> </a>
-						<div class="comt layui-clear">
-							<a href="javascript:;" class="pull-left">评论</a>
-							<a href="comment" class="pull-right">写评论</a>
+						<!-- 留言编辑区，默认隐藏 -->
+						<div id='commentEditArea' class="item" style='background:rgba(0,0,0,0); padding-top:0px; '>
+							<div class="layui-form-item layui-form-text" style='margin-bottom:3px;'>
+									<textarea id='newComment' class="layui-textarea"  style="resize:none" placeholder="写点什么啊"></textarea>
+							</div>
+							<div style='height:40px; ' >
+								<button onclick='commitComment()' style='float:right; margin-right:2px; height: 38px;line-height: 38px;padding: 0 18px;background-color: #009688;color: #fff;white-space: nowrap; text-align: center;font-size: 14px;border: none;border-radius: 2px;cursor: pointer; ' >
+									确定
+								</button>
+								<button onclick='editComment()' style='float:right; margin-right:15px; height: 38px;line-height: 38px;padding: 0 18px;background-color: #939688;color: #fff;white-space: nowrap; text-align: center;font-size: 14px;border: none;border-radius: 2px;cursor: pointer; ' >
+									取消
+								</button>
+							</div>
 						</div>
-						<div id="LAY-msg-box">
-							<div class="info-item">
-								<img class="info-img" src="res/img/info-img.png" alt="">
-								<div class="info-text">
-									<p class="title count">
-										<span class="name">一片空白</span>
-										<span class="info-img like"><i class="layui-icon layui-icon-praise"></i>5.8万</span>
-									</p>
-									<p class="info-intr">父爱如山，不善表达。回想十多年前，总记得父亲有个宽厚的肩膀，小小的自己跨坐在上面，越过人山人海去看更广阔的天空，那个时候期望自己有一双翅膀，能够像鸟儿一样飞得高，看得远。虽然父亲有时会和自己开玩笑，但在做错事的时候会受到严厉的训斥。父亲有双粗糙的大手掌。</p>
-								</div>
-							</div>	
-							<div class="info-item">
-								<img class="info-img" src="res/img/info-img.png" alt="">
-								<div class="info-text">
-									<p class="title count">
-										<span class="name">一片空白</span>
-										<span class="info-img like"><i class="layui-icon layui-icon-praise"></i>5.8万</span>
-									</p>
-									<p class="info-intr">父爱如山，不善表达。回想十多年前，总记得父亲有个宽厚的肩膀，小小的自己跨坐在上面，越过人山人海去看更广阔的天空，那个时候期望自己有一双翅膀，能够像鸟儿一样飞得高，看得远。虽然父亲有时会和自己开玩笑，但在做错事的时候会受到严厉的训斥。父亲有双粗糙的大手掌。</p>
-								</div>
-							</div>			
+						<!-- 留言展示区，一次只显示5条 -->
+						<div id="commentDisplayArea" > 
+						</div>
+						<!-- 留言区分页操作 -->
+						<div id='pagingOptionArea' class="item-btn" style='text-align:center;'>
 						</div>
 					</div>
 			</div>
 		</div>
 <!-- 引入公共尾部 -->
-<div th:replace="MiniBlog_Front/common :: common_footer"></div>
+<div th:replace="MiniBlog_Front/A_CommonRes/common :: common_footer"></div>
 	
 </body>
 </html>
