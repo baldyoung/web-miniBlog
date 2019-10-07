@@ -1,6 +1,7 @@
 
 
 $(function(){
+	init();
 	test();
 	
 });
@@ -23,6 +24,17 @@ function test(){
 	
 }
 
+function init(){
+	//初始化分页条的数据
+	PagingModule.CurrentIndexPage = 1; //默认页面是第一页
+	PagingModule.MaxPagingNum = 5; //一个页面最多展示5条数据
+	PagingModule.TotalNumOfPageBtn = 5; //被显示的分页按钮数量，不能大于数据分页后的页数
+	PagingModule.TotalMaxPagingNum = 10; //数据分页后的页数
+	//在指定的组件下创建分页条
+	initCreateModuleBar('pagingOptionArea');
+	initLoadPageModule();
+	
+}
 
 /*DisplayCell所对应的对象应该有如下属性
 {
@@ -50,7 +62,7 @@ function createDisplayCellHTML(t){
 		str += "<div class='info-text'>";
 		str += "<p class='title count'>";
 		str += "<span class='name'>"+t.userName+"</span>";
-		str += "<span id='parselike"+t.id+"' class='info-img like' onclick='markLike(\""+t.id+"\")' ><i class='layui-icon layui-icon-praise'></i><span id='like"+t.id+"' >"+t.likeNumber+"</span></span>";
+		str += "<span id='commentParselike"+t.id+"' class='info-img' onclick='markLikeOfComment(\""+t.id+"\")' ><i class='layui-icon layui-icon-praise'></i><span id='commentLike"+t.id+"' >"+t.likeNumber+"</span></span>";
 		str += "</p>";
 		str += "<p class='info-intr'>"+t.content+"</p>";
 		str += "</div>";
@@ -71,20 +83,38 @@ function addNewMessage(){
 	target.val('');
 }
 
-//点赞操作
-function markLike(msgId){
-	var target = $('#like'+msgId);
-	//将要点赞的留言编号发送给后台，后台确认后响应前端
-	//...
-	if($('#parselike'+msgId).attr('class') != 'info-img like layblog-this')
-		target.text(parseInt(target.text())+1);
-	console.log('新的点赞数:'+target.text());
-	
+//---------- 评论点赞功能
+function markLikeOfComment(t){
+	var target = $('#commentParselike'+t);
+	console.log(target.attr('class'));
+	if(target.attr('class') == 'info-img layblog-this'){//已点赞
+		console.log('取消点赞');
+		//target.attr('class', 'info-img');
+		target.removeClass('layblog-this');
+		//console.log('#'+target.attr('class'));
+		$('#commentLike'+t).text(parseInt($('#commentLike'+t).text())-1);
+	}else{//未点赞
+		target.addClass('layblog-this');
+		console.log('点赞');
+		$('#commentLike'+t).text(parseInt($('#commentLike'+t).text())+1);
+	}	
 }
 	
 
 
+//获取并加载下一页展示区内容
+function loadNextPageX(){
+	//clearDisplayArea();
+	loadNextPage();
+}
 
+function loadLastPageX(){
+	loadLastPage();
+}
+
+function loadTargetPageX(t){
+	loadTargetPage($('#pageNumber'+t).text());
+}
 
 
 
