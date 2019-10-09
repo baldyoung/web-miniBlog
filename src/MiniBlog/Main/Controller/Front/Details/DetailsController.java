@@ -1,4 +1,4 @@
-package MiniBlog.Main.Controller.Details;
+package MiniBlog.Main.Controller.Front.Details;
 
 
 import org.springframework.stereotype.Controller;

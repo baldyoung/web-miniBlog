@@ -1,4 +1,4 @@
-package MiniBlog.Main.Controller.Comment;
+package MiniBlog.Main.Controller.Front.Common;
 
 
 import org.springframework.stereotype.Controller;
@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @Controller
-@RequestMapping(value={"/WebContext/MiniBlog_Front/comment"})
-public class CommentController {
-
+@RequestMapping(value={"/"})
+public class DefaultController {
 
     @RequestMapping(method={GET})
     public String defaultMethod(){
-        return "MiniBlog_Front/X_Details/comment";
+        return "redirect:/WebContext/MiniBlog_Front/X_Index/index";
     }
 }

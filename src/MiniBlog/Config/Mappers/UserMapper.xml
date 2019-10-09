@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper:根标签，namespace：命名空间，随便写，一般保证命名空间唯一 -->
+<mapper namespace="MiniBlog.Main.Dao.User.UserDao">
+    <!-- statement，内容：sql语句。id：唯一标识，随便写，在同一个命名空间下保持唯一
+       resultType：sql语句查询结果集的封装类型,tb_user即为数据库中的表
+     -->
+    <update id="insertNewUser" parameterType="Map" >
+        <if test = " sex!=null ">
+            insert into MB_User(account, _password, mailbox, sex) values (#{account},#{password},#{mailbox},#{sex})
+        </if>
+        <choose>
+            <when test="sex == null">
+                insert into MB_User(account, _password, mailbox) values (#{account},#{password},#{mailbox})
+            </when>
+        </choose>
+    </update>
+
+    <select id="queryByAccount" parameterType="String" resultType="map">
+        select account, _password 'password', mailbox, sex, id from MB_User where account = #{Account}
+    </select>
+
+    <select id="queryById" parameterType="int"  resultType="map">
+        select account, _password 'password', mailbox, sex, id from MB_User where account = #{Id}
+    </select>
+
+
+
+</mapper>

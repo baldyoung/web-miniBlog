@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>新用户注册</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- App favicon -->
+    <link rel="shortcut icon" href="res/img/favicon.ico">
+
+    <!-- App css -->
+    <link href="css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/app.min.css" rel="stylesheet" type="text/css" />
+        <script src="../../MiniBlog_CommonRes/js/jquery.min.js"></script>
+        <script src="js/register.js"></script>
+
+    </head>
+
+    <body class="authentication-bg">
+		<!-- 提示栏：待选样式jq-icon-warning jq-icon-success jq-icon-danger -->
+		<div  class="jq-toast-wrap" style="margin-left:40%; top: 20px;"   >
+			<div id='resultStatusBar' class="jq-toast-single jq-has-icon" style="text-align: left; display:none ;">
+				<span class="jq-toast-loader jq-toast-loaded" style="-webkit-transition: width 2.6s ease-in; -o-transition: width 2.6s ease-in;transition: width 2.6s ease-in; background-color: rgba(0,0,0,0.2);">
+				</span>
+				<span class="close-jq-toast-single" onclick='RegisterBarOption.closeResultStatusBar()' >×</span>
+				<h2 id='resultStatusBar_title' class="jq-toast-heading"></h2>
+				<span id='resultStatusBar_content' ></span>
+			</div>
+		</div>
+
+        <div class="account-pages mt-5 mb-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5">
+                        <div class="card">
+                            <!-- Logo-->
+                            <div class="card-header pt-4 pb-4 text-center bg-primary">
+                                <a >
+                                    <span><img src="res/img/logo.png" alt="" height="18"></span>
+                                </a>
+                            </div>
+
+                            <div class="card-body p-4">
+                                
+                                <div class="text-center w-75 m-auto">
+                                    <h4 class="text-dark-50 text-center mt-0 font-weight-bold">用户注册</h4>
+                                    <p class="text-muted mb-4" style='display:none; ' >新用户注册（ps：不好看还是隐藏吧）</p>
+                                </div>
+
+                                <form action="#">
+
+                                    <div class="form-group">
+                                        <label for="newAccount">用户名</label>
+                                        <input class="form-control" type="text" id="newAccount" placeholder="用户名将用于登录时使用，需具备唯一性" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="newMailbox">邮箱</label>
+                                        <input class="form-control" type="email" id="newMailbox" required placeholder="请输入你的邮箱">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="newPassword">登录密码</label>
+                                        <input class="form-control" type="password" required id="newPassword" placeholder="请输入你的登录密码，并妥善保管">
+                                    </div>
+									
+									<div class="form-group">
+                                        <label for="newPassword2">请再次输入密码</label>
+                                        <input class="form-control" type="password" required id="newPassword2" placeholder="请再次输出你的密码，确保与第一次一样">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="checkbox-signup">
+                                            <label class="custom-control-label" for="checkbox-signup">已阅并同意用户协议 <a href="#" class="text-muted">《用户协议》</a></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-0 text-center">
+                                        <button id='btn_register' class="btn btn-primary" type="button" onclick="register()"> 注册 </button>
+                                    </div>
+
+                                </form>
+                            </div> <!-- end card-body -->
+                        </div>
+                        <!-- end card -->
+
+                        <div class="row mt-3">
+                            <div class="col-12 text-center">
+                                <p class="text-muted">已存在账户？ <a href="../X_Login/login.html" class="text-muted ml-1"><b>马上登录吧！</b></a></p>
+                            </div> <!-- end col-->
+                        </div>
+                        <!-- end row -->
+
+                    </div> <!-- end col -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </div>
+        <!-- end page -->
+
+        <footer class="footer footer-alt">
+			MiniBlogTeam 2019
+        </footer>
+
+    </body>
+</html>

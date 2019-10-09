@@ -1,18 +1,18 @@
-package MiniBlog.Main.Controller.Common;
+package MiniBlog.Main.Controller.Front.Comment;
 
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @Controller
-@RequestMapping(value={"/"})
-public class DefaultController {
+@RequestMapping(value={"/WebContext/MiniBlog_Front/comment"})
+public class CommentController {
+
 
     @RequestMapping(method={GET})
     public String defaultMethod(){
-        return "redirect:/WebContext/MiniBlog_Front/X_Index/index";
+        return "MiniBlog_Front/X_Details/comment";
     }
 }

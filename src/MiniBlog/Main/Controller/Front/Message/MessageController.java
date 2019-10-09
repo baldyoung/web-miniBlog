@@ -1,4 +1,4 @@
-package MiniBlog.Main.Controller.Message;
+package MiniBlog.Main.Controller.Front.Message;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
