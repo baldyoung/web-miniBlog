@@ -80,6 +80,7 @@ function register(){
 			} else if(data.result == 'false'){
 				RegisterBarOption.showRegisterResult('注册失败', data.inf, 'warning');
 				$('#btn_register').attr('disabled', 'false');
+				$('#btn_login').removeAttr('disabled');
 			} else{
 				RegisterBarOption.showRegisterResult('注册失败', '数据获取异常，请联系系统管理员', 'danger');
 			}

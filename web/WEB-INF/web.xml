@@ -4,6 +4,11 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
+    <!-- 设置当前应用的session默认保存时间（单位是分钟） -->
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
+
     <!-- Spring配置文件信息 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>

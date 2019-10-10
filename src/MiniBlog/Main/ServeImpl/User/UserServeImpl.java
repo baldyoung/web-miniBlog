@@ -27,11 +27,26 @@ public class UserServeImpl implements UserServe {
             result.put("result", "false");
         return result;
     }
-    public Map queryByAccount(String Account){
+    public Map<String, String> queryByAccount(String Account){
         return dao.queryByAccount(Account);
     }
 
-    public Map queryById(int Id){
+    public Map<String, String> queryById(int Id){
         return dao.queryById(Id);
+    }
+
+    public Map<String, String>  loginCheck(Map<String, String> map){
+        /*
+         *这里应该添加对 map内数据的格式检查...待完成
+         */
+        Map<String, String> result = new HashMap<String, String>();;
+        Map<String, String>  userInf = dao.queryByAccount(map.get("account"));
+        //System.out.println("检查的用户信息："+userInf.toString());
+        if(null != userInf && null != userInf.get("password") && userInf.get("password").equals(map.get("password"))){
+            result.put("result", "true");
+        }else{
+            result.put("result", "false");
+        }
+        return result;
     }
 }
