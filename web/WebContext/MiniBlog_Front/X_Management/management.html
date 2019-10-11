@@ -1,10 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>论坛管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../A_CommonRes/css/layui.css">
+    <link rel="stylesheet" href="../A_CommonRes/css/mian.css">
+    <link rel="stylesheet" href="../A_CommonRes/css/modules/layer/default/layer.css?v=3.11">
+    <script src="../A_CommonRes/js/layui.js"></script>
+    <script src="../../MiniBlog_CommonRes/js/jquery.min.js"></script>
+    <script src="../A_CommonRes/js/PagingBar.js"></script>
+    <script src="js/management.js"></script>
 </head>
-<body>
-    <h1 style="color:red; ">论坛管理页面</h1>
+<body class="lay-blog">
+<!-- -->
+<!-- 引入公共头部 -->
+<div th:replace="MiniBlog_Front/A_CommonRes/common :: common_header"></div>
+<div class="container-wrap">
+    <div class="container container-message">
+        <table id="demo" lay-filter="test"></table>
+    </div>
+</div>
+<!-- 引入公共尾部 -->
+<div th:replace="MiniBlog_Front/A_CommonRes/common :: common_footer"></div>
+
+
+
+
+
 </body>
-</html>
