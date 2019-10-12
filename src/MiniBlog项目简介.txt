@@ -49,5 +49,9 @@
 ------------X_ManageMent（功能模块-帖子管理）
 ------------X_PersonalInformation（功能模块-个人信息管理及论坛管理）
 --------MiniBlog_Back（后台根目录）
+------------A_CommonRes（后台的公共资源目录）
+------------X_RealTimeMonitoring（平台实时监控）
+------------X_UserManagement（平台的普通用户管理）
+------------X_DataManagement（平台的数据管理：如帖子、图片资源等）
 
 	
