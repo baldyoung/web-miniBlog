@@ -52,6 +52,8 @@ function  loadUserTable(t){
                 a+="</button>"
                 a+="<button class=\"btn btn-primary \" style='margin-top:3px; margin-left:5px; ' type=\"button\" data-toggle=\"modal\" data-target=\"#myModal\" onclick=\"openUserInfWin('"+row.id+"','"+row.name+"','"+row.account+"', '"+row.password+"', '"+row.grade+"' )\"><i class=\"fa fa-building-o\"></i>修改"
                 a+="</button>"
+				a+="<button class=\"btn btn-primary \" style='margin-top:3px; margin-left:5px; ' type=\"button\" onclick='alert(\"待开发\")'><i class=\"fa fa-building-o\"></i>个人首页"
+                a+="</button>"
                 return a;
             },
             "targets" :6

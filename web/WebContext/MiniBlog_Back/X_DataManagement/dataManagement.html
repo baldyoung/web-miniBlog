@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title> 资源管理 </title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="../A_CommonRes/img/favicon.ico"> 
+	<link href="../A_CommonRes/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../A_CommonRes/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="../A_CommonRes/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="../A_CommonRes/css/animate.css" rel="stylesheet">
+    <link href="../A_CommonRes/css/style.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+			<!-- 导航栏 -->
+			<div class="col-sm-2" style='position:fixed; right:1px;'>
+                <div class="ibox float-e-margins">
+                    <div class="ibox" style='margin-bottom:1px; padding-left:5px; background:#f7edbd; ' >
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+						<span style='font-size:20px; color:#fc6b6b; ' >&nbsp;admin</span>
+						
+						<div style='width:100%; text-align:right; padding-right:7px; ' >
+							<i class="fa fa-edit" alt="修改密码" style='padding-right:3px; cursor:pointer; ' ></i>
+							<i class="fa fa-sign-out" style=' cursor:pointer; ' ></i>
+						</div>
+                    </div>
+					
+                    <div class="ibox-content">
+                        <ul class="todo-list m-t small-list ui-sortable" style='margin-top:0px; ' >
+							
+                            <li style='cursor:pointer; background:#a0f3f4; ' >
+                                <a  class="check-link"><i class="fa fa-tv"></i> </a>
+                                <span class="m-l-xs">首页</span>
+                                
+                            </li>
+                            <li style='cursor:pointer; ' >
+                                <a  class="check-link"><i class="fa fa-users"></i> </a>
+                                <span class="m-l-xs">用户管理</span>
+                                
+                            </li>
+                            <li style='cursor:pointer; ' >
+                                <a  class="check-link"><i class="fa fa-archive"></i> </a>
+                                <span class="m-l-xs">资源管理</span>
+                            </li>
+							<li style='cursor:pointer; ' >
+                                <a  class="check-link"><i class="fa fa-gear"></i> </a>
+                                <span class="m-l-xs">系统设置</span>
+                            </li>
+							<li style='cursor:pointer; ' >
+                                <a  class="check-link"><i class="fa fa-calendar-minus-o"></i> </a>
+                                <span class="m-l-xs">系统日志</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+		
+			<!-- 模块内容 -->
+		
+		
+            <div class="col-sm-10 animated fadeInRight">
+                <div class="mail-box-header">
+
+                    <form method="get" action="index.html" class="pull-right mail-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control input-sm" name="search" placeholder="搜索邮件标题，正文等">
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    搜索
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <h2>
+                    总帖数(1603)
+                </h2>
+                    <div class="mail-tools tooltip-demo m-t-md">
+                        <div class="btn-group pull-right">
+                            <button class="btn btn-white btn-sm"><i class="fa fa-arrow-left"></i>
+                            </button>
+                            <button class="btn btn-white btn-sm"><i class="fa fa-arrow-right"></i>
+                            </button>
+
+                        </div>
+                        <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" title="刷新邮件列表"><i class="fa fa-refresh"></i> 刷新</button>
+                        <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="标为已读"><i class="fa fa-eye"></i>
+                        </button>
+                        <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="标为重要"><i class="fa fa-exclamation"></i>
+                        </button>
+                        <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="标为垃圾邮件"><i class="fa fa-trash-o"></i>
+                        </button>
+
+                    </div>
+                </div>
+                <div class="mail-box">
+
+                    <table class="table table-hover table-mail">
+                        <tbody>
+                            <tr class="unread">
+                                <td class="check-mail">
+                                    
+                                </td>
+                                <td class="mail-ontact"><a href="mail_detail.html">用户</a>
+                                </td>
+                                <td class="mail-subject"><a href="mail_detail.html">标题</a>
+                                </td>
+                                <td class="" style='font-size:10px; ' >热度<i class="fa fa-thumbs-up"></i>
+                                </td>
+                                <td class="text-right mail-date">发布时间</td>
+                            </tr>
+                            <tr class="read">
+                                <td class="check-mail">
+                                    <input type="checkbox" class="i-checks">
+                                </td>
+                                <td class="mail-ontact"><a href="mail_detail.html">XiaoRJ</a>
+                                </td>
+                                <td class="mail-subject"><a href="mail_detail.html">如何沉浸Coding的同时，还能搏得美人欢心！</a>
+                                </td>
+                                <td class=""><i class="fa fa-thumbs-o-up"></i>10113</td>
+                                <td class="text-right mail-date">2019-11-11 10:57</td>
+                            </tr>
+                            <tr class="read">
+                                <td class="check-mail">
+                                    <input type="checkbox" class="i-checks">
+                                </td>
+                                <td class="mail-ontact"><a href="mail_detail.html">WordPress</a> <span class="label label-warning pull-right">已封禁</span>
+                                </td>
+                                <td class="mail-subject"><a href="mail_detail.html">wp-user-frontend-pro v2.1.9</a>
+                                </td>
+                                <td class=""><i class="fa fa-thumbs-o-up"></i>9113</td>
+                                <td class="text-right mail-date">2019-11-9 9:21</td>
+                            </tr>
+                            <tr class="read">
+                                <td class="check-mail">
+                                    <input type="checkbox" class="i-checks">
+                                </td>
+                                <td class="mail-ontact"><a href="mail_detail.html">肖老弟</a>
+                                </td>
+                                <td class="mail-subject"><a href="mail_detail.html">史上最全！淘宝双11红包疯抢攻略！</a>
+                                </td>
+                                <td class=""><i class="fa fa-thumbs-o-up"></i>6113</td>
+                                <td class="text-right mail-date">2019-11-6 12:24</td>
+                            </tr>
+                            <tr class="read">
+                                <td class="check-mail">
+                                    <input type="checkbox" class="i-checks">
+                                </td>
+                                <td class="mail-ontact"><a href="mail_detail.html">肖大姐</a> 
+                                </td>
+                                <td class="mail-subject"><a href="mail_detail.html">亲，双11来啦！帮你挑货，还送你4999元红包！仅此一次！</a>
+                                </td>
+                                <td class=""><i class="fa fa-thumbs-o-up"></i>3913</i>
+                                </td>
+                                <td class="text-right mail-date">2019-11-3 6:48</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 全局js -->
+    <script src="../A_CommonRes/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../A_CommonRes/js/bootstrap.min.js?v=3.3.6"></script>
+
+
+
+    <!-- 自定义js -->
+    <!-- script src="js/content.js?v=1.0.0"></script -->
+
+
+    <!-- iCheck -->
+    <script src="../A_CommonRes/js/plugins/iCheck/icheck.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+    </script>
+
+    
+    
+
+</body>
+
+</html>
