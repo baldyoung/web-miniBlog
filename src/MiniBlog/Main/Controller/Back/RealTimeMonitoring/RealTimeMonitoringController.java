@@ -1,0 +1,21 @@
+package MiniBlog.Main.Controller.Back.RealTimeMonitoring;
+
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
+@Controller
+@RequestMapping(value="/WebContext/MiniBlog_Back/X_RealTimeMonitoring")
+public class RealTimeMonitoringController {
+
+    @RequestMapping(value="/realTimeMonitoring", method={GET})
+    public String defaultMethod(){
+        return "/MiniBlog_Back/X_RealTimeMonitoring/realTimeMonitoring";
+    }
+
+
+
+}
