@@ -19,7 +19,7 @@ USE MiniBlog;
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 普通用户表
 DROP TABLE IF EXISTS MB_User;
 CREATE TABLE MB_User(
-	id INT UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]用户编号：唯一且不为空' ,
+	id INT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]用户编号：唯一且不为空' ,
 	account VARCHAR(20) UNIQUE NOT NULL COMMENT'用户登录名' ,
 	_password VARCHAR(12) NOT NULL COMMENT'用户登录密码' ,
 	mailbox VARCHAR(50) NOT NULL COMMENT'用户邮箱' ,
@@ -36,10 +36,10 @@ SELECT _password 'password' FROM MB_User WHERE account = 'admin';
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 管理员表
 DROP TABLE IF EXISTS MB_Administrator;
 CREATE TABLE MB_Administrator(
-	id INT UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]管理员编号：唯一且不为空',
+	id INT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]管理员编号：唯一且不为空',
 	account VARCHAR(20) UNIQUE NOT NULL COMMENT'管理员登录账户：唯一且不为空',
 	_password VARCHAR(20) NOT NULL COMMENT'管理员登录密码',
-	roleId INT NOT NULL COMMENT'角色编号',
+	roleId INT UNSIGNED NOT NULL COMMENT'角色编号',
 	mailbox VARCHAR(50) DEFAULT 'unknow' COMMENT'管理员邮箱',
 	registrationTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT'[默认]用户注册时间，不用操作由数据库默认操作'
 )COMMENT'管理员表';
@@ -51,14 +51,14 @@ INSERT INTO MB_Administrator(account, _password, roleId) VALUES('superAdmin', 'm
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 系统角色表
 DROP TABLE IF EXISTS MB_Role;
 CREATE TABLE MB_Role(
-	id INT UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]角色编号：唯一且不为空',
+	id INT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]角色编号：唯一且不为空',
 	_name VARCHAR(30) UNIQUE NOT NULL COMMENT'角色名称：唯一且不为空'
 )COMMENT'系统角色表';
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 系统权限表
 DROP TABLE IF EXISTS MB_Access;
 CREATE TABLE MB_Access(
-	id INT UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]权限编号：唯一且不为空',
+	id INT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]权限编号：唯一且不为空',
 	_name VARCHAR(50) UNIQUE NOT NULL COMMENT'权限名称：唯一且不为空',
 	path VARCHAR(100) UNIQUE NOT NULL COMMENT'权限的访问路径：唯一且不为空'
 )COMMENT'系统权限表';
@@ -66,10 +66,98 @@ CREATE TABLE MB_Access(
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 角色的权限对应表
 DROP TABLE IF EXISTS MB_AccessOfRole;
 CREATE TABLE MB_AccessOfRole(
-	id INT UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]编号：唯一且不为空',
+	id INT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]编号：唯一且不为空',
 	roleId INT NOT NULL COMMENT'角色编号：不为空',
 	accessId INT NOT NULL COMMENT'权限编号：不为空'
 )COMMENT'角色的权限对应表';
+
+
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 帖子/文章表
+DROP TABLE IF EXISTS MB_Article;
+CREATE TABLE MB_Article(
+	id INT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]编号：唯一且不为空',
+	userId INT UNSIGNED NOT NULL COMMENT'所属用户编号：不为空',
+	title VARCHAR(100) NOT NULL COMMENT'文章标题：不为空',
+	publishTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT'[默认]发表时间：不为空，由数据库默认操作',
+	readNum INT UNSIGNED DEFAULT 0 COMMENT'[默认]已阅数量：初始为0',
+	likeAmount INT UNSIGNED DEFAULT 0 COMMENT'[默认]点赞数量：初始为0',
+	commentAmount INT UNSIGNED DEFAULT 0 COMMENT'[默认]评论数量：初始为0',
+	forbid ENUM('no', 'yes') DEFAULT 'no' COMMENT'[默认]是否禁止访问：对于违规文章进行禁止访问所需的标识字段'
+)COMMENT'文章表';
+
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 帖子/文章文字内容详情表
+DROP TABLE IF EXISTS MB_ArticleDetails;
+CREATE TABLE MB_ArticleDetails(
+	id INT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]编号：唯一且不为空',
+	articleId INT UNSIGNED NOT NULL COMMENT'所属文章的编号：不为空',
+	content TEXT NOT NULL COMMENT'内容：不为空'
+)COMMENT'文章文字内容详情表';
+
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 帖子/文章的图片路径表
+DROP TABLE IF EXISTS MB_ArticlePicture;
+CREATE TABLE MB_ArticlePicture(
+	id INT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]编号：唯一且不为空',
+	articleId INT UNSIGNED NOT NULL COMMENT'所属文章的编号：不为空',
+	pictureName VARCHAR(30) NOT NULL COMMENT'图片名称：不为空'
+)COMMENT'文章的图片路径表';
+
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 文章的评论表
+DROP TABLE IF EXISTS MB_ArticleComment;
+CREATE TABLE MB_ArticleComment(
+	id INT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]编号：唯一且不为空',
+	articleId INT UNSIGNED NOT NULL COMMENT'所属文章的编号：不为空',
+	content VARCHAR(300) NOT NULL COMMENT'评论的内容：不为空',
+	likeAmount INT UNSIGNED DEFAULT 0 COMMENT'[默认]点赞数量：初始为0'
+)COMMENT'文章的评论表';
+
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 论坛留言记录表
+DROP TABLE IF EXISTS MB_Message;
+CREATE TABLE MB_Message(
+	id INT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]编号：唯一且不为空',
+	userId INT UNSIGNED NOT NULL COMMENT'所属论坛的编号（因为一个用户下只有一个论坛，所以用用户编号来代替）：不为空',
+	content VARCHAR(500) NOT NULL COMMENT'留言的内容：不为空',
+	likeAmount INT UNSIGNED DEFAULT 0 COMMENT'[默认]点赞数量：初始为0'
+)COMMENT'论坛留言记录表';
+
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 文章点赞记录表
+DROP TABLE IF EXISTS MB_LikeRecordOfArticle;
+CREATE TABLE MB_LikeRecordOfArticle(
+	id BIGINT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]编号：唯一且不为空',
+	articleId INT UNSIGNED NOT NULL COMMENT'所属文章的编号：不为空',
+	userId INT UNSIGNED NOT NULL COMMENT'点赞用户的编号：不为空',
+	recordTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT'[默认]记录时间，不用操作由数据库默认操作'
+)COMMENT'文章点赞记录表';
+
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 评论点赞记录表
+DROP TABLE IF EXISTS MB_LikeRecordOfComment;
+CREATE TABLE MB_LikeRecordOfComment(
+	id BIGINT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]编号：唯一且不为空',
+	commentId INT UNSIGNED NOT NULL COMMENT'所属评论的编号：不为空',
+	userId INT UNSIGNED NOT NULL COMMENT'点赞用户的编号：不为空',
+	recordTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT'[默认]记录时间，不用操作由数据库默认操作'
+)COMMENT'评论点赞记录表';
+
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 留言点赞记录表
+DROP TABLE IF EXISTS MB_LikeRecordOfMessage;
+CREATE TABLE MB_LikeRecordOfMessage(
+	id BIGINT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]编号：唯一且不为空',
+	messageId INT UNSIGNED NOT NULL COMMENT'所属留言的编号：不为空',
+	userId INT UNSIGNED NOT NULL COMMENT'点赞用户的编号：不为空',
+	recordTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT'[默认]记录时间，不用操作由数据库默认操作'
+)COMMENT'留言点赞记录表';
+
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 系统消息记录表
+DROP TABLE IF EXISTS MB_SystemNews;
+CREATE TABLE MB_SystemNews(
+	id BIGINT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]编号：唯一且不为空',
+	adminId INT UNSIGNED NOT NULL DEFAULT 0 COMMENT'[默认为0，意为系统消息]发送系统消息的管理员编号：不为空',
+	userId INT UNSIGNED NOT NULL COMMENT'接收用户的编号：不为空',
+	content VARCHAR(600) NOT NULL COMMENT'消息的具体内容：不为空',
+	newsTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT'[默认]消息时间，不用操作由数据库默认操作'
+)COMMENT'系统消息记录表';
+
+
+
 
 
 
