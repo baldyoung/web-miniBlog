@@ -8,7 +8,9 @@
           <element id="javaee-facet-classes" facet="MiniBlog/web/Web" />
           <element id="module-output" name="MiniBlog" />
         </element>
-        <element id="directory" name="lib" />
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="lib" />
+        </element>
       </element>
     </root>
   </artifact>

@@ -5,13 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static java.lang.System.out;
 
 
-public class TestArea {
+public class TestArea extends  UnitTest{
     @Autowired
     UserServe userServe;
 
     @Test
     public void test1(){
-        out.println(userServe.queryByAccount("admin"));
+        out.println(userServe.queryByAccount("user"));
     }
 
 }
