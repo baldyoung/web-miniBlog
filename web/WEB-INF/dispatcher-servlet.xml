@@ -31,4 +31,14 @@
         <property name="characterEncoding"  value="UTF-8" />
     </bean>
 
+    <!-- 管理员后台访问拦截器 -->
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/WebContext/MiniBlog_Back/**"/>
+            <mvc:exclude-mapping path="/WebContext/MiniBlog_Back/X_Login/**"/>
+            <bean class="MiniBlog.Main.Interceptor.Back.LoginInterceptor.BackLoginInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>

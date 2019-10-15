@@ -33,7 +33,7 @@
 
                     <div style='width:100%; text-align:right; padding-right:7px; ' >
                         <i class="fa fa-edit" alt="修改密码" style='padding-right:3px; cursor:pointer; ' ></i>
-                        <i class="fa fa-sign-out" style=' cursor:pointer; ' ></i>
+                        <i class="fa fa-sign-out" style=' cursor:pointer; ' onclick="logout()" ></i>
                     </div>
                 </div>
 
@@ -66,6 +66,24 @@
                 </div>
             </div>
 			<script>
+                function logout(){
+                    $.ajax({
+                        url: "../X_Login/logout",
+                        type: 'POST',
+                        cache: false,
+                        dataType:'json',
+                        contentType: "application/json;charset=utf-8",
+                        data: '',
+                        success: function (data) {
+                            if(data.result=='true')
+                                location.reload();
+                        },
+                        error : function(){
+                            alert('服务器连接异常');
+                            //location.reload();
+                        }
+                    });
+                }
 				$(function(){
 				var url = ''+window.location;
 				url = url.split('/');
