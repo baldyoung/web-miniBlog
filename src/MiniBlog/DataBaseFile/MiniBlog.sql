@@ -25,6 +25,7 @@ CREATE TABLE MB_User(
 	mailbox VARCHAR(50) NOT NULL COMMENT'用户邮箱' ,
 	registrationTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT'[默认]用户注册时间，不用操作由数据库默认操作' ,
 -- ------------------------以下是可选字段，用于扩展
+	sentenceA VARCHAR(200) DEFAULT '' COMMENT'[默认]用户备用参数一',
 	realName VARCHAR(30) DEFAULT 'unknow' COMMENT'[可选]用户的真实姓名' ,
 	IDCardNo VARCHAR(20) DEFAULT 'unknow' COMMENT'[可选]用户的身份证号' ,
 	sex ENUM('男', '女', '你猜') DEFAULT '你猜' COMMENT'[可选]用户性别' ,

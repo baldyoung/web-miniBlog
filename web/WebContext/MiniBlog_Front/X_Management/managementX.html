@@ -1,0 +1,159 @@
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>论坛管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../A_CommonRes/css/layui.css">
+    <link rel="stylesheet" href="../A_CommonRes/css/mian.css">
+    <link rel="stylesheet" href="../A_CommonRes/css/modules/layer/default/layer.css?v=3.11">
+	
+	<link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/simditor.css" />
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+	
+    <script src="../A_CommonRes/js/layui.js"></script>
+    <script src="../../MiniBlog_CommonRes/js/jquery.min.js"></script>
+    <script src="../A_CommonRes/js/PagingBar.js"></script>
+    
+	
+	<script src="js/bootstrap.min.js?v=3.3.6"></script>
+
+
+
+
+
+    <!-- simditor -->
+    <script type="text/javascript" src="js/module.js"></script>
+    <script type="text/javascript" src="js/uploader.js"></script>
+    <script type="text/javascript" src="js/hotkeys.js"></script>
+    <script type="text/javascript" src="js/simditor.js"></script>
+	
+	<script src="js/managementX.js"></script>
+</head>
+<body class="lay-blog" style='background:#d1ecf8; ' >
+<!-- -->
+<!-- 引入公共头部 -->
+<div th:replace="MiniBlog_Front/A_CommonRes/common :: common_header"></div>
+	<!-- 主区 -->
+    <div class="container-wrap">
+		<div class="container" style='width:60%;  ' >
+			<div class='item' style='padding:5px 2px 3px 3px; margin-bottom:3px; background:#68c9f3;'>
+				<span style='margin:2px 3px 1px 1px; cursor:pointer; ' >关于我</span>|
+				<span style='margin:2px 3px 1px 3px; cursor:pointer; ' >个人信息</span>|
+				<span style='margin:2px 3px 1px 3px; cursor:pointer; ' >我的关注</span>|
+				<span style='margin:2px 3px 1px 3px; cursor:pointer; ' >跟我有关</span>
+			</div>
+			<!-- 公告编辑区 -->
+			<div class='item' style='padding:0 3px 2px 3px; background:#9edef9; ' >
+				<div style='height:20px; width:100%; ' >
+					<span style='font-size:16px; margin-left:50px; font-weight:bold; ' >公告</span>
+					<span id='btn_cancellBulletinBoard' style='font-size:13px; float:right; margin-right:15px; cursor:pointer; display:none; color:#ff4949; font-weight:bold;' onclick='BulletinBoardOption.cancelUpdateData()'>取消</span>
+					<span id='btn_saveBulletinBoard' style='font-size:13px; float:right; margin-right:15px; cursor:pointer; display:none; color:#1E9FFF; font-weight:bold;' onclick='BulletinBoardOption.updateData()'>保存</span>
+					<span style='font-size:13px; float:right; margin-right:15px; cursor:pointer; ' onclick='BulletinBoardOption.allowEdit()'>编辑</span>
+				</div>
+				<div class="layui-form-item layui-form-text" style='margin-bottom:0px; '>
+					<textarea id='bulletinBoardEditArea' class="layui-textarea"  style="resize:none;background:rgb(222, 224, 225);" readonly='true' ></textarea>
+				</div>
+			</div>
+			<!-- 帖子展示区 -->
+			<div class='contar-wrap'>
+				<!-- 帖子展示区 -->
+				<div id='DisplayArea' style='width:100%; margin:0 0 0 0; padding:0 0 0 0; ' >
+				
+				</div>
+				<!-- 分页控制区 -->
+				<div id='pagingOptionArea' class="item-btn">
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 功能区-发帖 -->
+	<div onclick='ArticleEditAreaOption.show()' style='position:fixed; width:100px; height:100px; right:10%; top:30%; background:rgb(116, 214, 214, 0.7); border-radius:50%; cursor:pointer; ' >
+		<button class="layui-btn layui-btn-normal" onclick="">发帖</button></br>
+		<span style='font-size:13px; color:#ff8de6; '>点我发帖哦(-V-)</span>
+	</div>
+	<!-- 功能区-我的关注 -->
+	<div onclick='' style='padding:3px 0 2px 2px; position:fixed; width:100px; height:100px; left:10%; top:30%; background:rgb(179, 214, 138, 0.7); border-radius:5px; cursor:default; ' >
+		<!-- button class="layui-btn layui-btn-normal" onclick="">发帖</button></br -->
+		<p style='font-size:12px; color:gray; margin:2px 0 1px 0; width:100%; text-align:center; '>关于我</p>
+		<p style='font-size:13px; color:black; background:#c5ff66; width:90%; margin:2px 0 1px 0; cursor:pointer; border-radius:2px; padding:0 0 0 2px; '>个人信息</p>
+		<p style='font-size:13px; color:black; background:#ffbf66; width:90%; margin:2px 0 1px 0; cursor:pointer; border-radius:2px; padding:0 0 0 2px; '>我的关注</p>
+		<p style='font-size:13px; color:black; background:#ae66ff; width:90%; margin:2px 0 1px 0; cursor:pointer; border-radius:2px; padding:0 0 0 2px; '>跟我有关<span style='font-weight:bloder; color:red; '>!!!</span></p>
+	</div>
+	
+	<!-- 帖子编辑区（必须在最后，才能覆盖在最上层！！！） -->
+	<div id='articleEditArea' style='position:fixed; width:100%; height:100%; left:0px; top:0px; background:rgb(205, 203, 107, 0.7); display:;  overflow-y:auto;'>
+		<div class="contar-wrap" style='display:; width:60%; margin-left:20%; margin-top:30px; margin-bottom:30px; '>
+			<div id='contentArea' class="item" style=' '>
+				<!-- 标题编辑栏 -->
+				<div class='item-box' style='padding-bottom:0px; ' >
+					<span style='font-size:18px; color:gray; ' >标题：</span></br>
+					<input id='articleTitle' type='text' style='width:100%; padding-left:15px; height:40px; border: #e6e6e6 1px solid; font-size:18px; ' placeholder='文章标题' />
+				</div>
+				<!-- 内容编辑栏 -->
+				<div class="item-box"  >
+						
+						
+					<div  style='border:#e6e6e6 1px solid; padding:0 1px 0 1px;'>
+						<!-- 文字编辑栏 -->
+
+							<textarea id="editor"  autofocus></textarea>
+
+							
+						<!-- 图片编辑栏 -->
+						<div id='ImgEditArea' class='layer-photos-demo1 layer-photos-demo' style='margin-top:0px; background:#FFFFFF; ' >
+							<input id='fileCellForImg0' type='file' style='display:none; ' accept='.jpg' onchange='ImgOption.addNewImg(this)' />
+							<img onclick='ImgOption.selectNewImg()' style="margin-right:5px; margin-bottom:5px;  " height="130" width="200"  src="res/img/addNewImg2.jpg" alt="点击添加图片" />
+						</div>
+					</div>
+						
+				</div>
+				<!-- 操作区 -->
+				<div style='height:40px; padding-right:10px; padding-bottom:5px; background:#fff; ' >
+					<button id='btnPublishYes' onclick='ArticleEditAreaOption.actionPublish()' style='float:right; margin-right:2px; height: 38px;line-height: 38px;padding: 0 18px;background-color: #009688;color: #fff;white-space: nowrap; text-align: center;font-size: 14px;border: none;border-radius: 2px;cursor: pointer; ' >
+						发布
+					</button>
+					<button id='btnPublishNo' onclick='ArticleEditAreaOption.actionCancel()' style='float:right; margin-right:15px; height: 38px;line-height: 38px;padding: 0 18px;background-color: #939688;color: #fff;white-space: nowrap; text-align: center;font-size: 14px;border: none;border-radius: 2px;cursor: pointer; ' >
+						取消
+					</button>
+				</div>
+			</div>	
+				
+				
+		</div>
+	</div>		
+	<!-- 信息提示框 -->
+	<div id='tooltipArea' style='position:fixed; width:100%; height:100%; left:0px; top:0px; background:rgb(77, 77, 77, 0.3); display:none;  overflow-y:auto;'>
+		<div class='item' style='width:20%; background:#FFFFFF; margin-top:10%; margin-left:40%; padding:2px 2px 2px 2px; '>
+			<!-- 标题 -->
+			<div id='tipTitleDiv' style='width:100%; background:#ecb89c; margin:3px 0px 2px 0px; text-align:center; padding:2px 0 3px 0; '>
+				<p style='font-weight:bolder; font-size:15px; color:balck; '>提&nbsp;示</p>
+			</div>
+			<!-- 内容 -->
+			<div style='width:100%; background:#FFFFFF; margin:3px 0px 2px 0px; '>
+				<p id='tipContent' style='width:80%; margin:5px 0px 2px 0px; min-height:80px; ' >请确认是否删除?</p>
+			</div>
+			<!-- 选项 -->
+			<div style='background:#FFFFFF; text-align:right; ' >
+				<button id='btnTipYes' onclick='TooltipOption.ok()' style='cursor:pointer; width:60px; margin-right:5px; height: 31px;  background-color: #494949;color: #d5d3d3; text-align: center;font-size: 14px;border: none;border-radius: 2px; ' >
+						确认
+				</button>
+				<button id='btnTipNo' onclick='TooltipOption.cancel()' style='cursor:pointer; width:60px; height:31px; margin-right:10px; background-color: #d5d3d3;color: #494949;text-align: center;font-size: 14px;border: none;border-radius: 2px; ' >
+						取消
+				</button>
+			</div>
+		</div>
+	</div>
+			
+<!-- 引入公共尾部 -->
+<div th:replace="MiniBlog_Front/A_CommonRes/common :: common_footer"></div>
+<script>
+	
+</script>
+
+
+
+
+</body>

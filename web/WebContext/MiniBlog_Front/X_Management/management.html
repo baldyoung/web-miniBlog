@@ -15,14 +15,119 @@
 <!-- -->
 <!-- 引入公共头部 -->
 <div th:replace="MiniBlog_Front/A_CommonRes/common :: common_header"></div>
-<div class="container-wrap">
-    <div class="container container-message">
-        <table id="forum" lay-filter="forum"></table>
-    </div>
-</div>
+    <div class="container-wrap">
+		<div class="container container-message container-details">
+			<div class="contar-wrap">
+				<div id='contentArea' class="item">
+					<!-- 标题编辑栏 -->
+					<div class='item-box' style='padding-bottom:0px; ' >
+						<span style='font-size:12px; color:gray; ' >标题：</span></br>
+						<input type='text' style='width:100%; padding-left:5px; height:30px; border: #e6e6e6 1px solid; ' placeholder='文章标题' />
+					</div>
+					<!-- 内容编辑栏 -->
+					<div class="item-box"  >
+						<span style='font-size:11px; color:gray; ' >内容：</span></br>
+						<div style='border:#e6e6e6 1px solid; padding:0 1px 0 1px;'>
+							<!-- 文字编辑栏 -->
+							<textarea id='newContent' onKeyUp='maintainState()' class="layui-textarea"  rows='1' style="overflow:hidden; margin:2px 0 0 0; min-height:0px; resize:none; color:gray;  font-size:12px;  padding:0; border:0px solid; line-height:" placeholder="文章内容"></textarea>
+							<!-- 图片编辑栏 -->
+							<div id='ImgEditArea' class='layer-photos-demo1 layer-photos-demo' style='margin-top:5px;' >
+								<input id='fileCellForImg0' type='file' style='display:none; ' accept='.jpg' onchange='addNewImg(this)' />
+								<img onclick='selectNewImg()' style="margin-right:5px; margin-bottom:5px;  " height="130" width="200"  src="res/img/addNewImg2.jpg" alt="点击添加图片">
+							</div>
+						</div>
+						
+					</div>
+					<!-- 操作区 -->
+					<div style='height:40px; padding-right:10px; padding-bottom:5px; ' >
+						<button onclick='test()' style='float:right; margin-right:2px; height: 38px;line-height: 38px;padding: 0 18px;background-color: #009688;color: #fff;white-space: nowrap; text-align: center;font-size: 14px;border: none;border-radius: 2px;cursor: pointer; ' >
+							发布
+						</button>
+						<button onclick='' style='float:right; margin-right:15px; height: 38px;line-height: 38px;padding: 0 18px;background-color: #939688;color: #fff;white-space: nowrap; text-align: center;font-size: 14px;border: none;border-radius: 2px;cursor: pointer; ' >
+							取消
+						</button>
+					</div>
+				</div>	
+				
+				
+			</div>
+		</div>
+	</div>
 <!-- 引入公共尾部 -->
 <div th:replace="MiniBlog_Front/A_CommonRes/common :: common_footer"></div>
+<script>
+	var NewImgNum = 0;
+	var NewImgIdArray = [];
+	function previewImage(obj, file){
+		var reader = new FileReader();
+		reader.onload = function(evt){
+			obj.src = evt.target.result;
+		};
+		reader.readAsDataURL(file.files[0]);
+	}
+	function addNewImg(t){
+		var str = "<input id='fileCellForImg"+(NewImgNum+1)+"' type='file' style='display:none; ' accept='.jpg' onchange='addNewImg(this)' />";		
+		str += "<img id='newImg"+NewImgNum+"' onclick='deleteNewImg("+NewImgNum+")' style='margin-right:5px; margin-bottom:5px; ' height='130' width='200' src='' alt='点击图片进行删除'>";
+		$('#fileCellForImg'+NewImgNum).before(str);
+		previewImage(document.getElementById('newImg'+NewImgNum), t);
+		NewImgIdArray[NewImgIdArray.length]=NewImgNum;
+		NewImgNum++;
+	}
+	function selectNewImg(){
+		console.log('selectNewImg get msg, the next newImg id is '+NewImgNum);
+		$('#fileCellForImg'+NewImgNum).trigger('click');
+	}
+	function deleteNewImg(t){
+		var str = $('#newImg'+t).attr('src');
+		console.log(str);
+		for(var i=0;i<NewImgIdArray.length;i++){
+			if(NewImgIdArray[i] == t)
+				NewImgIdArray.splice(i, 1);
+		}
+		$('#fileCellForImg'+t).remove();
+		$('#newImg'+t).remove();
+		
+	}
+	function resetBtnState(){
+	
+	}
+	function test(){
+		
+        console.log($("#newContent").val());
+		return;
+        var form = new FormData();
+        form.append("NewImgNum", ''+NewImgIdArray.length);
+		for(var i=0;i<NewImgIdArray.length;i++){
+			var fileobj = $("#fileCellForImg"+NewImgIdArray[i])[0].files[0];
+			form.append("img"+i, fileobj);
+		}
+		$.ajax({
+                type: 'POST',
+                url: 'http://upload/',
+                data: form,
+                processData: false, // 告诉jquery要传输data对象
+                contentType: false,   // 告诉jquery不需要增加请求头对于contentType的设置
+                success: function (arg) {
+                    console.log(arg)
+                }
+            });
+	}
+	function maintainState(){
+		var target = $("#newContent");
+		var scrollH = target[0].scrollHeight;
+		var currentH = target.height();
+		target.height(scrollH);
+		return;
+		console.log('before:(current='+target.height()+', scroll='+target[0].scrollHeight+')');
+		//currentH -= 20;
+		if(scrollH > currentH){
+			target.height(currentH+20);
+			console.log('action:newHeight='+target.height());
+		}
+		console.log('after:(current='+target.height()+', scroll='+target[0].scrollHeight+')');
+	}
 
+</script>
 
 
 

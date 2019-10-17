@@ -16,7 +16,8 @@ var PagingModule = {
 	FirstIndexOfCell : undefined, //当前展示页的第一条数据的编号
 	LastIndexOfCell : undefined, //当前展示页的最后一条数据的编号
 	CurrentIndexPage : undefined, //当前展示页的序号
-	MaxPagingNum : undefined //展示页最大展示数据的数量
+	MaxPagingNum : undefined, //展示页最大展示数据的数量
+	run : undefined //页面下标变更后会调用这个函数
 };
 
 
@@ -78,6 +79,11 @@ function loadTargetPage(t){
 	};
 	//将请求页的序号与数量发送给后台，后台进行处理及响应，后台返回最新数据包括（被分页的数据的总条数、...）
 	//...（这里进行ajax请求调用）
+	var f = (PagingModule.CurrentIndexPage-1)*PagingModule.MaxPagingNum;
+	if(undefined!=PagingModule.run)
+		PagingModule.run(f, PagingModule.MaxPagingNum);
+	else 
+		console.log('PagingModule -> warning : PagingModule.run is undefined.');
 	//获取成功后由前端进行处理，并改变指定页所对应按钮的状态
 	//下面的调用应该在成功获取到分页数据后进行调用，否则不建议执行
 	

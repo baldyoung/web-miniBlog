@@ -14,7 +14,7 @@ public class ManagementController {
 
     @RequestMapping(value="/management", method={GET})
     public String defaultMethod(){
-        return "MiniBlog_Front/X_Management/management";
+        return "MiniBlog_Front/X_Management/managementX";
     }
 
 
