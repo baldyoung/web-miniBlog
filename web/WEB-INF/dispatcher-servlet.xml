@@ -41,4 +41,13 @@
         </mvc:interceptor>
     </mvc:interceptors>
 
+    <!-- 用户后台访问拦截器 -->
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/WebContextX/MiniBlog_Front/X_Management/**"/>
+            <mvc:exclude-mapping path="/WebContext/MiniBlog_Front/X_Login/**"/>
+            <bean class="MiniBlog.Main.Interceptor.Front.LoginInterceptor.FrontLoginInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>

@@ -17,6 +17,17 @@
     <!-- 加载配数据源配置文件 db.properties -->
     <context:property-placeholder location="classpath:MiniBlog/Config/DB-test-XLN.properties" />
 
+    <bean id="configurationModule" class="MiniBlog.Main.Common.ConfigurationModule">
+        <constructor-arg name="map">
+            <map>
+                <entry key="ImgDirectory" value="WebContext/MiniBlog_CommonRes/res/img"/>
+            </map>
+        </constructor-arg>
+    </bean>
+    <bean id="ImgSaveWorkingPool" class="MiniBlog.Main.Common.WorkingPoolModule">
+    </bean>
+
+
     <!-- 配置 C3P0 数据源 -->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="${datasource.connection.driver_class}"/>
@@ -80,5 +91,19 @@
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
 
+    <!-- 文件上传
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding">
+            <value>UTF-8</value>
+        </property>
+        <property name="maxUploadSize">
+
+            <value>32505856</value>
+        </property>
+        <property name="maxInMemorySize">
+            <value>4096</value>
+        </property>
+    </bean>
+    -->
 
 </beans>

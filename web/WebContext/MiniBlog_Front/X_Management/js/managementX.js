@@ -119,7 +119,7 @@ var ArticleEditAreaOption = {
 		console.log('ArticleEditAreaOption.publishArticle()-ajax-send-data:title->'+$(this.targetTitleId).val()+';content->'+this.wordEditor.getValue());
 		$.ajax({
 			type: 'POST',
-			url: 'http://upload/',
+			url: 'addNewArticle',
 			data: form,
 			processData: false, // 告诉jquery要传输data对象
 			contentType: false,   // 告诉jquery不需要增加请求头对于contentType的设置
