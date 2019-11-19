@@ -126,10 +126,11 @@ var ArticleEditAreaOption = {
 			success: function (data) {
 				console.log('BulletinBoardOption.updateData()-ajax-receive-data:'+data.toString());
 				if(data.result == 'true'){
-					//TooltipOption.showPrimaryInf('发布成功');
-					this.reset();
+					TooltipOption.showPrimaryInf('发布成功');
+					ArticleEditAreaOption.hide();
+					ArticleEditAreaOption.reset();
 				} else{
-					TooltipOption.showPrimaryInf('发布失败');
+					TooltipOption.showWarningInf('发布失败');
 				}
 			},
 			error : function(){

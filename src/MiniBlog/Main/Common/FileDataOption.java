@@ -15,7 +15,7 @@ public class FileDataOption implements Runnable{
 	private ActionType actionType;
 	public FileDataOption(InputStream tDataSource, String tPathName, String tFileType, ActionType tActioinType){
 		this.dataSource = tDataSource;
-		this.pathName = tPathName+tFileType;
+		this.pathName = adjustPathNameSeparator(tPathName+tFileType);
 		this.actionType = tActioinType;
 	}
 	public FileDataOption(InputStream tDataSource, String tPathName, String tFileType){
@@ -48,7 +48,7 @@ public class FileDataOption implements Runnable{
 			if(file.isDirectory() || !file.canWrite()){
 				result = false;
 			}else{
-				FileOutputStream output = new FileOutputStream(adjustPathNameSeparator(this.pathName), (this.actionType != ActionType.APPEND ? false : true) );
+				FileOutputStream output = new FileOutputStream(this.pathName, (this.actionType != ActionType.APPEND ? false : true) );
 				result = copyData(this.dataSource, output);
 			}
 		}
