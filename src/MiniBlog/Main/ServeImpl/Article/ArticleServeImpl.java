@@ -17,6 +17,9 @@ import java.util.Map;
 
 @Service
 public class ArticleServeImpl {
+    // 默认的分页后的最大数据量
+    static private Integer DEFAULT_PAGING_AMOUNT = 5;
+
     @Autowired
     ArticleDao dao;
     @Autowired
@@ -86,6 +89,23 @@ public class ArticleServeImpl {
         return result;
     }
 
+    /**
+     * 获取指定用户有效帖子的总数
+     * @param userId
+     * @return
+     */
+    public Map<String, Object> getAmountOfAvailableArticleListByUserId(Integer userId) {
+        Integer amount =  dao.getAmountOfAvailableArticleListByUserId(userId);
+        Map<String, Object> result = new HashMap<>();
+        result.put("totalAmount", amount);
+        result.put("maxDisplayAmount", DEFAULT_PAGING_AMOUNT);
+        return result;
+    }
 
+    public Map<String, Object> markLikeForArticle(Integer articleId) {
+        Map<String, Object> result = new HashMap<>();
+
+        return result;
+    }
 
 }

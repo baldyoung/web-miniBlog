@@ -30,4 +30,7 @@
         SELECT pictureName FROM mb_articlepicture WHERE articleId = #{articleId};
     </select>
 
+    <select id="getAmountOfAvailableArticleListByUserId" resultType="int" >
+        SELECT COUNT(id) FROM mb_article WHERE userId = #{userId}
+    </select>
 </mapper>

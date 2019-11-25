@@ -27,4 +27,12 @@ public interface ArticleDao {
 
     public List<String> getPictureListByArticleId(@Param("articleId") String articleId);
 
+    /**
+     * 获取指定用户有效帖子的总数
+     * @param userId
+     * @return
+     */
+    public Integer getAmountOfAvailableArticleListByUserId(@Param("userId")Integer userId);
+
+    // public Integer
 }

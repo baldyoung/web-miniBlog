@@ -39,6 +39,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RequestMapping(value = "/WebContext/MiniBlog_Front/X_Management")
 public class ManagementController {
 
+
     static private volatile String ImgPath = null;
     @Autowired
     ArticleServeImpl serve;
@@ -148,4 +149,20 @@ public class ManagementController {
         return Result.success(data);
     }
 
+    @RequestMapping("/getPagingData")
+    @ResponseBody
+    public Result getMaxDisplayAmount(HttpSession session) {
+        Map<String, Object> data = serve.getAmountOfAvailableArticleListByUserId(Integer.parseInt(session.getAttribute("userId").toString()));
+        if (null == data) {
+            return Result.fail(ResultErrorInf.DATA_REQUEST_FAIL);
+        }
+        return Result.success(data);
+    }
+
+    @RequestMapping("markLikeForArticle")
+    @ResponseBody
+    public Result markLikeForArticle(@RequestParam("articleId")Integer articleId) {
+
+        return null;
+    }
 }

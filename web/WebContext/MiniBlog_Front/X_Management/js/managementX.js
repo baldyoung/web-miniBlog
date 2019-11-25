@@ -360,16 +360,47 @@ function init(){
 	WordEditor = ArticleEditAreaOption.wordEditor;
 	ArticleEditAreaOption.hide();
 	//初始化分页条
+	var data = requestPagingData();
+
 	PagingModule.CurrentIndexPage = 1; //默认页面是第一页
-	PagingModule.MaxPagingNum = 5; //一个页面最多展示5条数据
-	PagingModule.TotalNumOfPageBtn = 5; //被显示的分页按钮数量，不能大于数据分页后的页数
-	PagingModule.TotalMaxPagingNum = 10; //数据分页后的页数
+	PagingModule.MaxPagingNum = data.maxDisplayAmount; //一个页面最多展示5条数据
+	PagingModule.TotalMaxPagingNum = Math.ceil(data.totalAmount / data.maxDisplayAmount); //数据分页后的页数， 这里用Math.ceil函数来向上取整
+	PagingModule.TotalNumOfPageBtn = (5 > PagingModule.TotalMaxPagingNum ? PagingModule.TotalMaxPagingNum : 5); //被显示的分页按钮数量，不能大于数据分页后的页数
 	//指定分页条下标变动后被调用的函数
 	PagingModule.run = ArticleOption.loadData;
 	//在指定的组件下创建分页条
 	initCreateModuleBar('pagingOptionArea');
 	initLoadPageModule();
-	
+	console.log(PagingModule);
+}
+
+/**
+ * 获取分页的初始数据
+ * 同步请求
+ * @returns {*}
+ */
+function requestPagingData() {
+	var result;
+	$.ajax({
+		url: "getPagingData",
+		type: 'POST',
+		cache: false,
+		async: false, //设置同步
+		dataType:'json',
+		contentType: "application/x-www-form-urlencoded;charset=utf-8",
+		data: {},
+		success: function (data) {
+			if(data.result == 'success'){
+				result =  data.data;
+			} else{
+				TooltipOption.showPrimaryInf(data.inf);
+			}
+		},
+		error : function(){
+			TooltipOption.showWarningInf('服务器连接失败');
+		}
+	});
+	return result;
 }
 function test(){
 	var temp = [{
@@ -444,23 +475,44 @@ function test2(){
 /*******************************  ****************************************/
 
 //---------- 点赞功能
+/**
+ * 点赞和取消点赞的公用操作
+ * 异步请求
+ * @param t
+ */
 function markLike(t){
 	var target = $('#cellLikeFlag'+t);
-	console.log(target.attr('class'));
-	if(target.attr('class') == 'layblog-this'){//已点赞
-		console.log('取消点赞');
-		target.removeClass('layblog-this');
-		$('#cellLikeFlagA'+t).text('点赞');
-		$('#cellLikeFlagB'+t).text(parseInt($('#cellLikeFlagB'+t).text())-1);
-	}else{//未点赞
-		target.addClass('layblog-this');
-		console.log('点赞');
-		$('#cellLikeFlagA'+t).text('已赞');
-		$('#cellLikeFlagB'+t).text(parseInt($('#cellLikeFlagB'+t).text())+1);
-	}
-	
+	$.ajax({
+		url: "markLikeForArticle",
+		type: 'POST',
+		cache: false,
+		//async: false, //设置同步
+		dataType:'json',
+		contentType: "application/x-www-form-urlencoded;charset=utf-8",
+		data: {articleId : t},
+		success: function (data) {
+			if(data.result == 'success'){
+				// result =  data.data;
+				if(target.attr('class') == 'layblog-this'){//已点赞
+					console.log('取消点赞');
+					target.removeClass('layblog-this');
+					$('#cellLikeFlagA'+t).text('点赞');
+					$('#cellLikeFlagB'+t).text(parseInt($('#cellLikeFlagB'+t).text())-1);
+				}else{//未点赞
+					target.addClass('layblog-this');
+					console.log('点赞');
+					$('#cellLikeFlagA'+t).text('已赞');
+					$('#cellLikeFlagB'+t).text(parseInt($('#cellLikeFlagB'+t).text())+1);
+				}
+			} else{
+				TooltipOption.showPrimaryInf(data.inf);
+			}
+		},
+		error : function(){
+			TooltipOption.showWarningInf('服务器连接失败');
+		}
+	});
 }
-
 
 
 
