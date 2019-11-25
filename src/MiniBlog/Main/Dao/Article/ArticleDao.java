@@ -34,5 +34,9 @@ public interface ArticleDao {
      */
     public Integer getAmountOfAvailableArticleListByUserId(@Param("userId")Integer userId);
 
-    // public Integer
+    public Integer getTheLikeFlagOfTheArticle(@Param("articleId")Integer articleId, @Param("userId")Integer userId);
+
+    public Integer insertNewLikeFlagOfTheArticle(@Param("articleId")Integer articleId, @Param("userId")Integer userId);
+
+    public Integer deleteOldLikeFlagOfTheArticle(@Param("recodeId")Integer recodeId);
 }

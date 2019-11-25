@@ -102,9 +102,20 @@ public class ArticleServeImpl {
         return result;
     }
 
-    public Map<String, Object> markLikeForArticle(Integer articleId) {
-        Map<String, Object> result = new HashMap<>();
 
+    public Map<String, Object> markLikeForArticle(Integer articleId, Integer userId) {
+        Map<String, Object> result = new HashMap<>();
+        Integer recodeId = dao.getTheLikeFlagOfTheArticle(articleId, userId);
+        if (null == recodeId) {
+            // 用户没有对这个帖子点赞，执行点赞操作
+            recodeId = dao.insertNewLikeFlagOfTheArticle(articleId, userId);
+            result.put("status", "like" );
+        } else {
+            // 用户已经对这个点过赞，执行取消点赞操作
+            recodeId = dao.deleteOldLikeFlagOfTheArticle(recodeId);
+            result.put("status", "unlike");
+        }
+        result.put("result", recodeId == 1 ? "success" : "fail");
         return result;
     }
 

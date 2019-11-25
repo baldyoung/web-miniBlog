@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.util.StringUtils;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -125,6 +126,13 @@ public class ManagementController {
         return Result.success(null);
     }
 
+    /**
+     * 获取当前用户的所有有效帖子，分页操作
+     * @param firstIndex
+     * @param maxAmount
+     * @param session
+     * @return
+     */
     @RequestMapping("/getArticleList")
     @ResponseBody
     public Result getArticleList( @RequestParam(value="firstIndex")Integer firstIndex, @RequestParam(value="maxAmount")Integer maxAmount, HttpSession session) {
@@ -149,6 +157,11 @@ public class ManagementController {
         return Result.success(data);
     }
 
+    /**
+     * 获取当前用户的所有有效帖子的分页情况
+     * @param session
+     * @return
+     */
     @RequestMapping("/getPagingData")
     @ResponseBody
     public Result getMaxDisplayAmount(HttpSession session) {
@@ -159,10 +172,19 @@ public class ManagementController {
         return Result.success(data);
     }
 
+    /**
+     * 当前用户对指定帖子的点赞、取消点赞请求
+     * @param articleId
+     * @param session
+     * @return
+     */
     @RequestMapping("markLikeForArticle")
     @ResponseBody
-    public Result markLikeForArticle(@RequestParam("articleId")Integer articleId) {
-
-        return null;
+    public Result markLikeForArticle(@RequestParam("articleId")Integer articleId, HttpSession session) {
+        Map<String, Object> result = serve.markLikeForArticle(articleId, Integer.parseInt(session.getAttribute("userId").toString()));
+        if (StringUtils.equals("success", result.get("result").toString())) {
+            return Result.success(result);
+        }
+        return Result.fail();
     }
 }
