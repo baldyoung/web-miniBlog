@@ -15,24 +15,24 @@ var ArticleOption = {
 	init : function(){
 		
 	},
-	loadData : function(f, l){
+	loadData : function(fIndex, amount){// 请求分页后的用户帖子集，并进行加载显示
 		var temp = {
-			first : f,
-			num : l
+			firstIndex : ""+fIndex,
+			maxAmount : ""+amount
 		};
 		$.ajax({
-			url: "http://getBulletinBoard",
-			type: 'GET',
+			url: "getArticleList",
+			type: 'POST',
 			cache: false,
 			dataType:'json',
-			contentType: "application/json;charset=utf-8",
-			data: JSON.stringify(temp),
+			contentType: "application/x-www-form-urlencoded;charset=utf-8",
+			data: temp,
 			success: function (data) {
 				console.log('ArticleOption.loadData()-ajax-receive-data:'+data.toString());
-				if(data.result == 'true'){
-					ArticleOption.show(data.inf);
+				if(data.result == 'success'){
+					ArticleOption.showArticle(data.data);
 				} else{
-					TooltipOption.showPrimaryInf('获取公告信息失败');
+					TooltipOption.showPrimaryInf(data.inf);
 				}
 			},
 			error : function(){
@@ -40,11 +40,11 @@ var ArticleOption = {
 			}
 		});
 	},
-	deleteArticleAction : function(t){
+	deleteArticleAction : function(t){ // 准备删除指定帖子
 		ArticleOption.readyToDeleteId = t;
 		TooltipOption.runIfOk('确认删除该帖子', ArticleOption.deleteArticle);
 	},
-	deleteArticle : function(){
+	deleteArticle : function(){ // 发送删除指定帖子的请求
 		if(undefined == ArticleOption.readyToDeleteId) return;
 		var temp ={
 			id : ArticleOption.readyToDeleteId
@@ -70,9 +70,10 @@ var ArticleOption = {
 			}
 		});
 	},
-	showArticle : function(t){
+	showArticle : function(t){ // 加载并显示给定的帖子集合
 		var i=0;
 		var target = $(this.targetId);
+		target.html('');
 		for(;i<t.length;i++)
 		target.append(this.createDisplayCellHTML(t[i]));
 	},
@@ -80,19 +81,20 @@ var ArticleOption = {
 		$(id).html('');
 	},
 	createDisplayCellHTML : function(t){
-		var i, imgs = t.images;
+		var i, imgs = t.pictureList;
 		var str = "<div class='item'>";
 		str += "<div class='item-box  layer-photos-demo1 layer-photos-demo'>";
 		str += "<h3><a href='../X_Details/details.html?id="+t.id+"' >"+t.title+"</a><span style='float:right; color:#fe2727; font-size:13px; cursor:pointer; font-weight:bold; ' onclick=\"ArticleOption.deleteArticleAction("+t.id+")\">删除</span></h3>";
 		str += "";
 		str += "<h5>发布于："+t.publishTime+"<span></span></h5>";
 		str += "<p>"+t.content+"</p>";
-		for(i=0;i<imgs.length;i++)
-			str += "<img style='margin-right:5px; margin-bottom:5px; ' src='"+imgs[i]+"' alt=''>";
+		if (undefined != imgs && undefined != imgs.length)
+			for(i=0;i<imgs.length;i++)
+				str += "<img style='margin-right:5px; margin-bottom:5px; ' src='../../MiniBlog_CommonRes/res/img/"+imgs[i]+"' alt=''>";
 		str += "</div>";
 		str += "<div class='comment count'>";
-		str += "<a href='../X_Details/details.html?id="+t.id+"'>评论"+t.commentNumber+"</a>";
-		str += "<a id='cellLikeFlag"+t.id+"' onclick='markLike("+t.id+")' style='cursor:pointer; ' class='"+(t.isLike == 'yes'?"layblog-this":"")+"'><span id='cellLikeFlagA"+t.id+"'>"+(t.isLike == 'yes'?'已赞':'点赞')+"</span><span id='cellLikeFlagB"+t.id+"'>123</span></a>";
+		str += "<a href='../X_Details/details.html?id="+t.id+"'>评论"+t.commentAmount+"</a>";
+		str += "<a id='cellLikeFlag"+t.id+"' onclick='markLike("+t.id+")' style='cursor:pointer; ' class='"+(t.isLike == 'yes'?"layblog-this":"")+"'><span id='cellLikeFlagA"+t.id+"'>"+(t.isLike == 'yes'?'已赞':'点赞')+"</span><span id='cellLikeFlagB"+t.id+"'>"+t.likeAmount+"</span></a>";
 		str += "</div>";
 		str += "</div>";
 		return str;
@@ -125,12 +127,12 @@ var ArticleEditAreaOption = {
 			contentType: false,   // 告诉jquery不需要增加请求头对于contentType的设置
 			success: function (data) {
 				console.log('BulletinBoardOption.updateData()-ajax-receive-data:'+data.toString());
-				if(data.result == 'true'){
+				if(data.result == 'success'){
 					TooltipOption.showPrimaryInf('发布成功');
 					ArticleEditAreaOption.hide();
 					ArticleEditAreaOption.reset();
 				} else{
-					TooltipOption.showWarningInf('发布失败');
+					TooltipOption.showWarningInf('发布失败:'+data.inf);
 				}
 			},
 			error : function(){

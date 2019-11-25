@@ -38,7 +38,8 @@ public class LoginController {
         Map<String, String> result =  serve.loginCheck(param);
         Map<String, String> temp = new HashMap<String, String>();
         if(result.get("result").equals("true")){
-            session.setAttribute("account", param.get("account"));
+            session.setAttribute("userAccount", result.get("userAccount"));
+            session.setAttribute("userId", result.get("userId"));
             //session.setMaxInactiveInterval(60 * 30); //单位是秒
             temp.put("result", "true");
             temp.put("inf","../X_Management/management" );

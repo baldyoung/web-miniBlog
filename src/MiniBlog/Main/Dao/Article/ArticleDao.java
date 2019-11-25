@@ -16,4 +16,15 @@ public interface ArticleDao {
 
     public int insertNewImgList(@Param("articleId")String articleId, @Param("list") List<String> list);
 
+    /**
+     *  #{userId} LIMIT #{firstIndex}, #{maxAmount};
+     *  获取指定用户有效的已发文章/帖子，所谓有效即没有被封禁的文章/帖子
+     *  map中的参数需求{userId:要查询的用户Id, firstIndex:分页参数-第一条数据的小标, maxAmount:分页参数-最多几条数据}
+     * @param param
+     * @return
+     */
+    public List<Map<String, Object>> getAvailableArticleListByUserId(Map param);
+
+    public List<String> getPictureListByArticleId(@Param("articleId") String articleId);
+
 }

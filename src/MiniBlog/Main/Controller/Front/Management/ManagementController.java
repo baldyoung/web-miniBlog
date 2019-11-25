@@ -2,7 +2,10 @@ package MiniBlog.Main.Controller.Front.Management;
 
 
 import MiniBlog.Main.Common.ConfigurationModule;
+import MiniBlog.Main.Common.Enum.ResultErrorInf;
 import MiniBlog.Main.Common.FileDataOption;
+import MiniBlog.Main.Common.Result;
+import MiniBlog.Main.Common.Utils.CommonUtil;
 import MiniBlog.Main.Common.WorkingPoolModule;
 import MiniBlog.Main.ServeImpl.Article.ArticleServeImpl;
 import org.apache.commons.fileupload.FileItem;
@@ -48,11 +51,22 @@ public class ManagementController {
         return "MiniBlog_Front/X_Management/managementX";
     }
 
+    public Map<String, Object> getArticleList(@RequestParam(value = "first", defaultValue = "1")Integer first, @RequestParam(value = "num", defaultValue = "5")Integer num) {
+
+        return null;
+    }
+
+    /**
+     * 用户发帖接口
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/addNewArticle", method = {POST})
     @ResponseBody
-    public Map<String, String> addNewArticle(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Map<String, String> result = new HashMap<>();
-        result.put("result", "true");
+    public Result addNewArticle(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // Result result = new Result();
         //out.println("addNewArticle get request");
         //out.println("one arg : " + request.getParameter("NewImgNum"));
         //out.println("one arg : " + request.getParameter("img0"));
@@ -80,18 +94,21 @@ public class ManagementController {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return Result.fail("文件数据解析失败");
         }
         HttpSession session = request.getSession();
         String userId = null;
-        if (null != session.getAttribute("account")) userId = session.getAttribute("account").toString();
-        else out.println("userId is null");  //这里应该变更一下，如果无法获取到登录者的编号，应该给他返回为失败
-        userId = "123";
+        // if (null != session.getAttribute("account")) userId = session.getAttribute("account").toString();
+        // else out.println("userId is null");  //这里应该变更一下，如果无法获取到登录者的编号，应该给他返回为失败
+        userId = session.getAttribute("userId").toString(); //  --------------------------------------------------- --------------------------------------------------------- 这里的用户id暂时为了方便测试，所以写死了等于123
         newArticleParam.put("userId", userId);
         //out.println("request param : " + newArticleParam);  //  test line !!!!!
+        //String test = request.getContextPath();
+        //test = request.getServletContext().getRealPath("");
         //初始化图片存储路径
         if (null == ImgPath) {
             synchronized (this) {
-                ImgPath = request.getServletContext().getResource("").getPath().toString() + configModule.getConfigParameter("ImgDirectory") + "/";
+                ImgPath = request.getServletContext().getRealPath("") + "/" + configModule.getConfigParameter("ImgDirectory") + "/";
                 out.println("图片的存储路径为：" + ImgPath);
             }
         }
@@ -99,9 +116,36 @@ public class ManagementController {
         List<FileDataOption> newImgs = FileDataOption.getListByInputStreams(inputStreamList, ImgPath, ".jpg");
         // 将图片集数据放入参数集中
         newArticleParam.put("newImgList", newImgs);
-        //将新文章的基本数据保存到数据库
-        result = serve.addNewArticle(newArticleParam);
-        return result;
+        // 将新文章的基本数据保存到数据库
+        Map<String, String> actionResult = serve.addNewArticle(newArticleParam);
+        if (CommonUtil.isAnyNullObject(actionResult, actionResult.get("result")) || !"true".equals(actionResult.get("result"))) {
+            return Result.fail("新增失败");
+        }
+        return Result.success(null);
+    }
+
+    @RequestMapping("/getArticleList")
+    @ResponseBody
+    public Result getArticleList( @RequestParam(value="firstIndex")Integer firstIndex, @RequestParam(value="maxAmount")Integer maxAmount, HttpSession session) {
+        Integer userId = null;
+        if (null == session || null == session.getAttribute("userId")) {
+            return Result.fail(ResultErrorInf.USER_UNLOGIN);
+        }
+        userId = Integer.parseInt(session.getAttribute("userId").toString());
+        List<Map<String, Object>> data;
+        // 参数为空检查
+        if (CommonUtil.isAnyNullObject(userId, firstIndex, maxAmount)) {
+            return Result.fail(ResultErrorInf.PARAM_IS_EMPTY);
+        }
+        Map<String, Object> param = new HashMap<>();
+        param.put("userId", userId);
+        param.put("firstIndex", firstIndex);
+        param.put("maxAmount", maxAmount);
+        data = serve.getAvailableArticleListByUserId(param);
+        if (null == data) {
+            return Result.fail(ResultErrorInf.DATA_REQUEST_FAIL);
+        }
+        return Result.success(data);
     }
 
 }

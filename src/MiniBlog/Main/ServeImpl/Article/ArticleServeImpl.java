@@ -31,9 +31,10 @@ public class ArticleServeImpl {
         Map<String, String> result = new HashMap<>();
         result.put("result", "false");
         // 新增一个article对象到数据库
-        Integer newArticleId = dao.insertNewArticle(param);
-        if(1 == newArticleId) {
+        Integer newArticleId;
+        if(1 == dao.insertNewArticle(param)) {
             // 重新设置新增的article对象的编号
+            newArticleId = Integer.parseInt(param.get("id").toString());
             param.put("articleId", String.valueOf(param.get("id")));
             // 将article对象的详细文本内容存放到数据库
             if(1 == dao.insertNewArticleContent(param)) {
@@ -60,8 +61,31 @@ public class ArticleServeImpl {
         return result;
     }
 
+
     public int addNewImg(String articleId, List<String> list){
         return dao.insertNewImgList(articleId, list);
     }
+
+
+    /**
+     *  #{userId} LIMIT #{firstIndex}, #{maxAmount};
+     *  获取指定用户有效的已发文章/帖子，所谓有效即没有被封禁的文章/帖子
+     *  map中的参数需求{userId:要查询的用户Id, firstIndex:分页参数-第一条数据的小标, maxAmount:分页参数-最多几条数据}
+     * @param param
+     * @return
+     */
+    public List<Map<String, Object>> getAvailableArticleListByUserId(Map<String, Object> param) {
+        List<Map<String, Object>> result = new LinkedList<>();
+        // 获取article表中关于帖子的主要字段
+        result = dao.getAvailableArticleListByUserId(param);
+        // 获取每个帖子的文字详情
+        for(Map<String, Object> temp : result) {
+            List<String> pictureList = dao.getPictureListByArticleId(temp.get("id").toString());
+            temp.put("pictureList", pictureList);
+        }
+        return result;
+    }
+
+
 
 }

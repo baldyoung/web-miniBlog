@@ -39,7 +39,7 @@ public class UserServeImpl implements UserServe {
         /*
          *这里应该添加对 map内数据的格式检查...待完成
          */
-        Map<String, String> result = new HashMap<String, String>();;
+        Map<String, String> result = new HashMap<>();;
         Map<String, String>  userInf = dao.queryByAccount(map.get("account"));
         //System.out.println("检查的用户信息："+userInf.toString());
         if(null != userInf && null != userInf.get("password") && userInf.get("password").equals(map.get("password"))){
@@ -47,6 +47,8 @@ public class UserServeImpl implements UserServe {
         }else{
             result.put("result", "false");
         }
+        result.put("userAccount", userInf.get("account"));
+        result.put("userId", userInf.get("id"));
         return result;
     }
 }
