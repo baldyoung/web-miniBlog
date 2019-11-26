@@ -20,7 +20,11 @@
 	isLike:当前用户是否已点赞('yes'/'no')
 }
 */
-
+function getArgFromURL(name) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");//构造一个含有目标参数的正则表达式对象
+	var r = window.location.search.substr(1).match(reg);//匹配目标参数
+	if (r != null) return unescape(r[2]); return null;//返回参数值
+}
 
 $(function(){
 	init();
@@ -29,6 +33,7 @@ $(function(){
 });
 
 function test(){
+	return;
 	//内容加载测试
 	var temp = {
 		id:'101',
@@ -113,7 +118,25 @@ function commitComment(){
 	var target = $('#newComment');
 	console.log('新评论的内容为:'+target.val());
 	//提交后台处理，留言成功后关闭评论编辑区，否则提示留言失败的原因
-	//...
+	$.ajax({
+		url: "addCommentAboutArticle",
+		type: 'POST',
+		cache: false,
+		async: false, //设置同步
+		dataType:'json',
+		contentType: "application/x-www-form-urlencoded;charset=utf-8",
+		data: {articleId : getArgFromURL("articleId")},
+		success: function (data) {
+			if(data.result == 'success'){
+				result =  data.data;
+			} else{
+				TooltipOption.showPrimaryInf(data.inf);
+			}
+		},
+		error : function(){
+			TooltipOption.showWarningInf('服务器连接失败');
+		}
+	});
 	////评论成功后就重新获取当前评论区的第一页留言数据并加载
 	editComment();
 }

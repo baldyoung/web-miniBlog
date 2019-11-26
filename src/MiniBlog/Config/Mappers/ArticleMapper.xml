@@ -33,4 +33,40 @@
     <select id="getAmountOfAvailableArticleListByUserId" resultType="int" >
         SELECT COUNT(id) FROM mb_article WHERE userId = #{userId}
     </select>
+
+    <select id="getTheLikeFlagOfTheArticle" resultType="int">
+        select max(id) from mb_likerecordofarticle where articleId=#{articleId} and userId=#{userId}
+    </select>
+
+    <update id="insertNewLikeFlagOfTheArticle" >
+        insert into mb_likerecordofarticle(articleId, userId) values(#{articleId}, #{userId})
+    </update>
+
+    <update id="deleteOldLikeFlagOfTheArticle" >
+        DELETE FROM mb_likerecordofarticle WHERE id = #{recodeId}}
+    </update>
+
+    <update id="insertNewCommentOfTheArticle" >
+        insert into mb_articlecomment(articleId, content) values(#{articleId, commentContent})
+    </update>
+
+    <update id="deleteCommentOfArticleById" >
+        delete from mb_articlecomment where id=#{recodeId}
+    </update>
+
+    <update id="plusOneLikeAmountOfTheArticle" >
+        UPDATE mb_article SET likeAmount=likeAmount+1 WHERE id=#{articleId}
+    </update>
+
+    <update id="minusOneLikeAmountOfTheArticle" >
+        UPDATE mb_article SET likeAmount=likeAmount-1 WHERE id=#{articleId} and likeAmount > 0
+    </update>
+
+    <select id="getArticleDetailsByArticleId" >
+        SELECT a.id 'id', a.userId 'userId', a.title 'title', b.content 'content', DATE_FORMAT(a.publishTime, '%Y-%m-%d %H:%i:%s') 'publishTime', a.readNum 'readNum', a.likeAmount 'likeAmount', a.commentAmount 'commentAmount' FROM mb_article a, mb_articledetails b WHERE a.forbid = 'no' AND a.id = #{articleId} AND a.id=b.articleId
+    </select>
+
+    <select id="getArticleCommentByArticleId" resultType="map">
+
+    </select>
 </mapper>

@@ -25,6 +25,40 @@ public class ArticleServeImpl {
     @Autowired
     WorkingPoolModule ImgWorkingPool;
 
+
+    /**
+     * 获取指定文章的详情内容
+     * @param articleId
+     * @param userId
+     * @return
+     */
+    public Map<String, Object> getArticleDetailsByArticleId(Integer articleId, Integer userId) {
+        Map<String, Object> result;
+        result = dao.getArticleDetailsByArticleId(articleId);
+        if (null != result) {
+            // 获取对应的图片数据
+            List<String> pictureList = dao.getPictureListByArticleId(articleId.toString());
+            if (null != userId && null != dao.getTheLikeFlagOfTheArticle(articleId, userId)) {
+                result.put("isLile", "yes");
+            } else {
+                result.put("isLike", "no");
+            }
+            result.put("pictureList", pictureList);
+        }
+        return result;
+    }
+
+    /**
+     * 获取指定文章的评论列表
+     * @param articleId
+     * @return
+     */
+    public List<Map<String, Object>> getArticleCommentByArticleId(Integer articleId) {
+        List<Map<String, Object>> result;
+
+        return null;
+    }
+
     /**
      * 用户发布article
      * @param param
@@ -64,7 +98,12 @@ public class ArticleServeImpl {
         return result;
     }
 
-
+    /**
+     * 将给定图片集追加给指定帖子
+     * @param articleId
+     * @param list
+     * @return
+     */
     public int addNewImg(String articleId, List<String> list){
         return dao.insertNewImgList(articleId, list);
     }
@@ -78,13 +117,21 @@ public class ArticleServeImpl {
      * @return
      */
     public List<Map<String, Object>> getAvailableArticleListByUserId(Map<String, Object> param) {
-        List<Map<String, Object>> result = new LinkedList<>();
+        List<Map<String, Object>> result ;
+        Integer userId = Integer.parseInt(param.get("userId").toString());
         // 获取article表中关于帖子的主要字段
         result = dao.getAvailableArticleListByUserId(param);
         // 获取每个帖子的文字详情
-        for(Map<String, Object> temp : result) {
-            List<String> pictureList = dao.getPictureListByArticleId(temp.get("id").toString());
-            temp.put("pictureList", pictureList);
+        if (null != result) {
+            for (Map<String, Object> temp : result) {
+                List<String> pictureList = dao.getPictureListByArticleId(temp.get("id").toString());
+                if (null != dao.getTheLikeFlagOfTheArticle(Integer.parseInt(temp.get("id").toString()), userId)) {
+                    temp.put("isLile", "yes");
+                } else {
+                    temp.put("isLike", "no");
+                }
+                temp.put("pictureList", pictureList);
+            }
         }
         return result;
     }
@@ -102,21 +149,63 @@ public class ArticleServeImpl {
         return result;
     }
 
-
+    /**
+     * 用户对帖子点赞和取消点赞的操作
+     * @param articleId
+     * @param userId
+     * @return
+     */
     public Map<String, Object> markLikeForArticle(Integer articleId, Integer userId) {
         Map<String, Object> result = new HashMap<>();
         Integer recodeId = dao.getTheLikeFlagOfTheArticle(articleId, userId);
         if (null == recodeId) {
             // 用户没有对这个帖子点赞，执行点赞操作
             recodeId = dao.insertNewLikeFlagOfTheArticle(articleId, userId);
+            // 对应帖子的点赞数量加一
+            dao.plusOneLikeAmountOfTheArticle(articleId);
             result.put("status", "like" );
         } else {
             // 用户已经对这个点过赞，执行取消点赞操作
             recodeId = dao.deleteOldLikeFlagOfTheArticle(recodeId);
+            // 对应帖子的点赞数量减一
+            dao.minusOneLikeAmountOfTheArticle(articleId);
             result.put("status", "unlike");
         }
         result.put("result", recodeId == 1 ? "success" : "fail");
         return result;
     }
+
+    /**
+     * 用户对帖子进行留言的服务
+     * @param articleId
+     * @param userId
+     * @param commentContent
+     * @return
+     */
+    public Map<String, Object> addCommentAboutArticle(Integer articleId, Integer userId, String commentContent) {
+        Map<String, Object> result = new HashMap<>();
+        if (dao.insertNewCommentOfTheArticle(articleId, userId, commentContent) > 0) {
+            result.put("result", "success");
+        } else {
+            result.put("result", "success");
+        }
+        return result;
+    }
+
+    /**
+     * 删除用户对帖子的留言的服务
+     * @param recodeId
+     * @return
+     */
+    public Map<String, Object> deleteCommentAboutArticle(Integer recodeId) {
+        Map<String, Object> result = new HashMap<>();
+        if (dao.deleteCommentOfArticleById(recodeId) > 0) {
+            result.put("result", "success");
+        } else {
+            result.put("result", "success");
+        }
+        return result;
+    }
+
 
 }

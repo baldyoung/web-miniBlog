@@ -1,14 +1,22 @@
+/*
+版本号:Version1.01   ---------------------- 2019-11-26
+最新变更说明:MB_ArticleComment新增userId字段，用以标识评论的所属用户
+
+*/
+
+
+
 
 -- 创建数据库
 /*
 character 指定数据库存储字符串的默认字符集；
 collate 指定数据库的默认校对规则，用来比较字符串的方式，解决排序和字符分组的问题；
 */
-CREATE DATABASE IF NOT EXISTS MiniBlog 
-	DEFAULT CHARACTER SET utf8 
+CREATE DATABASE IF NOT EXISTS MiniBlog
+	DEFAULT CHARACTER SET utf8
 	DEFAULT COLLATE utf8_general_ci;
-	
--- 查看建数据库的语句	
+
+-- 查看建数据库的语句
 -- show create database MiniBlog;
 SHOW CREATE TABLE MB_User;
 
@@ -107,6 +115,7 @@ DROP TABLE IF EXISTS MB_ArticleComment;
 CREATE TABLE MB_ArticleComment(
 	id INT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]编号：唯一且不为空',
 	articleId INT UNSIGNED NOT NULL COMMENT'所属文章的编号：不为空',
+	userId INT UNSIGNED NOT NULL COMMENT'该条评论的所属用户编号：不为空',
 	content VARCHAR(300) NOT NULL COMMENT'评论的内容：不为空',
 	likeAmount INT UNSIGNED DEFAULT 0 COMMENT'[默认]点赞数量：初始为0'
 )COMMENT'文章的评论表';

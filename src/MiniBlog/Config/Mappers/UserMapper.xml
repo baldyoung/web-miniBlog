@@ -26,17 +26,7 @@
         select account, _password 'password', mailbox, sex, id from MB_User where account = #{Id}
     </select>
 
-    <select id="getTheLikeFlagOfTheArticle" resultType="int">
-        select max(id) from mb_likerecordofarticle where articleId=#{articleId} and userId=#{userId}
-    </select>
 
-    <update id="insertNewLikeFlagOfTheArticle" >
-        insert into mb_likerecordofarticle(articleId, userId) values(#{articleId}, #{userId})
-    </update>
-
-    <update id="deleteOldLikeFlagOfTheArticle" >
-        DELETE FROM mb_likerecordofarticle WHERE id = #{recodeId}}
-    </update>
 
 
 </mapper>

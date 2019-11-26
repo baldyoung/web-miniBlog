@@ -9,11 +9,26 @@ import java.util.Map;
 
 @Repository
 public interface ArticleDao {
-
+    /**
+     * 新增一个帖子记录
+     * @param param
+     * @return
+     */
     public int insertNewArticle(Map param);
 
+    /**
+     * 新增指定帖子的文字详情
+     * @param param
+     * @return
+     */
     public int insertNewArticleContent(Map param);
 
+    /**
+     * 新增指定帖子下的图片数据
+     * @param articleId
+     * @param list
+     * @return
+     */
     public int insertNewImgList(@Param("articleId")String articleId, @Param("list") List<String> list);
 
     /**
@@ -25,6 +40,11 @@ public interface ArticleDao {
      */
     public List<Map<String, Object>> getAvailableArticleListByUserId(Map param);
 
+    /**
+     * 获取指定帖子下的所有图片
+     * @param articleId
+     * @return
+     */
     public List<String> getPictureListByArticleId(@Param("articleId") String articleId);
 
     /**
@@ -34,9 +54,63 @@ public interface ArticleDao {
      */
     public Integer getAmountOfAvailableArticleListByUserId(@Param("userId")Integer userId);
 
+    /**
+     * 获取用户对指定帖子的点赞记录的id
+     * @param articleId
+     * @param userId
+     * @return
+     */
     public Integer getTheLikeFlagOfTheArticle(@Param("articleId")Integer articleId, @Param("userId")Integer userId);
 
+    /**
+     * 新增一条用户对指定帖子的点赞记录
+     * @param articleId
+     * @param userId
+     * @return
+     */
     public Integer insertNewLikeFlagOfTheArticle(@Param("articleId")Integer articleId, @Param("userId")Integer userId);
 
+    /**
+     * 删除指定id的帖子点赞记录
+     * @param recodeId
+     * @return
+     */
     public Integer deleteOldLikeFlagOfTheArticle(@Param("recodeId")Integer recodeId);
+
+    /**
+     * 对指定帖子的点赞数量加一
+     * @param articleId
+     * @return
+     */
+    public Integer plusOneLikeAmountOfTheArticle(@Param("articleId")Integer articleId);
+
+    /**
+     * 对指定帖子的点赞数量减一
+     * @param articleId
+     * @return
+     */
+    public Integer minusOneLikeAmountOfTheArticle(@Param("articleId")Integer articleId);
+
+    /**
+     * 新增指定帖子的留言记录
+     * @param articleId
+     * @param userId
+     * @param commentContent
+     * @return
+     */
+    public Integer insertNewCommentOfTheArticle(@Param("articleId")Integer articleId, @Param("userId")Integer userId, @Param("commentContent")String commentContent);
+
+    /**
+     * 删除帖子的指定留言记录
+     * @param recodeId
+     * @return
+     */
+    public Integer deleteCommentOfArticleById(@Param("recodeId")Integer recodeId);
+
+    /**
+     * 获取指定帖子的详情内容
+     */
+    public Map<String, Object> getArticleDetailsByArticleId(@Param("articleId")Integer articleId);
+
+    public List<Map<String, Object>> getArticleCommentByArticleId(@Param("articleId")Integer articleId);
 }
