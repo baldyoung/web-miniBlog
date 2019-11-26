@@ -54,9 +54,8 @@ public class ArticleServeImpl {
      * @return
      */
     public List<Map<String, Object>> getArticleCommentByArticleId(Integer articleId) {
-        List<Map<String, Object>> result;
-
-        return null;
+        List<Map<String, Object>> result = dao.getArticleCommentByArticleId(articleId);
+        return result;
     }
 
     /**

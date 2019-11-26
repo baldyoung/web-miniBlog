@@ -24,7 +24,7 @@ public class LoginController {
     @RequestMapping(value="/login", method={GET})
     public String loginPage(HttpSession session){
         String result;
-        if(null == session.getAttribute("account"))
+        if(null == session.getAttribute("userId"))
             result = "MiniBlog_Front/X_Login/login";
         else
             result =  "redirect:/WebContext/MiniBlog_Front/X_Management/management";

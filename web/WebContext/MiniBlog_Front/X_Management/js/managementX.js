@@ -84,16 +84,16 @@ var ArticleOption = {
 		var i, imgs = t.pictureList;
 		var str = "<div class='item'>";
 		str += "<div class='item-box  layer-photos-demo1 layer-photos-demo'>";
-		str += "<h3><a href='../X_Details/details.html?id="+t.id+"' >"+t.title+"</a><span style='float:right; color:#fe2727; font-size:13px; cursor:pointer; font-weight:bold; ' onclick=\"ArticleOption.deleteArticleAction("+t.id+")\">删除</span></h3>";
+		str += "<h3><a href='../X_Details/details.html?articleId="+t.id+"' >"+t.title+"</a><span style='float:right; color:#fe2727; font-size:13px; cursor:pointer; font-weight:bold; ' onclick=\"ArticleOption.deleteArticleAction("+t.id+")\">删除</span></h3>";
 		str += "";
 		str += "<h5>发布于："+t.publishTime+"<span></span></h5>";
 		str += "<p>"+t.content+"</p>";
 		if (undefined != imgs && undefined != imgs.length)
 			for(i=0;i<imgs.length;i++)
-				str += "<img style='margin-right:5px; margin-bottom:5px; ' src='../../MiniBlog_CommonRes/res/img/"+imgs[i]+"' alt=''>";
+				str += "<img style='width:200px; height:130px; margin-right:5px; margin-bottom:5px; ' src='../../MiniBlog_CommonRes/res/img/"+imgs[i]+"' alt=''>";
 		str += "</div>";
 		str += "<div class='comment count'>";
-		str += "<a href='../X_Details/details.html?id="+t.id+"'>评论"+t.commentAmount+"</a>";
+		str += "<a href='../X_Details/details.html?articleId="+t.id+"'>评论"+t.commentAmount+"</a>";
 		str += "<a id='cellLikeFlag"+t.id+"' onclick='markLike("+t.id+")' style='cursor:pointer; ' class='"+(t.isLike == 'yes'?"layblog-this":"")+"'><span id='cellLikeFlagA"+t.id+"'>"+(t.isLike == 'yes'?'已赞':'点赞')+"</span><span id='cellLikeFlagB"+t.id+"'>"+t.likeAmount+"</span></a>";
 		str += "</div>";
 		str += "</div>";

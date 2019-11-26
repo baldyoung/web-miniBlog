@@ -44,11 +44,11 @@ public class UserServeImpl implements UserServe {
         //System.out.println("检查的用户信息："+userInf.toString());
         if(null != userInf && null != userInf.get("password") && userInf.get("password").equals(map.get("password"))){
             result.put("result", "true");
+            result.put("userAccount", userInf.get("account"));
+            result.put("userId", userInf.get("id"));
         }else{
             result.put("result", "false");
         }
-        result.put("userAccount", userInf.get("account"));
-        result.put("userId", userInf.get("id"));
         return result;
     }
 }

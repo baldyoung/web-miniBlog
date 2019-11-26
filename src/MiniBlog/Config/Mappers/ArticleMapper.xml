@@ -47,7 +47,7 @@
     </update>
 
     <update id="insertNewCommentOfTheArticle" >
-        insert into mb_articlecomment(articleId, content) values(#{articleId, commentContent})
+        insert into mb_articlecomment(articleId, userId, content) values(#{articleId}, #{userId}, #{commentContent})
     </update>
 
     <update id="deleteCommentOfArticleById" >
@@ -62,11 +62,11 @@
         UPDATE mb_article SET likeAmount=likeAmount-1 WHERE id=#{articleId} and likeAmount > 0
     </update>
 
-    <select id="getArticleDetailsByArticleId" >
+    <select id="getArticleDetailsByArticleId" resultType="map">
         SELECT a.id 'id', a.userId 'userId', a.title 'title', b.content 'content', DATE_FORMAT(a.publishTime, '%Y-%m-%d %H:%i:%s') 'publishTime', a.readNum 'readNum', a.likeAmount 'likeAmount', a.commentAmount 'commentAmount' FROM mb_article a, mb_articledetails b WHERE a.forbid = 'no' AND a.id = #{articleId} AND a.id=b.articleId
     </select>
 
     <select id="getArticleCommentByArticleId" resultType="map">
-
+        SELECT a.id, a.userId, a.content, a.likeAmount, b.account FROM mb_user b RIGHT JOIN  mb_articlecomment a ON a.userId = b.id WHERE a.articleId = #{articleId}
     </select>
 </mapper>

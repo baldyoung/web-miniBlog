@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -32,9 +33,16 @@ public class DetailsController {
         return "MiniBlog_Front/X_Details/details";
     }
 
-
-    public Result getArticleDetails(@RequestParam("articleId")Integer articleId) {
-
+    @RequestMapping("getArticleDetails")
+    @ResponseBody
+    public Result getArticleDetails(@RequestParam("articleId")Integer articleId, HttpSession session) {
+        Integer userId = (null != session && null != session.getAttribute("userId")) ? Integer.parseInt(session.getAttribute("userId").toString()) : null;
+        Map<String, Object> data = serve.getArticleDetailsByArticleId(articleId, userId);
+        if (null != data) {
+            List<Map<String, Object>> commentList = serve.getArticleCommentByArticleId(articleId);
+            data.put("commentList", commentList);
+            return Result.success(data);
+        }
         return Result.fail();
     }
 
