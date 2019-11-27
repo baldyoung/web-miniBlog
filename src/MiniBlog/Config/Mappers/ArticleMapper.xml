@@ -78,4 +78,16 @@
         UPDATE mb_article SET forbid = 'yes' WHERE id = #{articleId}
     </delete>
 
+    <update id="plusOneCommentAmountOfTheArticle" >
+        UPDATE mb_article SET commentAmount = commentAmount + 1 WHERE id = #{articleId}
+    </update>
+
+    <update id="minusOneCommentAmountOfTheArticle" >
+        UPDATE mb_article SET commentAmount = commentAmount - 1 WHERE id = #{articleId}
+    </update>
+
+    <select id="getCommentInfByCommentId" resultType="map" >
+        SELECT articleId, userId, content, likeAmount, DATE_FORMAT(recordTime, '%Y-%m-%d %H:%i:%s') 'recordTime' FROM mb_articlecomment WHERE id = #{commentId}
+    </select>
+
 </mapper>

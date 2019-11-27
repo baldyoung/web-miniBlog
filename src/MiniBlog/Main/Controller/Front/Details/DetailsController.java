@@ -40,6 +40,15 @@ public class DetailsController {
         Map<String, Object> data = serve.getArticleDetailsByArticleId(articleId, userId);
         if (null != data) {
             List<Map<String, Object>> commentList = serve.getArticleCommentByArticleId(articleId);
+            if (null != commentList) {
+                for (Map<String, Object>cell : commentList) {
+                    if (StringUtils.equals(cell.get("userId").toString(), session.getAttribute("userId").toString())) {
+                        cell.put("isOwner", "yes");
+                    } else {
+                        cell.put("isOwner", "no");
+                    }
+                }
+            }
             data.put("commentList", commentList);
             return Result.success(data);
         }
@@ -51,6 +60,13 @@ public class DetailsController {
     public Result getCommentListOfArticle(@RequestParam("articleId")Integer articleId, HttpSession session) {
         List<Map<String, Object>> commentList = serve.getArticleCommentByArticleId(articleId);
         if (null != commentList) {
+            for (Map<String, Object>cell : commentList) {
+                if (StringUtils.equals(cell.get("userId").toString(), session.getAttribute("userId").toString())) {
+                    cell.put("isOwner", "yes");
+                } else {
+                    cell.put("isOwner", "no");
+                }
+            }
             return Result.success(commentList);
         }
         return Result.fail();
@@ -75,13 +91,13 @@ public class DetailsController {
 
     /**
      * 用户对帖子留言的删除操作
-     * @param recodeId
+     * @param commentId
      * @return
      */
     @RequestMapping("deleteCommentAboutArticle")
     @ResponseBody
-    public Result deleteCommentAboutArticle(@RequestParam("recodeId")Integer recodeId) {
-        Map<String, Object> result = serve.deleteCommentAboutArticle(recodeId);
+    public Result deleteCommentAboutArticle(@RequestParam("commentId")Integer commentId) {
+        Map<String, Object> result = serve.deleteCommentAboutArticle(commentId);
         if (StringUtils.equals("success", result.get("result").toString())) {
             return Result.success();
         }

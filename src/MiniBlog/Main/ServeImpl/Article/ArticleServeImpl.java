@@ -194,8 +194,9 @@ public class ArticleServeImpl {
         Map<String, Object> result = new HashMap<>();
         if (dao.insertNewCommentOfTheArticle(articleId, userId, commentContent) > 0) {
             result.put("result", "success");
+            dao.plusOneCommentAmountOfTheArticle(articleId);
         } else {
-            result.put("result", "success");
+            result.put("result", "fail");
         }
         return result;
     }
@@ -206,15 +207,30 @@ public class ArticleServeImpl {
      * @return
      */
     public Map<String, Object> deleteCommentAboutArticle(Integer recodeId) {
-        Map<String, Object> result = new HashMap<>();
+        Integer articleId = null;
+        Map<String, Object> result = dao.getCommentInfByCommentId(recodeId);
+        if (null == result || null == result.get("articleId")) {
+            result = new HashMap<>();
+            result.put("result", "fail");
+            return result;
+        }
+        articleId = Integer.parseInt(result.get("articleId").toString());
+        result = new HashMap<>();
         if (dao.deleteCommentOfArticleById(recodeId) > 0) {
             result.put("result", "success");
+            dao.minusOneCommentAmountOfTheArticle(articleId);
         } else {
-            result.put("result", "success");
+            result.put("result", "fail");
         }
         return result;
     }
 
+    /**
+     * 删除指定帖子，需要验证userId是否匹配
+     * @param articleId
+     * @param userId
+     * @return
+     */
     public boolean deleteArticleByArticleId(Integer articleId, Integer userId) {
         Map<String, Object> articleInf = dao.getArticleDetailsByArticleId(articleId);
         if (null != articleId && StringUtils.equals(articleInf.get("userId").toString(), userId.toString())) {
@@ -223,4 +239,15 @@ public class ArticleServeImpl {
         return false;
     }
 
+    public List<Map<String, Object>> checkOwnerOfTheCommentList(List<Map<String, Object>> data, Integer userId) {
+        if (null == data) {
+            return null;
+        }
+        List<Integer> recordIdList = new LinkedList<>();
+        for(Map<String, Object> cell : data) {
+            recordIdList.add(Integer.parseInt(cell.get("id").toString()));
+        }
+
+        return null;
+    }
 }

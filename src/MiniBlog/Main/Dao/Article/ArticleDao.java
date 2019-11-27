@@ -127,11 +127,33 @@ public interface ArticleDao {
     public Integer plusOneReadAmountOfTheArticle(@Param("articleId")Integer articleId);
 
     /**
+     * 指定帖子的评价数量加一
+     * @param articleId
+     * @return
+     */
+    public Integer plusOneCommentAmountOfTheArticle(@Param("articleId")Integer articleId);
+
+    /**
+     * 指定帖子的评价数量减一
+     * @param articleId
+     * @return
+     */
+    public Integer minusOneCommentAmountOfTheArticle(@Param("articleId")Integer articleId);
+
+    /**
      * 假删除指定帖子（刚学的）
      * @param articleId
      * @return
      */
     public Integer deleteTheArticleByArticleId(@Param("articleId")Integer articleId);
+
+    /**
+     * 获取指定评价的信息
+     * @param commentId
+     * @return
+     */
+    public Map<String, Object> getCommentInfByCommentId(@Param("commentId")Integer commentId);
+
 
     // public Integer deleteThePictureOfArticleByArticleId(@Param("articleId")Integer articleId);
 
