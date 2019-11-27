@@ -7,7 +7,7 @@
     <!-- statement，内容：sql语句。id：唯一标识，随便写，在同一个命名空间下保持唯一
        resultType：sql语句查询结果集的封装类型,tb_user即为数据库中的表
      -->
-    <update id="insertNewUser" parameterType="Map" >
+    <update id="insertNewUser" parameterType="Map" useGeneratedKeys="true" keyProperty="id">
         <if test = " sex!=null ">
             insert into MB_User(account, _password, mailbox, sex) values (#{account},#{password},#{mailbox},#{sex})
         </if>
@@ -26,7 +26,15 @@
         select account, _password 'password', mailbox, sex, id from MB_User where account = #{Id}
     </select>
 
+    <select id="getUserInfByUserId" resultType="map" >
+        SELECT a.id, a.account, b.pictureName FROM mb_user a LEFT JOIN mb_userpicture b ON a.id = b.userId WHERE a.id = #{userId}
+    </select>
 
+    <select id="getUserPictureByUserId" resultType="string" >
+        SELECT pictureName FROM mb_userpicture WHERE userId = #{userId}
+    </select>
 
-
+    <update id="createUserPictureByUserId" >
+        INSERT INTO mb_userpicture(userId, pictureName) VALUES(#{userId}, #{userPicture})
+    </update>
 </mapper>

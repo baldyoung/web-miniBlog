@@ -112,5 +112,35 @@ public interface ArticleDao {
      */
     public Map<String, Object> getArticleDetailsByArticleId(@Param("articleId")Integer articleId);
 
+    /**
+     * 获取指定帖子下的所有评论
+     * @param articleId
+     * @return
+     */
     public List<Map<String, Object>> getArticleCommentByArticleId(@Param("articleId")Integer articleId);
+
+    /**
+     * 帖子的已阅数据量加一
+     * @param articleId
+     * @return
+     */
+    public Integer plusOneReadAmountOfTheArticle(@Param("articleId")Integer articleId);
+
+    /**
+     * 假删除指定帖子（刚学的）
+     * @param articleId
+     * @return
+     */
+    public Integer deleteTheArticleByArticleId(@Param("articleId")Integer articleId);
+
+    // public Integer deleteThePictureOfArticleByArticleId(@Param("articleId")Integer articleId);
+
+    // public Integer deleteTheContentOfArticleByArticleId(@Param("articleId")Integer articleId);
+
+    // public Integer deleteTheCommentOfArticleByArticleId(@Param("articleId")Integer articleId);
+
+
+
+
+
 }

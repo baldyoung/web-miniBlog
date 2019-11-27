@@ -39,6 +39,7 @@ function initArticleDetailsPage() {
             if (data.result == 'success') {
                 result = data.data;
                 showContent(result);
+                showCommentCells(result.commentList);
             } else {
                 TooltipOption.showPrimaryInf(data.inf);
             }
@@ -51,12 +52,12 @@ function initArticleDetailsPage() {
 
 $(function () {
     init();
-    test();
+    //test();
 
 });
 
 function test() {
-    return;
+
     //内容加载测试
     var temp = {
         id: '101',
@@ -102,6 +103,32 @@ function init() {
     initArticleDetailsPage();
 }
 
+// 获取当前帖子的评论集
+function requestCommentList() {
+
+    $.ajax({
+        url: "getCommentListOfArticle",
+        type: 'POST',
+        cache: false,
+        //async: false, //设置同步
+        dataType: 'json',
+        contentType: "application/x-www-form-urlencoded;charset=utf-8",
+        data: {articleId: getArgFromURL("articleId")},
+        success: function (data) {
+            if (data.result == 'success') {
+                result = data.data;
+                // showContent(result);
+                showCommentCells(result);
+            } else {
+                TooltipOption.showPrimaryInf(data.inf);
+            }
+        },
+        error: function () {
+            TooltipOption.showWarningInf('服务器连接失败');
+        }
+    });
+}
+
 //创建内容对应的HTML
 function createContentHTML(t) {
     var i, imgs = t.pictureList;
@@ -115,8 +142,8 @@ function createContentHTML(t) {
     }
     str += "<div class='count layui-clear'>";
     str += "<span class='pull-left'>阅读 <em>" + t.readNum + "</em></span>";
-    str += "<span class='pull-left' style='margin-left:20px; '>评论 <em>" + t.commentNumber + "</em></span>";
-    str += "<span onclick='markLikeOfContent(" + t.id + ")' id='iDoNotHaveIdeaForYourName' class='pull-left" + (t.isLike == 'yes' ? " layblog-this" : "") + "' style='margin-left:20px; '><i class='layui-icon layui-icon-praise'></i><em id='noName' >" + t.likeNumber + "</em></span>";
+    str += "<span class='pull-left' style='margin-left:20px; '>评论 <em>" + t.commentAmount + "</em></span>";
+    str += "<span onclick='markLikeOfContent(" + t.id + ")' id='iDoNotHaveIdeaForYourName' class='pull-left" + (t.isLike == 'yes' ? " layblog-this" : "") + "' style='margin-left:20px; '><i class='layui-icon layui-icon-praise'></i><em id='noName' >" + t.likeAmount + "</em></span>";
     str += "<span class='pull-right' style='margin-left:20px; color:green; ' onclick='editComment()' >写评论 </span>";
     str += "</div>";
     str += "</div>";
@@ -140,9 +167,13 @@ function editComment() {
     }
 }
 
-//获取评论编辑区的内容，并提交后台处理
+//获取评论编辑区的内容，并提交后台处理，即新增评论
 function commitComment() {
     var target = $('#newComment');
+    if ('' == target.val()) {
+        TooltipOption.showPrimaryInf("评论内容不能为空");
+        return;
+    }
     console.log('新评论的内容为:' + target.val());
     //提交后台处理，留言成功后关闭评论编辑区，否则提示留言失败的原因
     $.ajax({
@@ -152,10 +183,12 @@ function commitComment() {
         async: false, //设置同步
         dataType: 'json',
         contentType: "application/x-www-form-urlencoded;charset=utf-8",
-        data: {articleId: getArgFromURL("articleId")},
+        data: {articleId: getArgFromURL("articleId"), comment : target.val()},
         success: function (data) {
             if (data.result == 'success') {
                 result = data.data;
+                requestCommentList();
+                target.val('');
             } else {
                 TooltipOption.showPrimaryInf(data.inf);
             }
@@ -168,14 +201,15 @@ function commitComment() {
     editComment();
 }
 
-//拼接给定展示单元的HTML
+//拼接给定的评论对应的展示单元的HTML
 function createCommentCellHTML(t) {
     var str = "<div class='info-item' style='margin-bottom:5px;'>";
-    str += "<img class='info-img' src='" + t.userPicture + "' alt=''>";
+    str += "<img class='info-img' style='width:70px; height:70px; ' src='../../MiniBlog_CommonRes/res/img/" + (t.userPicture == undefined ? "fail.jpg" : t.userPicture) + "' alt=''>";
     str += "<div class='info-text'>";
     str += "<p class='title count'>";
-    str += "<span class='name'>" + t.userName + "</span>";
-    str += "<span id='commentParselike" + t.id + "' class='info-img' onclick='markLikeOfComment(\"" + t.id + "\")' ><i class='layui-icon layui-icon-praise'></i><span id='commentLike" + t.id + "' >" + t.likeNumber + "</span></span>";
+    str += "<span class='name'>" + t.account + "</span>";
+    str += "<span class='name' style='margin-left:35px; '>评论时间：" + t.recordTime + "</span>";
+    str += "<span id='commentParselike" + t.id + "' class='info-img' onclick='markLikeOfComment(\"" + t.id + "\")' ><i class='layui-icon layui-icon-praise'></i><span id='commentLike" + t.id + "' >" + t.likeAmount + "</span></span>";
     str += "</p>";
     str += "<p class='info-intr'>" + t.content + "</p>";
     str += "</div>";
@@ -237,15 +271,78 @@ function markLikeOfComment(t) {
 function markLikeOfContent(t) {
     var target = $('#iDoNotHaveIdeaForYourName');
     console.log(target.attr('class'));
-    if (target.attr('class') == 'pull-left layblog-this') {//已点赞
-        console.log('取消点赞');
-        target.removeClass('layblog-this');
-        $('#noName').text(parseInt($('#noName').text()) - 1);
-    } else {//未点赞
-        target.addClass('layblog-this');
-        console.log('点赞');
-        $('#noName').text(parseInt($('#noName').text()) + 1);
-    }
+    $.ajax({
+        url: "../X_Management/markLikeForArticle",
+        type: 'GET',
+        cache: false,
+        //async: false, //设置同步
+        dataType:'json',
+        contentType: "application/x-www-form-urlencoded;charset=utf-8",
+        data: {articleId : getArgFromURL("articleId")},
+        success: function (data) {
+            // TooltipOption.showPrimaryInf(data.inf);
+            if(data.result == 'success'){
+                // result =  data.data;
+                if (target.attr('class') == 'pull-left layblog-this') {//已点赞
+                    console.log('取消点赞');
+                    target.removeClass('layblog-this');
+                    $('#noName').text(parseInt($('#noName').text()) - 1);
+                } else {//未点赞
+                    target.addClass('layblog-this');
+                    console.log('点赞');
+                    $('#noName').text(parseInt($('#noName').text()) + 1);
+                }
+            } else{
+                TooltipOption.showPrimaryInf(data.inf);
+            }
+        },
+        error : function(){
+            TooltipOption.showWarningInf('服务器连接失败');
+        }
+    });
 }
 
-
+//提示框控制模块-Y
+var TooltipOption = {
+    targetId : '#tooltipArea',
+    btnYesId : '#btnTipYes',
+    btnNoId : '#btnTipNo',
+    colorOfWarning : '#ff8585',
+    colorOfPrimary : '#93d0dd',
+    run : undefined,
+    showPrimaryInf : function(d){
+        $('#tipTitleDiv').css('background', this.colorOfPrimary);
+        $('#tipContent').text(d);
+        this.show();
+        $(this.btnNoId).hide();
+    },
+    showWarningInf : function(d){
+        $('#tipTitleDiv').css('background', this.colorOfWarning);
+        $('#tipContent').text(d);
+        this.show();
+        $(this.btnNoId).hide();
+    },
+    runIfOk : function(t, r){
+        this.run = r;
+        $('#tipTitleDiv').css('background', this.colorOfPrimary);
+        $('#tipContent').text(t);
+        $(this.btnNoId).show();
+        $(this.targetId).show();
+    },
+    ok : function(){
+        if(undefined!=this.run) this.run();
+        this.run = undefined;
+        this.hide();
+    },
+    cancel : function(){
+        this.run = undefined;
+        this.hide();
+    },
+    show : function(){
+        $(this.btnNoId).show();
+        $(this.targetId).show();
+    },
+    hide : function(){
+        $(this.targetId).hide();
+    }
+}

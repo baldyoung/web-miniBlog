@@ -51,7 +51,7 @@ function login(){
         success: function (data) {
             console.log(data);
 			if(data.result == 'true'){
-				RegisterBarOption.showRegisterResult('登录成功', '3s后跳转页面', 'success');
+				RegisterBarOption.showRegisterResult('登录成功', '即将跳转页面', 'success');
 				window.location.href = data.inf;
 			} else if(data.result == 'false'){
 				RegisterBarOption.showRegisterResult('登录失败', '账户或者密码错误', 'warning');

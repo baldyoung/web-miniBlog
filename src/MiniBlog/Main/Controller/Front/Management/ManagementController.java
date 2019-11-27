@@ -8,6 +8,7 @@ import MiniBlog.Main.Common.Result;
 import MiniBlog.Main.Common.Utils.CommonUtil;
 import MiniBlog.Main.Common.WorkingPoolModule;
 import MiniBlog.Main.ServeImpl.Article.ArticleServeImpl;
+import MiniBlog.Main.ServeImpl.Intro.IntroImpl;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -45,6 +46,8 @@ public class ManagementController {
     @Autowired
     ArticleServeImpl serve;
     @Autowired
+    IntroImpl introServe;
+    @Autowired
     ConfigurationModule configModule;
 
 
@@ -53,10 +56,7 @@ public class ManagementController {
         return "MiniBlog_Front/X_Management/managementX";
     }
 
-    public Map<String, Object> getArticleList(@RequestParam(value = "first", defaultValue = "1")Integer first, @RequestParam(value = "num", defaultValue = "5")Integer num) {
 
-        return null;
-    }
 
     /**
      * 用户发帖接口
@@ -178,7 +178,7 @@ public class ManagementController {
      * @param session
      * @return
      */
-    @RequestMapping("markLikeForArticle")
+    @RequestMapping("/markLikeForArticle")
     @ResponseBody
     public Result markLikeForArticle(@RequestParam("articleId")Integer articleId, HttpSession session) {
         Map<String, Object> result = serve.markLikeForArticle(articleId, Integer.parseInt(session.getAttribute("userId").toString()));
@@ -187,6 +187,30 @@ public class ManagementController {
         }
         return Result.fail();
     }
-
+    @RequestMapping("/getIntro")
+    @ResponseBody
+    public Result getIntro(HttpSession session) {
+        Map<String, Object> result = introServe.getIntroByUserId(Integer.parseInt(session.getAttribute("userId").toString()));
+        if (null != result) {
+            return Result.success(result);
+        }
+        return Result.fail();
+    }
+    @RequestMapping("/updateIntro")
+    @ResponseBody
+    public Result updateIntro(@RequestParam("content")String content, HttpSession session) {
+        if (introServe.updateIntroByUserId(Integer.parseInt(session.getAttribute("userId").toString()), content)) {
+            return Result.success();
+        }
+        return Result.fail();
+    }
+    @RequestMapping("/deleteArticle")
+    @ResponseBody
+    public Result deleteTheArticle(@RequestParam("articleId")Integer articleId, HttpSession session) {
+        if (serve.deleteArticleByArticleId(articleId, Integer.parseInt(session.getAttribute("userId").toString()))) {
+            return Result.success();
+        }
+        return Result.fail();
+    }
 
 }

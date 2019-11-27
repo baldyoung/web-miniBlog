@@ -1,6 +1,8 @@
 package MiniBlog.Main.Controller.Front.Login;
 
 import javax.servlet.http.HttpSession;
+
+import MiniBlog.Main.Common.Result;
 import MiniBlog.Main.Serve.User.UserServe;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,8 @@ public class LoginController {
         return result;
     }
 
+
+
     @RequestMapping(value="/loginCheck", method={POST})
     @ResponseBody
     public Map<String, String> loginCheck(@RequestBody Map<String, String> param, HttpSession session){
@@ -48,8 +52,15 @@ public class LoginController {
         }
         return temp;
     }
-
-
+    @RequestMapping(value="/logout")
+    @ResponseBody
+    public Result logout(HttpSession session) {
+        if (null != session || null != session.getAttribute("userId")) {
+            session.removeAttribute("userId");
+            session.removeAttribute("userAccount");
+        }
+        return Result.success();
+    }
 
 
 }

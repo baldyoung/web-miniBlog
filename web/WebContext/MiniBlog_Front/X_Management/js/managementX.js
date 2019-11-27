@@ -47,20 +47,21 @@ var ArticleOption = {
 	deleteArticle : function(){ // 发送删除指定帖子的请求
 		if(undefined == ArticleOption.readyToDeleteId) return;
 		var temp ={
-			id : ArticleOption.readyToDeleteId
+			articleId : ArticleOption.readyToDeleteId
 		};
 		ArticleOption.readyToDeleteId = undefined;
 		$.ajax({
-			url: "http://deleteArticle",
+			url: "deleteArticle",
 			type: 'POST',
 			cache: false,
 			dataType:'json',
-			contentType: "application/json;charset=utf-8",
-			data: JSON.stringify(temp),
+			contentType: "application/x-www-form-urlencoded;charset=utf-8",
+			data: temp,
 			success: function (data) {
-				console.log('ArticleOption.loadData()-ajax-receive-data:'+data.toString());
-				if(data.result == 'true'){
+				// console.log('ArticleOption.loadData()-ajax-receive-data:'+data.toString());
+				if(data.result == 'success'){
 					TooltipOption.showPrimaryInf('删除成功');
+					location.reload();
 				} else{
 					TooltipOption.showPrimaryInf('删除失败');
 				}
@@ -131,6 +132,7 @@ var ArticleEditAreaOption = {
 					TooltipOption.showPrimaryInf('发布成功');
 					ArticleEditAreaOption.hide();
 					ArticleEditAreaOption.reset();
+					location.reload();
 				} else{
 					TooltipOption.showWarningInf('发布失败:'+data.inf);
 				}
@@ -174,17 +176,17 @@ var BulletinBoardOption = {
 	},
 	loadData : function(){ //获取论坛的公告信息
 		$.ajax({
-			url: "http://getBulletinBoard",
+			url: "getIntro",
 			type: 'GET',
 			cache: false,
 			dataType:'json',
-			contentType: "application/json;charset=utf-8",
-			data: JSON.stringify({}),
+			contentType: "application/x-www-form-urlencoded;charset=utf-8",
+			data: {},
 			success: function (data) {
-				console.log('BulletinBoardOption.loadData()-ajax-receive-data:'+data.toString());
-				if(data.result == 'true'){
-					$(BulletinBoardOption.targetId).val(data.inf);
-					BulletinBoardOption.bulletinBoardData = data.inf;
+				// console.log('BulletinBoardOption.loadData()-ajax-receive-data:'+data.toString());
+				if(data.result == 'success'){
+					$(BulletinBoardOption.targetId).val(data.data.content);
+					BulletinBoardOption.bulletinBoardData = data.data.content;
 				} else{
 					TooltipOption.showPrimaryInf('获取公告信息失败');
 				}
@@ -198,20 +200,20 @@ var BulletinBoardOption = {
 		this.refusedEdit();
 		if(this.bulletinBoardData == $(this.targetId).val())//如果内容没有变更就不发送数据
 			return;
-		var temp = {data:$(this.targetId).val()};
+		var temp = {content:$(this.targetId).val()};
 		console.log('BulletinBoardOption.updateData()-ajax-send-data:'+temp.toString());
 		$.ajax({
-			url: "http://updateBulletinBoard",
+			url: "updateIntro",
 			type: 'POST',
 			cache: false,
 			dataType:'json',
-			contentType: "application/json;charset=utf-8",
-			data: JSON.stringify(temp),
+			contentType: "application/x-www-form-urlencoded;charset=utf-8",
+			data: temp,
 			success: function (data) {
-				console.log('BulletinBoardOption.updateData()-ajax-receive-data:'+data.toString());
-				if(data.result == 'true'){
-					$(BulletinBoardOption.targetId).val(data.inf);
-					BulletinBoardOption.bulletinBoardData = data.inf;
+				// console.log('BulletinBoardOption.updateData()-ajax-receive-data:'+data.toString());
+				if(data.result == 'success'){
+					$(BulletinBoardOption.targetId).val(temp.content);
+					BulletinBoardOption.bulletinBoardData = temp.content;
 				} else{
 					TooltipOption.showPrimaryInf('更新公告信息失败');
 					$(BulletinBoardOption.targetId).val(BulletinBoardOption.bulletinBoardData);
@@ -344,7 +346,33 @@ var TooltipOption = {
 		$(this.targetId).hide();
 	}
 }
-	
+var ActionSelect = {
+	logoutAction : function(){
+		TooltipOption.runIfOk('确认登出吗？', ActionSelect.logout);
+	},
+	logout : function() {
+		$.ajax({
+			url: "../X_Login/logout",
+			type: 'GET',
+			cache: false,
+			dataType:'json',
+			contentType: "application/x-www-form-urlencoded;charset=utf-8",
+			data: {},
+			success: function (data) {
+				//console.log('ArticleOption.loadData()-ajax-receive-data:'+data.toString());
+				if(data.result == 'success'){
+					location.reload();
+					// ArticleOption.showArticle(data.data);
+				} else{
+					TooltipOption.showPrimaryInf(data.inf);
+				}
+			},
+			error : function(){
+				TooltipOption.showWarningInf('服务器连接失败');
+			}
+		});
+	}
+}
 
 
 $(function(){

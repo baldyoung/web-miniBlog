@@ -43,7 +43,7 @@
     </update>
 
     <update id="deleteOldLikeFlagOfTheArticle" >
-        DELETE FROM mb_likerecordofarticle WHERE id = #{recodeId}}
+        DELETE FROM mb_likerecordofarticle WHERE id = #{recodeId}
     </update>
 
     <update id="insertNewCommentOfTheArticle" >
@@ -67,6 +67,15 @@
     </select>
 
     <select id="getArticleCommentByArticleId" resultType="map">
-        SELECT a.id, a.userId, a.content, a.likeAmount, b.account FROM mb_user b RIGHT JOIN  mb_articlecomment a ON a.userId = b.id WHERE a.articleId = #{articleId}
+        SELECT a.id 'id', a.userId 'userId', a.content 'content', a.likeAmount 'likeAmount', b.account 'account', DATE_FORMAT(a.recordTime, '%Y-%m-%d %H:%i:%s') 'recordTime' FROM mb_user b RIGHT JOIN  mb_articlecomment a ON a.userId = b.id WHERE a.articleId = #{articleId} ORDER BY a.id DESC
     </select>
+
+    <update id="plusOneReadAmountOfTheArticle" >
+        UPDATE mb_article SET readNum = readNum + 1 WHERE id = #{articleId}
+    </update>
+
+    <delete id="deleteTheArticleByArticleId" >
+        UPDATE mb_article SET forbid = 'yes' WHERE id = #{articleId}
+    </delete>
+
 </mapper>

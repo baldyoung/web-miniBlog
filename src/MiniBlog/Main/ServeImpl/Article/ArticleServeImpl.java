@@ -4,9 +4,11 @@ package MiniBlog.Main.ServeImpl.Article;
 import MiniBlog.Main.Common.FileDataOption;
 import MiniBlog.Main.Common.WorkingPoolModule;
 import MiniBlog.Main.Dao.Article.ArticleDao;
+import MiniBlog.Main.Dao.User.UserDao;
 import org.apache.ibatis.annotations.Lang;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.StringUtils;
 
 import java.io.File;
 import java.io.InputStream;
@@ -22,6 +24,8 @@ public class ArticleServeImpl {
 
     @Autowired
     ArticleDao dao;
+    @Autowired
+    UserDao userDao;
     @Autowired
     WorkingPoolModule ImgWorkingPool;
 
@@ -39,11 +43,12 @@ public class ArticleServeImpl {
             // 获取对应的图片数据
             List<String> pictureList = dao.getPictureListByArticleId(articleId.toString());
             if (null != userId && null != dao.getTheLikeFlagOfTheArticle(articleId, userId)) {
-                result.put("isLile", "yes");
+                result.put("isLike", "yes");
             } else {
                 result.put("isLike", "no");
             }
             result.put("pictureList", pictureList);
+            dao.plusOneReadAmountOfTheArticle(articleId);
         }
         return result;
     }
@@ -55,6 +60,9 @@ public class ArticleServeImpl {
      */
     public List<Map<String, Object>> getArticleCommentByArticleId(Integer articleId) {
         List<Map<String, Object>> result = dao.getArticleCommentByArticleId(articleId);
+        for(Map<String, Object> cell : result) {
+            cell.put("userPicture", userDao.getUserPictureByUserId(Integer.parseInt(cell.get("userId").toString())));
+        }
         return result;
     }
 
@@ -125,11 +133,12 @@ public class ArticleServeImpl {
             for (Map<String, Object> temp : result) {
                 List<String> pictureList = dao.getPictureListByArticleId(temp.get("id").toString());
                 if (null != dao.getTheLikeFlagOfTheArticle(Integer.parseInt(temp.get("id").toString()), userId)) {
-                    temp.put("isLile", "yes");
+                    temp.put("isLike", "yes");
                 } else {
                     temp.put("isLike", "no");
                 }
                 temp.put("pictureList", pictureList);
+                dao.plusOneReadAmountOfTheArticle(Integer.parseInt(temp.get("id").toString()));
             }
         }
         return result;
@@ -206,5 +215,12 @@ public class ArticleServeImpl {
         return result;
     }
 
+    public boolean deleteArticleByArticleId(Integer articleId, Integer userId) {
+        Map<String, Object> articleInf = dao.getArticleDetailsByArticleId(articleId);
+        if (null != articleId && StringUtils.equals(articleInf.get("userId").toString(), userId.toString())) {
+            return dao.deleteTheArticleByArticleId(articleId) > 0;
+        }
+        return false;
+    }
 
 }

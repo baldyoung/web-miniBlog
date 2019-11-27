@@ -46,7 +46,9 @@ $(function(){
 function init(){
 	
 }
-
+function gotoLoginPage() {
+	location.href = '../X_Login/login';
+}
 
 
 //注册请求
@@ -76,7 +78,8 @@ function register(){
         success: function (data) {
             console.log(data);
 			if(data.result == 'true'){
-				RegisterBarOption.showRegisterResult('注册成功', '请记住你的登录名：'+$('#newAccount').val(), 'success');
+				RegisterBarOption.showRegisterResult('注册成功(3秒后返回登录界面)', '请记住你的登录名：'+$('#newAccount').val(), 'success');
+				setTimeout(gotoLoginPage, 3000);
 			} else if(data.result == 'false'){
 				RegisterBarOption.showRegisterResult('注册失败', data.inf, 'warning');
 				$('#btn_register').attr('disabled', 'false');

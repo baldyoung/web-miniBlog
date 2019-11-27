@@ -46,8 +46,15 @@ public class DetailsController {
         return Result.fail();
     }
 
-
-
+    @RequestMapping("getCommentListOfArticle")
+    @ResponseBody
+    public Result getCommentListOfArticle(@RequestParam("articleId")Integer articleId, HttpSession session) {
+        List<Map<String, Object>> commentList = serve.getArticleCommentByArticleId(articleId);
+        if (null != commentList) {
+            return Result.success(commentList);
+        }
+        return Result.fail();
+    }
 
     /**
      * 用户对帖子的留言操作
