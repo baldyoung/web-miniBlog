@@ -1,0 +1,59 @@
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../A_CommonRes/css/layui.css">
+    <link rel="stylesheet" href="../A_CommonRes/css/modules/layer/default/layer.css?v=3.11">
+    <link rel="stylesheet" href="../A_CommonRes/css/mian.css">
+
+    <script src="../A_CommonRes/js/layui.js"></script>
+    <script src="../A_CommonRes/js/blog.js"></script>
+    <script src="../../MiniBlog_CommonRes/js/jquery.min.js"></script>
+    <script src="../A_CommonRes/js/PagingBar.js"></script>
+    <script src="js/index.js"></script>
+
+</head>
+<body class="lay-blog">
+<!-- -->
+<div class="header">
+    <div class="header-wrap">
+        <h1 class="logo pull-left">
+            <a href="index">
+                <img src="../A_CommonRes/res/img/logo.png" alt="" class="logo-img">
+                <img src="../A_CommonRes/res/img/logo-text.png" alt="" class="logo-text">
+            </a>
+        </h1>
+    </div>
+</div>
+
+
+
+<!-- 页面自定义内容 -->
+<div class="container-wrap">
+    <div class="container">
+
+        <div class="contar-wrap">
+            <!-- 公告展示区 -->
+            <h4 class="item-title" style="display:none; ">
+                <p><i class="layui-icon layui-icon-speaker"></i>公告：<span>欢迎来到我的轻博客</span></p>
+            </h4>
+            <!-- 帖子展示区 -->
+            <div id='DisplayArea' style='width:100%; margin:0 0 0 0; padding:0 0 0 0; ' >
+            </div>
+
+        </div>
+        <!-- 分页控制区 -->
+        <div id='pagingOptionArea' class="item-btn">
+
+        </div>
+    </div>
+</div>
+
+<!-- 引入公共尾部
+<div th:replace="MiniBlog_Front/A_CommonRes/common :: common_footer"></div>
+-->
+
+
+</body>
+</html>

@@ -115,6 +115,32 @@ public class ArticleServeImpl {
         return dao.insertNewImgList(articleId, list);
     }
 
+    /**
+     * 获取所有可以展示的帖子
+     * @param param
+     * @return
+     */
+    public List<Map<String, Object>> getAvailableArticleList(Map<String, Object> param) {
+        List<Map<String, Object>> result ;
+        Integer userId = null != param.get("userId") ? Integer.parseInt(param.get("userId").toString()) : null;
+        // 获取article表中关于帖子的主要字段
+        result = dao.getAvailableArticleListByUserId(param);
+        // 获取每个帖子的文字详情
+        if (null != result) {
+            for (Map<String, Object> temp : result) {
+                List<String> pictureList = dao.getPictureListByArticleId(temp.get("id").toString());
+                if (null != userId && null != dao.getTheLikeFlagOfTheArticle(Integer.parseInt(temp.get("id").toString()), userId)) {
+                    temp.put("isLike", "yes");
+                } else {
+                    temp.put("isLike", "no");
+                }
+                temp.put("pictureList", pictureList);
+                dao.plusOneReadAmountOfTheArticle(Integer.parseInt(temp.get("id").toString()));
+            }
+        }
+        return result;
+    }
+
 
     /**
      *  #{userId} LIMIT #{firstIndex}, #{maxAmount};
@@ -250,4 +276,17 @@ public class ArticleServeImpl {
 
         return null;
     }
+
+    /**
+     * 获取所有公开帖子的分页需要的初始化数据
+     * @return
+     */
+    public Map<String, Object> getAllPublishArticlePagingData() {
+        Integer totalAmount = dao.getTotalAmountOfArticle();
+        Map<String, Object> result = new HashMap<>();
+        result.put("totalAmount", totalAmount);
+        result.put("maxAmount", DEFAULT_PAGING_AMOUNT);
+        return result;
+    }
+
 }

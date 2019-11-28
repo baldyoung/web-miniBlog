@@ -5,10 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/fadfasfasf")
 public class IndexDefaultController {
     @RequestMapping()
     public String defaultMethod(){
-        return "redirect:/WebContext/MiniBlog_Front/X_Index/index";
+        System.out.println("defaultMethod get message");
+        return "redirect:/WebContext/MiniBlog_Front/G_HomePage/homePage";
     }
 }

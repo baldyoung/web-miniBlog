@@ -5,6 +5,9 @@
          version="4.0">
 
     <!-- 设置当前应用的session默认保存时间（单位是分钟） -->
+    <welcome-file-list>
+        <welcome-file>/WebContext/MiniBlog_Front/G_HomePage/homePage</welcome-file>
+    </welcome-file-list>
     <session-config>
         <session-timeout>60</session-timeout>
     </session-config>

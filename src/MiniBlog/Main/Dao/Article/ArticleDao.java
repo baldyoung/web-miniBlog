@@ -161,7 +161,14 @@ public interface ArticleDao {
 
     // public Integer deleteTheCommentOfArticleByArticleId(@Param("articleId")Integer articleId);
 
+    /**
+     * 获取所有可以展示的帖子，分页
+     * @param param
+     * @return
+     */
+    public List<Map<String, Object>> getAvailableArticleList(Map param);
 
+    Integer getTotalAmountOfArticle();
 
 
 

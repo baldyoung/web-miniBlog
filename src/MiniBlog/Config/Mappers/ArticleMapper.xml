@@ -90,4 +90,22 @@
         SELECT articleId, userId, content, likeAmount, DATE_FORMAT(recordTime, '%Y-%m-%d %H:%i:%s') 'recordTime' FROM mb_articlecomment WHERE id = #{commentId}
     </select>
 
+    <select id="getAvailableArticleList" resultType="map" >
+         SELECT a.id 'articleId', a.userId 'userId', a.title 'title', b.content 'content', DATE_FORMAT(a.publishTime, '%Y-%m-%d %H:%i:%s') 'publishTime',
+	          a.readNum 'readNum', a.likeAmount 'likeAmount', a.commentAmount 'commentAmount', c.account 'userAccount'
+	      FROM mb_user c
+		      LEFT JOIN mb_article a ON c.id = a.userId
+		      LEFT JOIN mb_articledetails b ON a.id = b.articleId
+	      WHERE a.forbid = 'no'
+	      ORDER BY a.id DESC LIMIT #{firstIndex}, #{maxAmount}
+    </select>
+
+    <select id="getTotalAmountOfArticle" resultType="int">
+        SELECT COUNT(a.id)
+	      FROM mb_user c
+		    LEFT JOIN mb_article a ON c.id = a.userId
+		    LEFT JOIN mb_articledetails b ON a.id = b.articleId
+	      WHERE a.forbid = 'no'
+    </select>
+
 </mapper>
