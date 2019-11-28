@@ -18,14 +18,18 @@
 }
 
 */
-function requestAndShowArticleList() {
+function requestAndShowArticleList(fIndex, amount) {
+	var temp = {
+		firstIndex : ""+fIndex,
+		maxAmount : ""+amount
+	};
 	$.ajax({
 		url: "getArticleList",
 		type: 'POST',
 		cache: false,
 		dataType:'json',
 		contentType: "application/x-www-form-urlencoded;charset=utf-8",
-		data: {},
+		data: temp,
 		success: function (data) {
 			console.log('ArticleOption.loadData()-ajax-receive-data:'+data.toString());
 			if(data.result == 'success'){
@@ -130,7 +134,7 @@ function createDisplayCellHTML(t){
 	var i, imgs = t.pictureList;
 	var str = "<div class='item'>";
 	str += "<div class='item-box  layer-photos-demo1 layer-photos-demo'>";
-	str += "<h3><a href='../X_Details/details.html?articleId="+t.id+"' >"+t.title+"</a><span style='float:right; color:#fe2727; font-size:13px; cursor:pointer; font-weight:bold; ' onclick=\"ArticleOption.deleteArticleAction("+t.id+")\">删除</span></h3>";
+	str += "<h3><a href='../X_Details/details.html?articleId="+t.id+"' >"+t.title+"</a><span style='float:right; color:#fe2727; font-size:13px; cursor:pointer; font-weight:bold; ' ></span></h3>";
 	str += "";
 	str += "<h5>"+t.userAccount+"&nbsp;&nbsp;&nbsp;发布于："+t.publishTime+"<span></span></h5>";
 	str += "<p>"+t.content+"</p>";

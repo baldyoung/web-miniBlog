@@ -124,18 +124,18 @@ public class ArticleServeImpl {
         List<Map<String, Object>> result ;
         Integer userId = null != param.get("userId") ? Integer.parseInt(param.get("userId").toString()) : null;
         // 获取article表中关于帖子的主要字段
-        result = dao.getAvailableArticleListByUserId(param);
+        result = dao.getAvailableArticleList(param);
         // 获取每个帖子的文字详情
         if (null != result) {
             for (Map<String, Object> temp : result) {
-                List<String> pictureList = dao.getPictureListByArticleId(temp.get("id").toString());
-                if (null != userId && null != dao.getTheLikeFlagOfTheArticle(Integer.parseInt(temp.get("id").toString()), userId)) {
+                List<String> pictureList = dao.getPictureListByArticleId(temp.get("articleId").toString());
+                if (null != userId && null != dao.getTheLikeFlagOfTheArticle(Integer.parseInt(temp.get("articleId").toString()), userId)) {
                     temp.put("isLike", "yes");
                 } else {
                     temp.put("isLike", "no");
                 }
                 temp.put("pictureList", pictureList);
-                dao.plusOneReadAmountOfTheArticle(Integer.parseInt(temp.get("id").toString()));
+                dao.plusOneReadAmountOfTheArticle(Integer.parseInt(temp.get("articleId").toString()));
             }
         }
         return result;
