@@ -86,20 +86,22 @@ function loadTargetPage(t){
 		console.log('PagingModule -> warning : PagingModule.run is undefined.');
 	//获取成功后由前端进行处理，并改变指定页所对应按钮的状态
 	//下面的调用应该在成功获取到分页数据后进行调用，否则不建议执行
-	
-	changePageBtnState(temp.CurrentIndexPage);	
-	if(PagingModule.CurrentIndexPage == 1){
-		$('#lastPageBtn').css('cursor', 'not-allowed');
-		$('#lastPageBtn').css('background', '#c3c9cf');
-	}else if(PagingModule.CurrentIndexPage == PagingModule.TotalMaxPagingNum){
-		$('#nextPageBtn').css('cursor', 'not-allowed');
-		$('#nextPageBtn').css('background', '#c3c9cf');
-	}else{
+	if (1 != PagingModule.TotalMaxPagingNum) {
 		$('#nextPageBtn').css('cursor', 'pointer');
 		$('#nextPageBtn').css('background', '#1E9FFF');
 		$('#lastPageBtn').css('cursor', 'pointer');
 		$('#lastPageBtn').css('background', '#1E9FFF');
 	}
+	changePageBtnState(temp.CurrentIndexPage);	
+	if(PagingModule.CurrentIndexPage == 1){
+		$('#lastPageBtn').css('cursor', 'not-allowed');
+		$('#lastPageBtn').css('background', '#c3c9cf');
+	}
+	if(PagingModule.CurrentIndexPage == PagingModule.TotalMaxPagingNum){
+		$('#nextPageBtn').css('cursor', 'not-allowed');
+		$('#nextPageBtn').css('background', '#c3c9cf');
+	}
+
 	
 	console.log('请求的新页的数据:'+ temp);
 }

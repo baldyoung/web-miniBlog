@@ -31,7 +31,7 @@
     </select>
 
     <select id="getAmountOfAvailableArticleListByUserId" resultType="int" >
-        SELECT COUNT(id) FROM mb_article WHERE userId = #{userId}
+        SELECT COUNT(id) FROM mb_article WHERE userId = #{userId} AND forbid = 'no'
     </select>
 
     <select id="getTheLikeFlagOfTheArticle" resultType="int">

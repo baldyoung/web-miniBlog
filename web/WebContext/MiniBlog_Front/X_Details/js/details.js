@@ -209,8 +209,8 @@ function createCommentCellHTML(t) {
     str += "<p class='title count'>";
     str += "<span class='name'>" + t.account + "</span>";
     str += "<span class='name' style='margin-left:35px; '>评论时间：" + t.recordTime + "</span>";
-    str += "<span class='name' style='margin-left:40px; color:palevioletred;' onclick='deleteTheComment("+t.id+")'>" + (t.isOwner == 'yes' ? "删除" : "") + "</span>";
-    str += "<span id='commentParselike" + t.id + "' class='info-img' onclick='markLikeOfComment(\"" + t.id + "\")' ><i class='layui-icon layui-icon-praise'></i><span id='commentLike" + t.id + "' >" + t.likeAmount + "</span></span>";
+    str += "<span class='name' style='margin-left:63px; color:palevioletred;' onclick='deleteTheComment("+t.id+")'>" + (t.isOwner == 'yes' ? "删除" : "") + "</span>";
+   // str += "<span id='commentParselike" + t.id + "' class='info-img' onclick='markLikeOfComment(\"" + t.id + "\")' ><i class='layui-icon layui-icon-praise'></i><span id='commentLike" + t.id + "' >" + t.likeAmount + "</span></span>";
     str += "</p>";
     str += "<p class='info-intr'>" + t.content + "</p>";
     str += "</div>";

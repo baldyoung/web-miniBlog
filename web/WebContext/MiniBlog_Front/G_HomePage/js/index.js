@@ -131,6 +131,7 @@ function showDisplayCells(t){
 }
 //拼接给定展示单元的HTML
 function createDisplayCellHTML(t){
+	t.id = t.articleId;
 	var i, imgs = t.pictureList;
 	var str = "<div class='item'>";
 	str += "<div class='item-box  layer-photos-demo1 layer-photos-demo'>";
