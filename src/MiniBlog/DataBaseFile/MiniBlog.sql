@@ -1,11 +1,7 @@
 /*
-版本号:Version1.01   ---------------------- 2019-11-26
-最新变更说明:MB_ArticleComment新增userId字段，用以标识评论的所属用户。
-版本号:Version1.11   ---------------------- 2019-11-27
-说明:
-	新增论坛简介表MB_Intro，用userId来标识其对应的论坛（用户）。
-	新增用户头像表MB_UserPicture，用userId标识其对应用户。
-	帖子评价表新增recodeTime字段，用以记录评论时间。
+MiniBlog_SingleUser
+版本号:Version1.00   ---------------------- 2019-12-4
+
 
 */
 
@@ -17,16 +13,17 @@
 character 指定数据库存储字符串的默认字符集；
 collate 指定数据库的默认校对规则，用来比较字符串的方式，解决排序和字符分组的问题；
 */
-CREATE DATABASE IF NOT EXISTS MiniBlog
+CREATE DATABASE IF NOT EXISTS MiniBlog_SingleUser
 	DEFAULT CHARACTER SET utf8
 	DEFAULT COLLATE utf8_general_ci;
 
 -- 查看建数据库的语句
 -- show create database MiniBlog;
-SHOW CREATE TABLE MB_User;
+-- 查看建表的语句
+-- SHOW CREATE TABLE MB_User;
 
 -- 跳转到指定数据库下
-USE MiniBlog;
+USE MiniBlog_SingleUser;
 
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 普通用户表
