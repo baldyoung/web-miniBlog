@@ -13,12 +13,15 @@ import org.thymeleaf.util.StringUtils;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @Controller
 @RequestMapping(value={"/WebContext/MiniBlog_Front/X_Details"})
 public class DetailsController {
+
+
 
     @Autowired
     ArticleServeImpl serve;
@@ -33,19 +36,25 @@ public class DetailsController {
         return "MiniBlog_Front/X_Details/details";
     }
 
-    @RequestMapping("getArticleDetails")
+    /**
+     * 获取帖子的详情内容（包括评论数据）
+     * @param articleId
+     * @param session
+     * @return
+     */
+    @RequestMapping("/getArticleDetails")
     @ResponseBody
     public Result getArticleDetails(@RequestParam("articleId")Integer articleId, HttpSession session) {
-        Integer userId = (null != session && null != session.getAttribute("userId")) ? Integer.parseInt(session.getAttribute("userId").toString()) : null;
+        Integer userId = Integer.parseInt(session.getAttribute("userId").toString());
         Map<String, Object> data = serve.getArticleDetailsByArticleId(articleId, userId);
         if (null != data) {
             List<Map<String, Object>> commentList = serve.getArticleCommentByArticleId(articleId);
             if (null != commentList) {
                 for (Map<String, Object>cell : commentList) {
-                    if (StringUtils.equals(cell.get("userId").toString(), session.getAttribute("userId").toString())) {
-                        cell.put("isOwner", "yes");
-                    } else {
+                    if (Objects.isNull(userId)) {
                         cell.put("isOwner", "no");
+                    } else {
+                        cell.put("isOwner", "yes");
                     }
                 }
             }
@@ -55,16 +64,24 @@ public class DetailsController {
         return Result.fail();
     }
 
-    @RequestMapping("getCommentListOfArticle")
+    /**
+     * 获取帖子下的评论集合
+     *
+     * @param articleId
+     * @param session
+     * @return
+     */
+    @RequestMapping("/getCommentListOfArticle")
     @ResponseBody
     public Result getCommentListOfArticle(@RequestParam("articleId")Integer articleId, HttpSession session) {
+        Integer userId = Integer.parseInt(session.getAttribute("userId").toString());
         List<Map<String, Object>> commentList = serve.getArticleCommentByArticleId(articleId);
         if (null != commentList) {
             for (Map<String, Object>cell : commentList) {
-                if (StringUtils.equals(cell.get("userId").toString(), session.getAttribute("userId").toString())) {
-                    cell.put("isOwner", "yes");
-                } else {
+                if (Objects.isNull(userId)) {
                     cell.put("isOwner", "no");
+                } else {
+                    cell.put("isOwner", "yes");
                 }
             }
             return Result.success(commentList);
@@ -79,10 +96,11 @@ public class DetailsController {
      * @param session
      * @return
      */
-    @RequestMapping("addCommentAboutArticle")
+    @RequestMapping("/addCommentAboutArticle")
     @ResponseBody
     public Result addCommentAboutArticle(@RequestParam("articleId")Integer articleId, @RequestParam("comment")String comment, HttpSession session) {
-        Map<String, Object> result = serve.addCommentAboutArticle(articleId, Integer.parseInt(session.getAttribute("userId").toString()), comment);
+        Integer userId = Integer.parseInt(session.getAttribute("userId").toString());
+        Map<String, Object> result = serve.addCommentAboutArticle(articleId, userId, comment);
         if (StringUtils.equals("success", result.get("result").toString())) {
             return Result.success();
         }
@@ -94,7 +112,7 @@ public class DetailsController {
      * @param commentId
      * @return
      */
-    @RequestMapping("deleteCommentAboutArticle")
+    @RequestMapping("/deleteCommentAboutArticle")
     @ResponseBody
     public Result deleteCommentAboutArticle(@RequestParam("commentId")Integer commentId) {
         Map<String, Object> result = serve.deleteCommentAboutArticle(commentId);

@@ -41,12 +41,7 @@ public class IndexController {
         return "MiniBlog_Front/X_Index/index";
     }
 
-    //测试数据库连接是否可行
-    @RequestMapping(value={"/testDBLink"}, method={GET, POST})
-    @ResponseBody
-    public String testMethod(){
-        return dbtest.queryAllTableFromDatabase().toString();
-    }
+
 
 
 
@@ -54,17 +49,13 @@ public class IndexController {
     @ResponseBody
     public Result getArticleList(@RequestParam(value="firstIndex")Integer firstIndex, HttpSession session) {
         Integer maxAmount = DEFAULT_MAX_DISPLAY_NUMBER_IN_PAGING;
-        Integer userId = null;
-        if (null != session && null != session.getAttribute("userId")) {
-            userId = Integer.parseInt(session.getAttribute("userId").toString());
-        }
         List<Map<String, Object>> data;
         // 参数为空检查
         if (CommonUtil.isAnyNullObject(firstIndex, maxAmount)) {
             return Result.fail(ResultErrorInf.PARAM_IS_EMPTY);
         }
         Map<String, Object> param = new HashMap<>();
-        param.put("userId", userId);
+        // param.put("userId", userId);
         param.put("firstIndex", firstIndex);
         param.put("maxAmount", maxAmount);
         data = serve.getAvailableArticleList(param);

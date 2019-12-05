@@ -207,7 +207,7 @@ function createCommentCellHTML(t) {
     str += "<img class='info-img' style='width:70px; height:70px; ' src='../../MiniBlog_CommonRes/res/img/" + (t.userPicture == undefined ? "fail.jpg" : t.userPicture) + "' alt=''>";
     str += "<div class='info-text'>";
     str += "<p class='title count'>";
-    str += "<span class='name'>" + t.account + "</span>";
+    str += "<span class='name'>" + (t.account == undefined ? '游客' : t.account) + "</span>";
     str += "<span class='name' style='margin-left:35px; '>评论时间：" + t.recordTime + "</span>";
     str += "<span class='name' style='margin-left:63px; color:palevioletred;' onclick='deleteTheComment("+t.id+")'>" + (t.isOwner == 'yes' ? "删除" : "") + "</span>";
    // str += "<span id='commentParselike" + t.id + "' class='info-img' onclick='markLikeOfComment(\"" + t.id + "\")' ><i class='layui-icon layui-icon-praise'></i><span id='commentLike" + t.id + "' >" + t.likeAmount + "</span></span>";

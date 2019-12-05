@@ -42,7 +42,7 @@ public class ArticleServeImpl {
         if (null != result) {
             // 获取对应的图片数据
             List<String> pictureList = dao.getPictureListByArticleId(articleId.toString());
-            if (null != userId && null != dao.getTheLikeFlagOfTheArticle(articleId, userId)) {
+            if (null != dao.getTheLikeFlagOfTheArticle(articleId, userId)) {
                 result.put("isLike", "yes");
             } else {
                 result.put("isLike", "no");
@@ -122,14 +122,13 @@ public class ArticleServeImpl {
      */
     public List<Map<String, Object>> getAvailableArticleList(Map<String, Object> param) {
         List<Map<String, Object>> result ;
-        Integer userId = null != param.get("userId") ? Integer.parseInt(param.get("userId").toString()) : null;
         // 获取article表中关于帖子的主要字段
         result = dao.getAvailableArticleList(param);
         // 获取每个帖子的文字详情
         if (null != result) {
             for (Map<String, Object> temp : result) {
                 List<String> pictureList = dao.getPictureListByArticleId(temp.get("articleId").toString());
-                if (null != userId && null != dao.getTheLikeFlagOfTheArticle(Integer.parseInt(temp.get("articleId").toString()), userId)) {
+                if (null != dao.getTheLikeFlagOfTheArticle(Integer.parseInt(temp.get("id").toString()), Integer.parseInt(param.get("userId").toString()))) {
                     temp.put("isLike", "yes");
                 } else {
                     temp.put("isLike", "no");
@@ -143,6 +142,7 @@ public class ArticleServeImpl {
 
 
     /**
+     * 获取指定用户下的所有可展示帖子
      *  #{userId} LIMIT #{firstIndex}, #{maxAmount};
      *  获取指定用户有效的已发文章/帖子，所谓有效即没有被封禁的文章/帖子
      *  map中的参数需求{userId:要查询的用户Id, firstIndex:分页参数-第一条数据的小标, maxAmount:分页参数-最多几条数据}
