@@ -48,6 +48,7 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/WebContext/MiniBlog_Front/X_Management/**"/>
+            <mvc:exclude-mapping path="/WebContext/MiniBlog_Front/Details/**"/>
             <mvc:exclude-mapping path="/WebContext/MiniBlog_Front/X_Login/**"/>
             <bean class="MiniBlog.Main.Interceptor.Front.LoginInterceptor.FrontLoginInterceptor"></bean>
         </mvc:interceptor>

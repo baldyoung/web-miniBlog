@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -45,11 +46,14 @@ public class DetailsController {
     @RequestMapping("/getArticleDetails")
     @ResponseBody
     public Result getArticleDetails(@RequestParam("articleId")Integer articleId, HttpSession session) {
-        Integer userId = Integer.parseInt(session.getAttribute("userId").toString());
+        Integer userId = null;
+        if (!Objects.isNull(session.getAttribute("userId"))) {
+            userId = Integer.parseInt(session.getAttribute("userId").toString());
+        }
         Map<String, Object> data = serve.getArticleDetailsByArticleId(articleId, userId);
-        if (null != data) {
+        if (!Objects.isNull(data)) {
             List<Map<String, Object>> commentList = serve.getArticleCommentByArticleId(articleId);
-            if (null != commentList) {
+            if (!Objects.isNull(commentList)) {
                 for (Map<String, Object>cell : commentList) {
                     if (Objects.isNull(userId)) {
                         cell.put("isOwner", "no");
@@ -57,6 +61,8 @@ public class DetailsController {
                         cell.put("isOwner", "yes");
                     }
                 }
+            } else {
+                commentList = new LinkedList<>();
             }
             data.put("commentList", commentList);
             return Result.success(data);
@@ -76,7 +82,7 @@ public class DetailsController {
     public Result getCommentListOfArticle(@RequestParam("articleId")Integer articleId, HttpSession session) {
         Integer userId = Integer.parseInt(session.getAttribute("userId").toString());
         List<Map<String, Object>> commentList = serve.getArticleCommentByArticleId(articleId);
-        if (null != commentList) {
+        if (!Objects.isNull(commentList)) {
             for (Map<String, Object>cell : commentList) {
                 if (Objects.isNull(userId)) {
                     cell.put("isOwner", "no");
@@ -84,9 +90,10 @@ public class DetailsController {
                     cell.put("isOwner", "yes");
                 }
             }
-            return Result.success(commentList);
+        } else {
+            commentList = new LinkedList<>();
         }
-        return Result.fail();
+        return Result.success(commentList);
     }
 
     /**
@@ -99,7 +106,10 @@ public class DetailsController {
     @RequestMapping("/addCommentAboutArticle")
     @ResponseBody
     public Result addCommentAboutArticle(@RequestParam("articleId")Integer articleId, @RequestParam("comment")String comment, HttpSession session) {
-        Integer userId = Integer.parseInt(session.getAttribute("userId").toString());
+        Integer userId = null;
+        if (!Objects.isNull(session.getAttribute("userId"))) {
+            userId = Integer.parseInt(session.getAttribute("userId").toString());
+        }
         Map<String, Object> result = serve.addCommentAboutArticle(articleId, userId, comment);
         if (StringUtils.equals("success", result.get("result").toString())) {
             return Result.success();

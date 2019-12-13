@@ -1,8 +1,8 @@
 /*
 MiniBlog_SingleUser
 版本号:Version1.00   ---------------------- 2019-12-4
-
-
+MB_User表新增_name字段，用来代表用户昵称   --- 2019-12-13
+MB_ArticleComment新增parent_comment_id字段，标识父级评论编号   --- 2019-12-13
 */
 
 
@@ -30,6 +30,7 @@ USE MiniBlog_SingleUser;
 DROP TABLE IF EXISTS MB_User;
 CREATE TABLE MB_User(
 	id INT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]用户编号：唯一且不为空' ,
+	_name VARCHAR(50) NOT NULL COMMENT'用户昵称' ,
 	account VARCHAR(20) UNIQUE NOT NULL COMMENT'用户登录名' ,
 	_password VARCHAR(12) NOT NULL COMMENT'用户登录密码' ,
 	mailbox VARCHAR(50) NOT NULL COMMENT'用户邮箱' ,
@@ -42,7 +43,8 @@ CREATE TABLE MB_User(
 	phoneNumber VARCHAR(20) DEFAULT 'unknow' COMMENT'[可选]用户联系电话'
 )COMMENT'普通用户表';
 
-SELECT _password 'password' FROM MB_User WHERE account = 'admin';
+INSERT INTO MB_User(account, _password, mailbox, _name) VALUES ('dev', '123', '123@126.com', '乌龙');
+# SELECT _password 'password' FROM MB_User WHERE account = 'admin';
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 管理员表
 DROP TABLE IF EXISTS MB_Administrator;
@@ -117,7 +119,8 @@ DROP TABLE IF EXISTS MB_ArticleComment;
 CREATE TABLE MB_ArticleComment(
 	id INT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]编号：唯一且不为空',
 	articleId INT UNSIGNED NOT NULL COMMENT'所属文章的编号：不为空',
-	userId INT UNSIGNED NOT NULL COMMENT'该条评论的所属用户编号：不为空',
+	parent_comment_id INT UNSIGNED COMMENT'父级评论编号',
+	userId INT UNSIGNED COMMENT'该条评论的所属用户编号',
 	content VARCHAR(300) NOT NULL COMMENT'评论的内容：不为空',
 	likeAmount INT UNSIGNED DEFAULT 0 COMMENT'[默认]点赞数量：初始为0',
 	recordTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT'[默认]记录时间，不用操作由数据库默认操作'
