@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import MiniBlog.Main.Common.Result;
 import MiniBlog.Main.Serve.User.UserServe;
+import MiniBlog.Main.ServeImpl.User.UserServeImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,15 +22,17 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class LoginController {
 
     @Autowired
-    UserServe serve;
+    UserServeImpl serve;
 
     @RequestMapping(value="/login", method={GET})
     public String loginPage(HttpSession session){
         String result;
-        if(null == session.getAttribute("userId"))
+        if (null == session.getAttribute("userId")) {
             result = "MiniBlog_Front/X_Login/login";
-        else
-            result =  "redirect:/WebContext/MiniBlog_Front/X_Management/management";
+        }
+        else {
+            result = "redirect:/WebContext/MiniBlog_Front/X_Management/management";
+        }
         return result;
     }
 

@@ -12,10 +12,9 @@ import org.thymeleaf.util.StringUtils;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static MiniBlog.Main.Common.Enum.CommonEnum.TOURIST_PICTURE;
 
 @Service
 public class ArticleServeImpl {
@@ -39,15 +38,15 @@ public class ArticleServeImpl {
     public Map<String, Object> getArticleDetailsByArticleId(Integer articleId, Integer userId) {
         Map<String, Object> result;
         result = dao.getArticleDetailsByArticleId(articleId);
-        if (null != result) {
+        if (!Objects.isNull(result)) {
             // 获取对应的图片数据
             List<String> pictureList = dao.getPictureListByArticleId(articleId.toString());
-            if (null != dao.getTheLikeFlagOfTheArticle(articleId, userId)) {
+            result.put("pictureList", pictureList);
+            if (!Objects.isNull(userId) && !Objects.isNull(dao.getTheLikeFlagOfTheArticle(articleId, userId))) {
                 result.put("isLike", "yes");
             } else {
                 result.put("isLike", "no");
             }
-            result.put("pictureList", pictureList);
             dao.plusOneReadAmountOfTheArticle(articleId);
         }
         return result;
@@ -60,8 +59,10 @@ public class ArticleServeImpl {
      */
     public List<Map<String, Object>> getArticleCommentByArticleId(Integer articleId) {
         List<Map<String, Object>> result = dao.getArticleCommentByArticleId(articleId);
+        Integer userId;
         for(Map<String, Object> cell : result) {
-            cell.put("userPicture", userDao.getUserPictureByUserId(Integer.parseInt(cell.get("userId").toString())));
+            userId = Objects.isNull(cell.get("userId")) ? null : Integer.parseInt(cell.get("userId").toString());
+            cell.put("userPicture", Objects.isNull(userId) ? TOURIST_PICTURE : userDao.getUserPictureByUserId(userId));
         }
         return result;
     }
@@ -125,10 +126,10 @@ public class ArticleServeImpl {
         // 获取article表中关于帖子的主要字段
         result = dao.getAvailableArticleList(param);
         // 获取每个帖子的文字详情
-        if (null != result) {
+        if (!Objects.isNull(result)) {
             for (Map<String, Object> temp : result) {
                 List<String> pictureList = dao.getPictureListByArticleId(temp.get("articleId").toString());
-                if (null != dao.getTheLikeFlagOfTheArticle(Integer.parseInt(temp.get("id").toString()), Integer.parseInt(param.get("userId").toString()))) {
+                if (!Objects.isNull(param.get("userId")) && !Objects.isNull(dao.getTheLikeFlagOfTheArticle(Integer.parseInt(temp.get("id").toString()), Integer.parseInt(param.get("userId").toString())))) {
                     temp.put("isLike", "yes");
                 } else {
                     temp.put("isLike", "no");
@@ -216,9 +217,9 @@ public class ArticleServeImpl {
      * @param commentContent
      * @return
      */
-    public Map<String, Object> addCommentAboutArticle(Integer articleId, Integer userId, String commentContent) {
+    public Map<String, Object> addCommentAboutArticle(Integer articleId, Integer parentId, Integer userId, String commentContent) {
         Map<String, Object> result = new HashMap<>();
-        if (dao.insertNewCommentOfTheArticle(articleId, userId, commentContent) > 0) {
+        if (dao.insertNewCommentOfTheArticle(articleId, parentId, userId, commentContent) > 0) {
             result.put("result", "success");
             dao.plusOneCommentAmountOfTheArticle(articleId);
         } else {

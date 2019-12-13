@@ -6,5 +6,7 @@ public class CommonEnum {
 
     public static final String RESULT_DEFAUL = "default";
 
+    public static final String TOURIST_PICTURE = "touristPicture";
+
 
 }

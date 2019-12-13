@@ -48,10 +48,10 @@
 
     <update id="insertNewCommentOfTheArticle" >
         <if test="userId!=null">
-            insert into mb_articlecomment(articleId, userId, content) values(#{articleId}, #{userId}, #{commentContent})
+            insert into mb_articlecomment(articleId, parent_comment_id, userId, content) values(#{articleId}, #{parentId}, #{userId}, #{commentContent})
         </if>
         <if test="userId==null">
-            insert into mb_articlecomment(articleId, content) values(#{articleId}, #{commentContent})
+            insert into mb_articlecomment(articleId, parent_comment_id, content) values(#{articleId}, #{parentId}, #{commentContent})
         </if>
     </update>
 

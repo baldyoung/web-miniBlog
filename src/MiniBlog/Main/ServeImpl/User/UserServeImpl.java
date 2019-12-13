@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class UserServeImpl implements UserServe {
+public class UserServeImpl  {
     private static final String DEFAULT_INTRO_CONTENT = "这个坛主很可爱，什么也没有留下...";
     private static final String DEFAULT_USER_PICTURE = "default.jpg";
 

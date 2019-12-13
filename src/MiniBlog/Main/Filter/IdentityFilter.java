@@ -24,7 +24,7 @@ public class IdentityFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(true);
-        if (Objects.isNull(session.getAttribute("userId"))) {
+        if (false && Objects.isNull(session.getAttribute("userId"))) {
             session.setAttribute("userId", DEFAULT_VISITOR_ID);
         }
         filterChain.doFilter(request, response);

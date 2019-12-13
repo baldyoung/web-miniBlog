@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -59,7 +60,7 @@ public class IndexController {
         param.put("firstIndex", firstIndex);
         param.put("maxAmount", maxAmount);
         data = serve.getAvailableArticleList(param);
-        if (null == data) {
+        if (Objects.isNull(data)) {
             return Result.fail(ResultErrorInf.DATA_REQUEST_FAIL);
         }
         return Result.success(data);

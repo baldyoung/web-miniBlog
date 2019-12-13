@@ -1,6 +1,7 @@
 package MiniBlog.Main.Controller.Front.User;
 
 import MiniBlog.Main.Serve.User.UserServe;
+import MiniBlog.Main.ServeImpl.User.UserServeImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +29,7 @@ public class UserController {
     }
 
     @Autowired
-    private UserServe serve;
+    private UserServeImpl serve;
 
 
 }

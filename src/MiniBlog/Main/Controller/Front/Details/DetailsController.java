@@ -80,7 +80,8 @@ public class DetailsController {
     @RequestMapping("/getCommentListOfArticle")
     @ResponseBody
     public Result getCommentListOfArticle(@RequestParam("articleId")Integer articleId, HttpSession session) {
-        Integer userId = Integer.parseInt(session.getAttribute("userId").toString());
+
+        Integer userId = Objects.isNull(session.getAttribute("userId")) ? null : Integer.parseInt(session.getAttribute("userId").toString());
         List<Map<String, Object>> commentList = serve.getArticleCommentByArticleId(articleId);
         if (!Objects.isNull(commentList)) {
             for (Map<String, Object>cell : commentList) {
@@ -105,12 +106,12 @@ public class DetailsController {
      */
     @RequestMapping("/addCommentAboutArticle")
     @ResponseBody
-    public Result addCommentAboutArticle(@RequestParam("articleId")Integer articleId, @RequestParam("comment")String comment, HttpSession session) {
+    public Result addCommentAboutArticle(@RequestParam("articleId")Integer articleId, @RequestParam(value = "parentId", defaultValue = "-1")Integer parentId, @RequestParam("comment")String comment, HttpSession session) {
         Integer userId = null;
         if (!Objects.isNull(session.getAttribute("userId"))) {
             userId = Integer.parseInt(session.getAttribute("userId").toString());
         }
-        Map<String, Object> result = serve.addCommentAboutArticle(articleId, userId, comment);
+        Map<String, Object> result = serve.addCommentAboutArticle(articleId, parentId, userId, comment);
         if (StringUtils.equals("success", result.get("result").toString())) {
             return Result.success();
         }

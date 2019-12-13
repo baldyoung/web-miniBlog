@@ -1,6 +1,7 @@
 package MiniBlog.Main.Controller.Front.Register;
 
 import MiniBlog.Main.Serve.User.UserServe;
+import MiniBlog.Main.ServeImpl.User.UserServeImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class RegisterController {
 
     @Autowired
-    private UserServe serve;
+    private UserServeImpl serve;
 
     @RequestMapping(value="/register", method={GET})
     public String registerPage(){

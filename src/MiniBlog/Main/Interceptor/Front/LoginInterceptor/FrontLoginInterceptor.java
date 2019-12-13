@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Objects;
+
 public class FrontLoginInterceptor implements HandlerInterceptor {
 
     @Override
@@ -24,7 +26,7 @@ public class FrontLoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
         Object obj = request.getSession().getAttribute("userId");
-        if(obj==null) {
+        if(Objects.isNull(obj)) {
             System.out.println(request.getContextPath());
             response.sendRedirect(request.getContextPath()+"/WebContext/MiniBlog_Front/X_Login/login");
             return false;

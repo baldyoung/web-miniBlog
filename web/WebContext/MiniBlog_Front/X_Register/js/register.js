@@ -64,6 +64,7 @@ function register(){
 	
 	$('#btn_register').attr('disabled', 'true');
     var userData = {
+    	name : $('#newName').val(),
         account:$('#newAccount').val(),
         password:$('#newPassword').val(),
         mailbox:$('#newMailbox').val()

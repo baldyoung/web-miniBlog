@@ -98,7 +98,7 @@ public interface ArticleDao {
      * @param commentContent
      * @return
      */
-    public Integer insertNewCommentOfTheArticle(@Param("articleId")Integer articleId, @Param("userId")Integer userId, @Param("commentContent")String commentContent);
+    public Integer insertNewCommentOfTheArticle(@Param("articleId")Integer articleId, @Param("parentId")Integer parentId, @Param("userId")Integer userId, @Param("commentContent")String commentContent);
 
     /**
      * 删除帖子的指定留言记录
