@@ -14,7 +14,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.*;
 
-import static MiniBlog.Main.Common.Enum.CommonEnum.TOURIST_PICTURE;
+import static MiniBlog.Main.Common.Enum.CommonEnum.*;
 
 @Service
 public class ArticleServeImpl {
@@ -185,6 +185,7 @@ public class ArticleServeImpl {
     }
 
     /**
+     * （需要登陆）
      * 用户对帖子点赞和取消点赞的操作
      * @param articleId
      * @param userId
@@ -207,6 +208,26 @@ public class ArticleServeImpl {
             result.put("status", "unlike");
         }
         result.put("result", recodeId == 1 ? "success" : "fail");
+        return result;
+    }
+
+    /**
+     *
+     * 对帖子进行点赞
+     * @param articleId
+     * @param userId
+     * @return
+     */
+    public Map<String, Object> markLikeForArticleWithOutUserId(Integer articleId, Integer userId) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("articleId", articleId);
+        result.put("userId", userId);
+        dao.insertLikeFlagOfArticle(result);
+        if (!Objects.isNull(result.get("id"))) {
+            result.put(RESULT_STATUS, RESULT_STATUS_SUCCESS);
+        } else {
+            result.put(RESULT_STATUS, RESULT_STATUS_DEFAUL);
+        }
         return result;
     }
 

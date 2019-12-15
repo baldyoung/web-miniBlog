@@ -166,9 +166,12 @@ public interface ArticleDao {
      * @param param
      * @return
      */
-    public List<Map<String, Object>> getAvailableArticleList(Map param);
+    List<Map<String, Object>> getAvailableArticleList(Map param);
 
     Integer getTotalAmountOfArticle();
+
+    Integer insertLikeFlagOfArticle(Map param);
+
 
 
 

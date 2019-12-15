@@ -107,10 +107,17 @@
 
     <select id="getTotalAmountOfArticle" resultType="int">
         SELECT COUNT(a.id)
-	      FROM mb_user c
-		    LEFT JOIN mb_article a ON c.id = a.userId
-		    LEFT JOIN mb_articledetails b ON a.id = b.articleId
+	      FROM mb_article a
 	      WHERE a.forbid = 'no'
     </select>
+
+    <insert id="insertLikeFlagOfArticle" useGeneratedKeys="true" keyProperty="id">
+        <if test="#{userId}==null">
+            insert into MB_LikeRecordOfArticle(articleId) values (#{articleId})
+        </if>
+        <if test="#{userId}!=null">
+            insert into MB_LikeRecordOfArticle(articleId, userId) values (#{articleId}, #{userId})
+        </if>
+    </insert>
 
 </mapper>

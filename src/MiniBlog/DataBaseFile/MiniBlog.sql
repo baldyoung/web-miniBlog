@@ -119,7 +119,7 @@ DROP TABLE IF EXISTS MB_ArticleComment;
 CREATE TABLE MB_ArticleComment(
 	id INT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]编号：唯一且不为空',
 	articleId INT UNSIGNED NOT NULL COMMENT'所属文章的编号：不为空',
-	parent_comment_id INT UNSIGNED COMMENT'父级评论编号',
+	parent_comment_id INT COMMENT'父级评论编号',
 	userId INT UNSIGNED COMMENT'该条评论的所属用户编号',
 	content VARCHAR(300) NOT NULL COMMENT'评论的内容：不为空',
 	likeAmount INT UNSIGNED DEFAULT 0 COMMENT'[默认]点赞数量：初始为0',
@@ -140,7 +140,7 @@ DROP TABLE IF EXISTS MB_LikeRecordOfArticle;
 CREATE TABLE MB_LikeRecordOfArticle(
 	id BIGINT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]编号：唯一且不为空',
 	articleId INT UNSIGNED NOT NULL COMMENT'所属文章的编号：不为空',
-	userId INT UNSIGNED NOT NULL COMMENT'点赞用户的编号：不为空',
+	userId INT UNSIGNED COMMENT'点赞用户的编号',
 	recordTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT'[默认]记录时间，不用操作由数据库默认操作'
 )COMMENT'文章点赞记录表';
 
@@ -149,7 +149,7 @@ DROP TABLE IF EXISTS MB_LikeRecordOfComment;
 CREATE TABLE MB_LikeRecordOfComment(
 	id BIGINT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]编号：唯一且不为空',
 	commentId INT UNSIGNED NOT NULL COMMENT'所属评论的编号：不为空',
-	userId INT UNSIGNED NOT NULL COMMENT'点赞用户的编号：不为空',
+	userId INT UNSIGNED COMMENT'点赞用户的编号：不为空',
 	recordTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT'[默认]记录时间，不用操作由数据库默认操作'
 )COMMENT'评论点赞记录表';
 

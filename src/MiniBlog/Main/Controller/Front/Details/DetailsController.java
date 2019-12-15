@@ -133,4 +133,9 @@ public class DetailsController {
         return Result.fail();
     }
 
+    public Result markLikeFlagOfArticle(@RequestParam("articleId")Integer articleId, HttpSession session) {
+
+        return Result.fail();
+    }
+
 }
