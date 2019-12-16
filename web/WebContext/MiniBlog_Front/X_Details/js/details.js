@@ -273,7 +273,7 @@ function markLikeOfContent(t) {
     var target = $('#iDoNotHaveIdeaForYourName');
     console.log(target.attr('class'));
     $.ajax({
-        url: "../X_Management/markLikeForArticle",
+        url: "../X_Details/markLikeFlagOfArticle",
         type: 'GET',
         cache: false,
         //async: false, //设置同步

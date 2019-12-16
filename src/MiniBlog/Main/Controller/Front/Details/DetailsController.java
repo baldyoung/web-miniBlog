@@ -18,6 +18,8 @@ import java.util.Objects;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
+import static MiniBlog.Main.Common.Utils.CommonUtil.*;
+
 @Controller
 @RequestMapping(value={"/WebContext/MiniBlog_Front/X_Details"})
 public class DetailsController {
@@ -133,8 +135,20 @@ public class DetailsController {
         return Result.fail();
     }
 
+    /**
+     * 帖子点赞（支持非登录状态）
+     * @param articleId
+     * @param session
+     * @return
+     */
+    @RequestMapping("/markLikeFlagOfArticle")
+    @ResponseBody
     public Result markLikeFlagOfArticle(@RequestParam("articleId")Integer articleId, HttpSession session) {
-
+        Integer userId = getUserIdWithOutException(session);
+        Map<String, Object> data = serve.markLikeForArticleWithOutUserId(articleId, userId);
+        if (serveResultIsSuccess(data)) {
+            return Result.success(data);
+        }
         return Result.fail();
     }
 

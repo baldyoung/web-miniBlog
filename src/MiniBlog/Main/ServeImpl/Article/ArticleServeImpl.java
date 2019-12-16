@@ -212,7 +212,7 @@ public class ArticleServeImpl {
     }
 
     /**
-     *
+     * (可以不需要登录）
      * 对帖子进行点赞
      * @param articleId
      * @param userId
@@ -224,13 +224,14 @@ public class ArticleServeImpl {
         result.put("userId", userId);
         dao.insertLikeFlagOfArticle(result);
         if (!Objects.isNull(result.get("id"))) {
+            dao.plusOneLikeAmountOfTheArticle(articleId);
             result.put(RESULT_STATUS, RESULT_STATUS_SUCCESS);
         } else {
             result.put(RESULT_STATUS, RESULT_STATUS_DEFAUL);
         }
         return result;
     }
-
+    // public
     /**
      * 用户对帖子进行留言的服务
      * @param articleId
