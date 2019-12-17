@@ -42,8 +42,10 @@ public class ArticleServeImpl {
             // 获取对应的图片数据
             List<String> pictureList = dao.getPictureListByArticleId(articleId.toString());
             result.put("pictureList", pictureList);
-            if (!Objects.isNull(userId) && !Objects.isNull(dao.getTheLikeFlagOfTheArticle(articleId, userId))) {
+            Integer recordId = dao.getTheLikeFlagOfTheArticle(articleId, userId);
+            if (!Objects.isNull(userId) && !Objects.isNull(recordId)) {
                 result.put("isLike", "yes");
+                result.put("recordId", recordId);
             } else {
                 result.put("isLike", "no");
             }
@@ -202,7 +204,7 @@ public class ArticleServeImpl {
             result.put("status", "like" );
         } else {
             // 用户已经对这个点过赞，执行取消点赞操作
-            recodeId = dao.deleteOldLikeFlagOfTheArticle(recodeId);
+            recodeId = dao.deleteOldLikeFlagOfTheArticle(recodeId, userId);
             // 对应帖子的点赞数量减一
             dao.minusOneLikeAmountOfTheArticle(articleId);
             result.put("status", "unlike");
@@ -231,7 +233,10 @@ public class ArticleServeImpl {
         }
         return result;
     }
-    // public
+    public void cancelMarkLikeForArticleByRecordId(Integer articleId, Integer recordId, Integer userId) {
+        dao.deleteOldLikeFlagOfTheArticle(recordId, userId);
+        dao.minusOneLikeAmountOfTheArticle(articleId);
+    }
     /**
      * 用户对帖子进行留言的服务
      * @param articleId

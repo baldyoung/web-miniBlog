@@ -19,6 +19,7 @@
 	isLike:当前用户是否已点赞('yes'/'no')
 }
 */
+var LikeFlagRecordId = '';
 function getArgFromURL(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");//构造一个含有目标参数的正则表达式对象
     var r = window.location.search.substr(1).match(reg);//匹配目标参数
@@ -38,6 +39,9 @@ function initArticleDetailsPage() {
         success: function (data) {
             if (data.result == 'success') {
                 result = data.data;
+                if (result.isLike == 'yes') {
+                    LikeFlagRecordId = result.recordId;
+                }
                 showContent(result);
                 showCommentCells(result.commentList);
             } else {
@@ -272,17 +276,22 @@ function markLikeOfComment(t) {
 function markLikeOfContent(t) {
     var target = $('#iDoNotHaveIdeaForYourName');
     console.log(target.attr('class'));
+    if (undefined == LikeFlagRecordId || null == LikeFlagRecordId) {
+        LikeFlagRecordId = '';
+    }
     $.ajax({
         url: "../X_Details/markLikeFlagOfArticle",
         type: 'GET',
         cache: false,
-        //async: false, //设置同步
+        async: false, //设置同步
         dataType:'json',
         contentType: "application/x-www-form-urlencoded;charset=utf-8",
-        data: {articleId : getArgFromURL("articleId")},
+        data: {articleId : getArgFromURL("articleId"), recordId : LikeFlagRecordId},
         success: function (data) {
+
             // TooltipOption.showPrimaryInf(data.inf);
             if(data.result == 'success'){
+                LikeFlagRecordId = (undefined == data.data ? '' : data.data.id);
                 // result =  data.data;
                 if (target.attr('class') == 'pull-left layblog-this') {//已点赞
                     console.log('取消点赞');

@@ -143,10 +143,16 @@ public class DetailsController {
      */
     @RequestMapping("/markLikeFlagOfArticle")
     @ResponseBody
-    public Result markLikeFlagOfArticle(@RequestParam("articleId")Integer articleId, HttpSession session) {
+    public Result markLikeFlagOfArticle(@RequestParam("articleId")Integer articleId, @RequestParam(value = "recordId", required = false)Integer recordId, HttpSession session) {
         Integer userId = getUserIdWithOutException(session);
+        if (!Objects.isNull(recordId)) {
+            serve.cancelMarkLikeForArticleByRecordId(articleId, recordId, userId);
+            return Result.success();
+        }
         Map<String, Object> data = serve.markLikeForArticleWithOutUserId(articleId, userId);
         if (serveResultIsSuccess(data)) {
+            data.remove("userId");
+            data.remove("result");
             return Result.success(data);
         }
         return Result.fail();

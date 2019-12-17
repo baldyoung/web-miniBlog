@@ -43,7 +43,7 @@
     </update>
 
     <update id="deleteOldLikeFlagOfTheArticle" >
-        DELETE FROM mb_likerecordofarticle WHERE id = #{recodeId}
+        DELETE FROM mb_likerecordofarticle WHERE id = #{recodeId} and userId = #{userId}
     </update>
 
     <update id="insertNewCommentOfTheArticle" >
@@ -119,5 +119,7 @@
             insert into MB_LikeRecordOfArticle(articleId, userId) values (#{articleId}, #{userId})
         </if>
     </insert>
+
+
 
 </mapper>

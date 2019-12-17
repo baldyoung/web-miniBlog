@@ -75,7 +75,7 @@ public interface ArticleDao {
      * @param recodeId
      * @return
      */
-    public Integer deleteOldLikeFlagOfTheArticle(@Param("recodeId")Integer recodeId);
+    public Integer deleteOldLikeFlagOfTheArticle(@Param("recodeId")Integer recodeId, @Param("userId")Integer userId);
 
     /**
      * 对指定帖子的点赞数量加一
@@ -83,6 +83,7 @@ public interface ArticleDao {
      * @return
      */
     public Integer plusOneLikeAmountOfTheArticle(@Param("articleId")Integer articleId);
+
 
     /**
      * 对指定帖子的点赞数量减一
@@ -171,7 +172,6 @@ public interface ArticleDao {
     Integer getTotalAmountOfArticle();
 
     Integer insertLikeFlagOfArticle(Map param);
-
 
 
 
