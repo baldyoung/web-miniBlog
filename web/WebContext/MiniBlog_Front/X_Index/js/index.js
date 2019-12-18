@@ -16,8 +16,29 @@
 {
 	TotalNumOfPaging : undefined, //被分页的数据的总数，这里应该与已有评论数量等同
 }
-
+getIntro
 */
+function requestAndShowIntro() {
+
+	$.ajax({
+		url: "getIntro",
+		type: 'GET',
+		cache: false,
+		dataType:'json',
+		contentType: "application/x-www-form-urlencoded;charset=utf-8",
+		data: {},
+		success: function (data) {
+			if(data.result == 'success'){
+				$('#introDisplayArea').text(data.data.content);
+			} else{
+				//TooltipOption.showPrimaryInf(data.inf);
+			}
+		},
+		error : function(){
+			//TooltipOption.showWarningInf('服务器连接失败');
+		}
+	});
+}
 function requestAndShowArticleList(fIndex, amount) {
 	var temp = {
 		firstIndex : ""+fIndex,
@@ -109,6 +130,7 @@ function test(){
 }
 //初始化调用
 function init(){
+	requestAndShowIntro();
 	// requestAndShowArticleList();
 	var initData = requestInitPagingData();
 	//初始化分页条的数据

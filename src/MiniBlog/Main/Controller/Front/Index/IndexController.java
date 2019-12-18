@@ -54,7 +54,7 @@ public class IndexController {
     @RequestMapping("/getIntro")
     @ResponseBody
     public Result getIntro(HttpSession session) {
-        Map<String, Object> result = introServe.getIntroByUserId(Integer.parseInt(session.getAttribute("userId").toString()));
+        Map<String, Object> result = introServe.getLastIntro();
         if (null != result) {
             return Result.success(result);
         }

@@ -16,4 +16,8 @@
         INSERT INTO mb_intro(userId, content) VALUES (#{userId}, #{content})
     </update>
 
+    <select id="selectAllIntro" resultType="map">
+        SELECT id, content, modifiedTime FROM mb_intro ORDER BY modifiedTime DESC
+    </select>
+
 </mapper>

@@ -4,6 +4,7 @@ package MiniBlog.Main.Dao.Intro;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -14,5 +15,7 @@ public interface IntroDao {
     public Map<String, Object> getIntroByUserId(@Param("userId")Integer userId);
 
     public Integer updateIntroByUserId(@Param("content")String content, @Param("userId")Integer userId);
+
+    List<Map<String, Object>> selectAllIntro();
 
 }
