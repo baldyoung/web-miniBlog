@@ -8,7 +8,7 @@ public class CommonEnum {
 
     public static final String RESULT_STATUS_DEFAUL = "default";
 
-    public static final String TOURIST_PICTURE = "touristPicture";
+    public static final String TOURIST_PICTURE = "touristPicture.jpg";
 
 
 }

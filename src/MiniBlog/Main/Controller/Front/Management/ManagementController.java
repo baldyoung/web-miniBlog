@@ -187,6 +187,12 @@ public class ManagementController {
         }
         return Result.fail();
     }
+
+    /**
+     * 获取公告栏内容
+     * @param session
+     * @return
+     */
     @RequestMapping("/getIntro")
     @ResponseBody
     public Result getIntro(HttpSession session) {
@@ -196,6 +202,13 @@ public class ManagementController {
         }
         return Result.fail();
     }
+
+    /**
+     * 修改公告栏内容
+     * @param content
+     * @param session
+     * @return
+     */
     @RequestMapping("/updateIntro")
     @ResponseBody
     public Result updateIntro(@RequestParam("content")String content, HttpSession session) {
@@ -204,6 +217,13 @@ public class ManagementController {
         }
         return Result.fail();
     }
+
+    /**
+     * 删除帖子
+     * @param articleId
+     * @param session
+     * @return
+     */
     @RequestMapping("/deleteArticle")
     @ResponseBody
     public Result deleteTheArticle(@RequestParam("articleId")Integer articleId, HttpSession session) {

@@ -6,6 +6,7 @@ import MiniBlog.Main.Common.Utils.CommonUtil;
 import MiniBlog.Main.Dao.Common.DBLinkTest;
 import MiniBlog.Main.Serve.User.UserServe;
 import MiniBlog.Main.ServeImpl.Article.ArticleServeImpl;
+import MiniBlog.Main.ServeImpl.Intro.IntroImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,8 @@ public class IndexController {
     DBLinkTest dbtest;
     @Autowired
     ArticleServeImpl serve;
+    @Autowired
+    IntroImpl introServe;
 
 
     @RequestMapping( method={GET})
@@ -43,6 +46,20 @@ public class IndexController {
     }
 
 
+    /**
+     * 获取公告栏内容
+     * @param session
+     * @return
+     */
+    @RequestMapping("/getIntro")
+    @ResponseBody
+    public Result getIntro(HttpSession session) {
+        Map<String, Object> result = introServe.getIntroByUserId(Integer.parseInt(session.getAttribute("userId").toString()));
+        if (null != result) {
+            return Result.success(result);
+        }
+        return Result.fail();
+    }
 
 
 
