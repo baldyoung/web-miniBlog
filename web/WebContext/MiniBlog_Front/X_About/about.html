@@ -23,13 +23,20 @@
 					<div class="contar-wrap">
 						<div class="item">
 							<div class="item-box">
-								<h3>关于</h3>
-								<div class="content" id="introContent">
-
+								<div style="width:100%; ">
+									<span id='btnEdit' onclick="AboutModule.editActionStart()" style="float:right; cursor:pointer; color:red; font-weight:bolder; margin-right: 10px; display:none; ">修改</span>
+									<span id='btnEditSave' onclick="AboutModule.editActionCancel()" style="float:right; cursor:pointer; color:deepskyblue; margin-right: 10px; display:none; ">取消</span>
+									<span id='btnEditCancel' onclick="AboutModule.editActionSave()" style="float:right; cursor:pointer; color:green; margin-right: 10px; display:none;  ">保存</span>
 								</div>
+								<h3>关于 </h3>
+
+								<div class="content" id="aboutContent">
+									loading...
+								</div>
+								<textarea class="layui-textarea"  style="resize:none; background:white; border:0px solid; display:none; "  id="aboutEditArea"></textarea>
 								<div class="count layui-clear">
 									<span class="pull-left">阅读 <em class="read-num">100000+</em></span>
-									<span class="pull-right praise"><i class="layui-icon layui-icon-praise"></i><em class="praise-num">999</em></span>
+									<!-- span class="pull-right praise"><i class="layui-icon layui-icon-praise"></i><em class="praise-num">999</em></span -->
 								</div>
 							</div>
 						</div>			

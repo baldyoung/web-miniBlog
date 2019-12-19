@@ -172,14 +172,14 @@ CREATE TABLE MB_SystemNews(
 	newsTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT'[默认]消息时间，不用操作由数据库默认操作'
 )COMMENT'系统消息记录表';
 
--- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 论坛简介表
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 论坛公告表
 DROP TABLE IF EXISTS MB_Intro;
 CREATE TABLE MB_Intro(
 	id INT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]编号：唯一且不为空',
 	userId INT UNSIGNED NOT NULL COMMENT'归属的用户编号，即归属的那个论坛：不为空',
 	content VARCHAR(1000) NOT NULL COMMENT'简介的内容：不为空',
 	modifiedTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT'[默认]最新修改时间，不用操作由数据库默认操作'
-)COMMENT'论坛简介表';
+)COMMENT'论坛公告表';
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 用户头像表
 DROP TABLE IF EXISTS MB_UserPicture;
 CREATE TABLE MB_UserPicture(
@@ -188,7 +188,15 @@ CREATE TABLE MB_UserPicture(
 	pictureName VARCHAR(30) NOT NULL COMMENT'图片名称：不为空',
 	modifiedTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT'[默认]最新修改时间，不用操作由数据库默认操作'
 )COMMENT'用户头像表';
-
+-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 平台简介表
+DROP TABLE IF EXISTS MB_About;
+CREATE TABLE MB_About(
+	id INT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]编号：唯一且不为空',
+	userId INT UNSIGNED NOT NULL COMMENT'归属的用户编号：不为空',
+	content VARCHAR(1000) NOT NULL DEFAULT'' COMMENT'公告内容：不为空',
+	createTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT'[默认]创建时间，不用操作由数据库默认操作'
+)COMMENT'平台简介表';
+INSERT INTO MB_About(userId, content) VALUES (0, '太懒了，啥都还没写呢');
 
 
 

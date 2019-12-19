@@ -194,6 +194,8 @@ function loadTargetPageX(t){
 
 //---------- 点赞功能
 function markLike(t){
+	markLikeOfContent(t);
+	return;
 	var target = $('#cellLikeFlag'+t);
 	console.log(target.attr('class'));
 	if(target.attr('class') == 'layblog-this'){//已点赞
@@ -210,8 +212,48 @@ function markLike(t){
 	
 }
 
-
-
+var articleLikeFlagMap = {
+};
+function markLikeOfContent(t) {
+	var LikeFlagRecordId = articleLikeFlagMap.t;
+	var target = $('#cellLikeFlag'+t);
+	console.log(target.attr('class'));
+	if (undefined == LikeFlagRecordId || null == LikeFlagRecordId) {
+		LikeFlagRecordId = '';
+	}
+	$.ajax({
+		url: "../X_Details/markLikeFlagOfArticle",
+		type: 'GET',
+		cache: false,
+		async: false, //设置同步
+		dataType:'json',
+		contentType: "application/x-www-form-urlencoded;charset=utf-8",
+		data: {articleId : t, recordId : LikeFlagRecordId},
+		success: function (data) {
+			if(data.result == 'success'){
+				LikeFlagRecordId = (undefined == data.data ? '' : data.data.id);
+				articleLikeFlagMap.t = LikeFlagRecordId;
+				// result =  data.data;
+				if(target.attr('class') == 'layblog-this'){//已点赞
+					console.log('取消点赞');
+					target.removeClass('layblog-this');
+					$('#cellLikeFlagA'+t).text('点赞');
+					$('#cellLikeFlagB'+t).text(parseInt($('#cellLikeFlagB'+t).text())-1);
+				}else{//未点赞
+					target.addClass('layblog-this');
+					console.log('点赞');
+					$('#cellLikeFlagA'+t).text('已赞');
+					$('#cellLikeFlagB'+t).text(parseInt($('#cellLikeFlagB'+t).text())+1);
+				}
+			} else{
+				TooltipOption.showPrimaryInf(data.inf);
+			}
+		},
+		error : function(){
+			TooltipOption.showWarningInf('服务器连接失败');
+		}
+	});
+}
 
 
 
