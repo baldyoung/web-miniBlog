@@ -159,7 +159,7 @@ function createDisplayCellHTML(t){
 	str += "<div class='item-box  layer-photos-demo1 layer-photos-demo'>";
 	str += "<h3><a href='../X_Details/details.html?articleId="+t.id+"' >"+t.title+"</a><span style='float:right; color:#fe2727; font-size:13px; cursor:pointer; font-weight:bold; ' ></span></h3>";
 	str += "";
-	str += "<h5>"+t.userAccount+"&nbsp;&nbsp;&nbsp;发布于："+t.publishTime+"<span></span></h5>";
+	str += "<h5>"+t.name+"&nbsp;&nbsp;&nbsp;发布于："+t.publishTime+"<span></span></h5>";
 	str += "<p>"+t.content+"</p>";
 	if (undefined != imgs && undefined != imgs.length)
 		for(i=0;i<imgs.length;i++)

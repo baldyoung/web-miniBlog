@@ -23,7 +23,7 @@
     </insert>
 
     <select id="getAvailableArticleListByUserId" resultType="map" >
-        SELECT a.id 'id', a.userId 'userId', a.title 'title', b.content 'content', DATE_FORMAT(a.publishTime, '%Y-%m-%d %H:%i:%s') 'publishTime', a.readNum 'readNum', a.likeAmount 'likeAmount', a.commentAmount 'commentAmount' FROM mb_article a, mb_articledetails b WHERE a.forbid = 'no' and a.userId = #{userId} and a.id = b.articleId order by a.id desc LIMIT #{firstIndex}, #{maxAmount}
+        SELECT a.id 'id', a.userId 'userId', c._name 'name', a.title 'title', b.content 'content', DATE_FORMAT(a.publishTime, '%Y-%m-%d %H:%i:%s') 'publishTime', a.readNum 'readNum', a.likeAmount 'likeAmount', a.commentAmount 'commentAmount' FROM mb_article a, mb_articledetails b, mb_user c WHERE a.userId = c.id and a.forbid = 'no' and a.userId = #{userId} and a.id = b.articleId order by a.id desc LIMIT #{firstIndex}, #{maxAmount}
     </select>
 
     <select id="getPictureListByArticleId" resultType="string" >
@@ -68,11 +68,11 @@
     </update>
 
     <select id="getArticleDetailsByArticleId" resultType="map">
-        SELECT a.id 'id', a.userId 'userId', a.title 'title', b.content 'content', DATE_FORMAT(a.publishTime, '%Y-%m-%d %H:%i:%s') 'publishTime', a.readNum 'readNum', a.likeAmount 'likeAmount', a.commentAmount 'commentAmount' FROM mb_article a, mb_articledetails b WHERE a.forbid = 'no' AND a.id = #{articleId} AND a.id=b.articleId
+        SELECT a.id 'id', a.userId 'userId', c._name 'name', a.title 'title', b.content 'content', DATE_FORMAT(a.publishTime, '%Y-%m-%d %H:%i:%s') 'publishTime', a.readNum 'readNum', a.likeAmount 'likeAmount', a.commentAmount 'commentAmount' FROM mb_article a, mb_articledetails b, mb_user c WHERE a.userId = c.id and a.forbid = 'no' AND a.id = #{articleId} AND a.id=b.articleId
     </select>
 
     <select id="getArticleCommentByArticleId" resultType="map">
-        SELECT a.id 'id', a.userId 'userId', a.content 'content', a.likeAmount 'likeAmount', b.account 'account', DATE_FORMAT(a.recordTime, '%Y-%m-%d %H:%i:%s') 'recordTime' FROM mb_user b RIGHT JOIN  mb_articlecomment a ON a.userId = b.id WHERE a.articleId = #{articleId} ORDER BY a.id DESC
+        SELECT a.id 'id', a.userId 'userId', b._name 'name', a.content 'content', a.likeAmount 'likeAmount', b.account 'account', DATE_FORMAT(a.recordTime, '%Y-%m-%d %H:%i:%s') 'recordTime' FROM mb_user b RIGHT JOIN  mb_articlecomment a ON a.userId = b.id WHERE a.articleId = #{articleId} ORDER BY a.id DESC
     </select>
 
     <update id="plusOneReadAmountOfTheArticle" >
@@ -92,11 +92,11 @@
     </update>
 
     <select id="getCommentInfByCommentId" resultType="map" >
-        SELECT articleId, userId, content, likeAmount, DATE_FORMAT(recordTime, '%Y-%m-%d %H:%i:%s') 'recordTime' FROM mb_articlecomment WHERE id = #{commentId}
+        SELECT a.articleId 'articleId', a.userId 'userId', b._name 'name', a.content 'content', a.likeAmount 'likeAmount', DATE_FORMAT(a.recordTime, '%Y-%m-%d %H:%i:%s') 'recordTime' FROM mb_articlecomment a, mb_user b WHERE id = #{commentId} and a.userId = b.id
     </select>
 
     <select id="getAvailableArticleList" resultType="map" >
-         SELECT a.id 'articleId', a.userId 'userId', a.title 'title', b.content 'content', DATE_FORMAT(a.publishTime, '%Y-%m-%d %H:%i:%s') 'publishTime',
+         SELECT a.id 'articleId', a.userId 'userId', c._name 'name', a.title 'title', b.content 'content', DATE_FORMAT(a.publishTime, '%Y-%m-%d %H:%i:%s') 'publishTime',
 	          a.readNum 'readNum', a.likeAmount 'likeAmount', a.commentAmount 'commentAmount', c.account 'userAccount'
 	      FROM mb_user c
 		      LEFT JOIN mb_article a ON c.id = a.userId
