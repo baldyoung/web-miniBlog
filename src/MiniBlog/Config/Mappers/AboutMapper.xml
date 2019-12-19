@@ -6,7 +6,7 @@
 <mapper namespace="MiniBlog.Main.Dao.About.AboutDao">
 
 
-    <insert id="insertNewAbout" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertNewAbout" >
         INSERT INTO MB_About(userId, content) VALUES (#{userId}, #{content})
     </insert>
 

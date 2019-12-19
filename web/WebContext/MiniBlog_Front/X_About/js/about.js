@@ -63,16 +63,73 @@ var AboutModule = {
         AboutModule.openOrCloseEditArea('close');
     },
     editActionSave : function() {
-
+        var newContent = $('#aboutEditArea').val();
+        $.ajax({
+            url: "updateAbout",
+            type: 'GET',
+            cache: false,
+            async: false, //设置同步
+            dataType: 'json',
+            contentType: "application/x-www-form-urlencoded;charset=utf-8",
+            data: {content:newContent},
+            success: function (data) {
+                if (data.result == 'success') {
+                    TooltipOption.showPrimaryInf("修改成功");
+                    AboutModule.showAbout(newContent)
+                    AboutModule.openOrCloseEditArea('close');
+                } else {
+                    TooltipOption.showPrimaryInf(data.inf);
+                }
+            },
+            error: function () {
+                TooltipOption.showWarningInf('服务器连接失败');
+            }
+        });
     }
 }
-
-
-function editActionCancel() {
-
-}
-function editActionSave() {
-
+//提示框控制模块-Y
+var TooltipOption = {
+    targetId : '#tooltipArea',
+    btnYesId : '#btnTipYes',
+    btnNoId : '#btnTipNo',
+    colorOfWarning : '#ff8585',
+    colorOfPrimary : '#93d0dd',
+    run : undefined,
+    showPrimaryInf : function(d){
+        $('#tipTitleDiv').css('background', this.colorOfPrimary);
+        $('#tipContent').text(d);
+        this.show();
+        $(this.btnNoId).hide();
+    },
+    showWarningInf : function(d){
+        $('#tipTitleDiv').css('background', this.colorOfWarning);
+        $('#tipContent').text(d);
+        this.show();
+        $(this.btnNoId).hide();
+    },
+    runIfOk : function(t, r){
+        this.run = r;
+        $('#tipTitleDiv').css('background', this.colorOfPrimary);
+        $('#tipContent').text(t);
+        $(this.btnNoId).show();
+        $(this.targetId).show();
+    },
+    ok : function(){
+        if(undefined!=this.run) this.run();
+        this.run = undefined;
+        this.hide();
+    },
+    cancel : function(){
+        this.run = undefined;
+        this.hide();
+    },
+    show : function(){
+        $(this.btnNoId).show();
+        $(this.targetId).show();
+    },
+    hide : function(){
+        $(this.targetId).hide();
+    }
 }
 
 
