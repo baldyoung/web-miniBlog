@@ -1,7 +1,7 @@
 package MiniBlog.Main.Controller.Front.Details;
 
 
-import MiniBlog.Main.Common.Result;
+import MiniBlog.Main.Common.response.Result;
 import MiniBlog.Main.ServeImpl.Article.ArticleServeImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

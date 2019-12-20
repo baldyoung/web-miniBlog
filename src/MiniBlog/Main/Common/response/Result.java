@@ -1,4 +1,4 @@
-package MiniBlog.Main.Common;
+package MiniBlog.Main.Common.response;
 
 import MiniBlog.Main.Common.Enum.ResultErrorInf;
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MiniBlog.Main.Dao.Message.MessageDao">
+
+    <select id="selectMessagePage" resultType="map" >
+        SELECT a.id 'id', b._name 'name', c.pictureName 'pictureName', a.userId 'userId', a.content 'content', DATE_FORMAT(a.recordTime, '%Y-%m-%d %H:%i:%s') 'recordTime'
+        FROM mb_message a
+        LEFT JOIN mb_user b ON a.userId = b.id
+        LEFT JOIN mb_userpicture c ON c.userId = a.userId
+        WHERE a.forbidFlag = 'no'
+        ORDER BY a.recordTime DESC
+        LIMIT #{limitStart}, #{limitSize}
+    </select>
+
+    <insert id="insertMessage" >
+        INSERT INTO mb_message(userId, content) VALUES (#{userId}, #{content})
+    </insert>
+
+    <update id="updateMessageForbidFlag" >
+        UPDATE mb_message SET forbidFlag = #{newFlag} WHERE id = #{recordId}
+    </update>
+
+
+
+</mapper>

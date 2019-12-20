@@ -132,7 +132,9 @@ CREATE TABLE MB_Message(
 	id INT UNSIGNED UNIQUE NOT NULL AUTO_INCREMENT COMMENT'[默认]编号：唯一且不为空',
 	userId INT UNSIGNED NOT NULL COMMENT'所属论坛的编号（因为一个用户下只有一个论坛，所以用用户编号来代替）：不为空',
 	content VARCHAR(500) NOT NULL COMMENT'留言的内容：不为空',
-	likeAmount INT UNSIGNED DEFAULT 0 COMMENT'[默认]点赞数量：初始为0'
+	forbidFlag ENUM('no', 'yes') DEFAULT 'no' COMMENT'是否被封禁',
+	likeAmount INT UNSIGNED DEFAULT 0 COMMENT'[默认]点赞数量：初始为0',
+	recordTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT'[默认]记录时间，不用操作由数据库默认操作'
 )COMMENT'论坛留言记录表';
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 文章点赞记录表
@@ -196,7 +198,7 @@ CREATE TABLE MB_About(
 	content VARCHAR(1000) NOT NULL DEFAULT'' COMMENT'公告内容：不为空',
 	createTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT'[默认]创建时间，不用操作由数据库默认操作'
 )COMMENT'平台简介表';
-INSERT INTO MB_About(userId, content) VALUES (0, '太懒了，啥都还没写呢');
+INSERT INTO MB_About(id, userId, content) VALUES (1, 0, '太懒了，啥都还没写呢');
 
 
 

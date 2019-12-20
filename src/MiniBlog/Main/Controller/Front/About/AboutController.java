@@ -1,10 +1,9 @@
 package MiniBlog.Main.Controller.Front.About;
 
 
-import MiniBlog.Main.Common.Result;
+import MiniBlog.Main.Common.response.Result;
 import MiniBlog.Main.Common.Utils.CommonUtil;
 import MiniBlog.Main.ServeImpl.About.AboutServeImpl;
-import MiniBlog.Main.ServeImpl.Intro.IntroImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,5 +1,5 @@
 
-package MiniBlog.Main.Common;
+package MiniBlog.Main.Common.Utils;
 import java.io.*; 
 import java.util.*;
 

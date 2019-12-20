@@ -2,7 +2,7 @@ package MiniBlog.Main.Controller.Front.HomePage;
 
 
 import MiniBlog.Main.Common.Enum.ResultErrorInf;
-import MiniBlog.Main.Common.Result;
+import MiniBlog.Main.Common.response.Result;
 import MiniBlog.Main.Common.Utils.CommonUtil;
 import MiniBlog.Main.ServeImpl.Article.ArticleServeImpl;
 import org.springframework.beans.factory.annotation.Autowired;

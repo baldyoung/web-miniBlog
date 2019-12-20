@@ -2,8 +2,7 @@ package MiniBlog.Main.Controller.Front.Login;
 
 import javax.servlet.http.HttpSession;
 
-import MiniBlog.Main.Common.Result;
-import MiniBlog.Main.Serve.User.UserServe;
+import MiniBlog.Main.Common.response.Result;
 import MiniBlog.Main.ServeImpl.User.UserServeImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

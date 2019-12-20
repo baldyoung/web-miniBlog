@@ -1,10 +1,9 @@
 package MiniBlog.Main.Controller.Front.Index;
 
 import MiniBlog.Main.Common.Enum.ResultErrorInf;
-import MiniBlog.Main.Common.Result;
+import MiniBlog.Main.Common.response.Result;
 import MiniBlog.Main.Common.Utils.CommonUtil;
 import MiniBlog.Main.Dao.Common.DBLinkTest;
-import MiniBlog.Main.Serve.User.UserServe;
 import MiniBlog.Main.ServeImpl.Article.ArticleServeImpl;
 import MiniBlog.Main.ServeImpl.Intro.IntroImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static java.lang.System.out;
 @Controller
 @RequestMapping(value="/WebContext/MiniBlog_Front/X_Index")
