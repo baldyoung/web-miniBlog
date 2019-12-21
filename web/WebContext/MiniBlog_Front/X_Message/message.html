@@ -24,11 +24,11 @@
 						</div>
 					</form>
 					<div class="item-btn">
-						<button class="layui-btn layui-btn-normal" onclick='addNewMessage()' >提交</button>
+						<button class="layui-btn layui-btn-normal" onclick='MessageModule.addMessage()' >提交</button>
 					</div>
 					
 					<div id="LAY-msg-box">
-						<div id='DisplayArea' class="info-box">
+						<div id='messageDisplayArea' class="info-box">
 							<!-- div class="info-item">
 								<img class="info-img" src="res/img/info-img.png" alt="">
 								<div class="info-text">
@@ -42,7 +42,7 @@
 						</div>
 					</div>
 					<div style="width:100%: " >
-						<span style="color:#0d8ddb; font-weight:bolder; font-size:15px; " >
+						<span onclick='MessageModule.requestAndShowMessage()' style="color:#0d8ddb; font-weight:bolder; font-size:15px; cursor:pointer; " >
 							点击加载更多...
 						</span>
 					</div>

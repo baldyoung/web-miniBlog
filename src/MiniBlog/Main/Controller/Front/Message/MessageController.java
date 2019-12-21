@@ -42,18 +42,19 @@ public class MessageController {
 
     @RequestMapping(value = "messageList", method = {GET})
     @ResponseBody
-    public Result getMessageList(@RequestParam("pageNumber")Integer pageNumber) {
+    public Result getMessageList(@RequestParam("pageNumber")Integer pageNumber, HttpSession session) {
         if (Objects.isNull(pageNumber) || pageNumber < 0) {
             return Result.fail(PARAM_IS_EMPTY);
         }
-        ListDto data = messageServe.getMessagePageList(pageNumber);
+        Integer userId = getUserIdWithOutException(session);
+        ListDto data = messageServe.getMessagePageList(pageNumber, userId);
         return Result.success(data);
     }
 
-    @RequestMapping(value = "message", method = {PUT})
+    @RequestMapping(value = "addMessage", method = {POST})
     @ResponseBody
     public Result addMessage(@RequestParam("content")String content, HttpSession session) {
-        if (isAnyNullObject(content, session)) {
+        if (isAnyNullObject(content)) {
             return Result.fail(PARAM_IS_EMPTY);
         }
         Integer userId = getUserIdWithOutException(session);
@@ -62,14 +63,14 @@ public class MessageController {
         return Result.success();
     }
 
-    @RequestMapping(value = "message", method = {DELETE})
+    @RequestMapping(value = "deleteMessage", method = {GET})
     @ResponseBody
     public Result deleteMessage(@RequestParam("recordId")Integer recordId, HttpSession session) {
         if (isAnyNullObject(recordId, session, session.getAttribute("userId"))) {
             return Result.fail(PARAM_IS_EMPTY);
         }
         messageServe.setMessageForbid(recordId);
-        return Result.fail();
+        return Result.success();
     }
 
 }

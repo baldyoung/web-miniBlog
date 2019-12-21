@@ -5,8 +5,10 @@ import MiniBlog.Main.Dao.Message.MessageDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class MessageServeImpl {
@@ -20,8 +22,18 @@ public class MessageServeImpl {
     @Autowired
     private MessageDao messageDao;
 
-    public ListDto getMessagePageList(Integer pageNumber) {
+    public ListDto getMessagePageList(Integer pageNumber, Integer userId) {
         List<Map<String, Object>> list = messageDao.selectMessagePage(pageNumber * DEFAULT_PAGE_EXPECT_SIZE, DEFAULT_PAGE_SIZE);
+        if (Objects.isNull(list)) {
+            list = new ArrayList<>(0);
+        }
+        String isOwner = "yes";
+        if (Objects.isNull(userId)) {
+            isOwner = "no";
+        }
+        for (Map<String, Object> item : list) {
+            item.put("isOwner", isOwner);
+        }
         return new ListDto(list, DEFAULT_PAGE_EXPECT_SIZE);
     }
 

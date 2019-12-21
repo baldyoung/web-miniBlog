@@ -1,10 +1,166 @@
 
 
 $(function(){
-	init();
-	test();
-	
+	MessageModule.init();
 });
+
+var MessageModule  = {
+	targetId : '#messageDisplayArea',
+	currentPageNumber : 0,
+	init : function() {
+		$(MessageModule.targetId).html('');
+		MessageModule.currentPageNumber = 0;
+		MessageModule.requestAndShowMessage();
+	},
+	requestAndShowMessage : function() {
+	    if (-1 == MessageModule.currentPageNumber) {
+	        return ;
+        }
+		$.ajax({
+			url: "messageList",
+			type: 'GET',
+			cache: false,
+			dataType:'json',
+			async: false, //设置同步
+			contentType: "application/x-www-form-urlencoded;charset=utf-8",
+			data: {pageNumber : MessageModule.currentPageNumber},
+			success: function (data) {
+				if(data.result == 'success'){
+					data = data.data;
+					if (data.noMore == 'no') {
+						MessageModule.currentPageNumber += 1;
+					} else {
+					    MessageModule.currentPageNumber = -1;
+                    }
+					MessageModule.showMessageList(data.list);
+				} else{
+					TooltipOption.showPrimaryInf(data.inf);
+				}
+			},
+			error : function(){
+				//TooltipOption.showWarningInf('服务器连接失败');
+			}
+		});
+	},
+	createDisplayCellHTML : function(t) {
+	    if (isEmpty(t.content)) {
+	        t.content = '什么也没写呢...'
+        }
+		var str = "<div id='messageDiv"  + t.id +"' class='info-item' style='margin-bottom:5px;'>";
+		str += "<img class='info-img' style='width:70px; height:70px; ' src='../../MiniBlog_CommonRes/res/img/" + (t.userPicture == undefined ? "fail.jpg" : t.userPicture) + "' alt=''>";
+		str += "<div class='info-text'>";
+		str += "<p class='title count'>";
+		str += "<span class='name'>" + (t.name == undefined ? '游客' : t.name) + "</span>";
+		str += "<span class='name' style='margin-left:35px; '>评论时间：" + t.recordTime + "</span>";
+		str += "<span class='name' style='margin-left:63px; color:palevioletred; cursor:pointer; ' onclick='MessageModule.deleteMessage("+t.id+")'>" + (t.isOwner == 'yes' ? "删除" : "") + "</span>";
+		// str += "<span id='commentParselike" + t.id + "' class='info-img' onclick='markLikeOfComment(\"" + t.id + "\")' ><i class='layui-icon layui-icon-praise'></i><span id='commentLike" + t.id + "' >" + t.likeAmount + "</span></span>";
+		str += "</p>";
+		str += "<p class='info-intr'>" + t.content + "</p>";
+		str += "</div>";
+		str += "</div>";
+		return str;
+	},
+	showMessageList : function(t, isAppend) {
+		if (undefined == t) {
+			console.log('MesssageModule.showMessageList error : t is undefined');
+			return;
+		}
+		var target = $(MessageModule.targetId);
+		var i, item;
+		if (isAppend == 'false') {
+			target.html('');
+		}
+		for (i=0; i<t.length; i++) {
+			item = t[i];
+			target.append(MessageModule.createDisplayCellHTML(item))
+		}
+	},
+	deleteDisplayCell : function(t) {
+		$('#messageDiv'+t).remove();
+	},
+	deleteMessage : function(t) {
+		$.ajax({
+			url: "deleteMessage",
+			type: 'GET',
+			cache: false,
+			dataType:'json',
+			async: false, //设置同步
+			contentType: "application/x-www-form-urlencoded;charset=utf-8",
+			data: {recordId : t},
+			success: function (data) {
+				if(data.result == 'success'){
+					MessageModule.deleteDisplayCell(t);
+				} else{
+					TooltipOption.showPrimaryInf(data.inf);
+				}
+			},
+			error : function(){
+				//TooltipOption.showWarningInf('服务器连接失败');
+			}
+		});
+	},
+	addMessage : function () {
+		var target = $('#LAY-msg-content');
+		var newMsg = {
+			content:target.val()
+		}
+		console.log('新留言内容:'+newMsg.content);
+		var i;
+		for (i=0; i < newMsg.content.length; i++) {
+			if (newMsg.content[i] != ' ')
+				break;
+		}
+		if (newMsg.content.length == 0 || i == newMsg.content.length) {
+			return ;
+		}
+		$.ajax({
+			url: "addMessage",
+			type: 'POST',
+			cache: false,
+			dataType:'json',
+			async: false, //设置同步
+			contentType: "application/x-www-form-urlencoded;charset=utf-8",
+			data: newMsg,
+			success: function (data) {
+				if(data.result == 'success'){
+					// MessageModule.showMessageList();
+					target.val('');
+					MessageModule.init();
+				} else{
+					TooltipOption.showPrimaryInf(data.inf);
+				}
+			},
+			error : function(){
+				//TooltipOption.showWarningInf('服务器连接失败');
+			}
+		});
+	}
+}
+
+
+
+
+function isEmpty(t) {
+    if (undefined == t || null == t) {
+        return true;
+    }
+    var i;
+    for (i=0; i<t.length; i++) {
+        if (t[i] != ' ')
+            break;
+    }
+    return i == t.length;
+}
+
+
+
+
+
+
+
+
+
+
 
 function test(){
 	var temp =[{
@@ -57,17 +213,7 @@ function showDisplayCells(t){
 }
 //拼接给定展示单元的HTML
 function createDisplayCellHTML(t){
-	var str = "<div class='info-item'>";
-		str += "<img class='info-img' src='"+t.userPicture+"' alt=''>";
-		str += "<div class='info-text'>";
-		str += "<p class='title count'>";
-		str += "<span class='name'>"+t.userName+"</span>";
-		str += "<span id='commentParselike"+t.id+"' class='info-img' onclick='markLikeOfComment(\""+t.id+"\")' ><i class='layui-icon layui-icon-praise'></i><span id='commentLike"+t.id+"' >"+t.likeNumber+"</span></span>";
-		str += "</p>";
-		str += "<p class='info-intr'>"+t.content+"</p>";
-		str += "</div>";
-		str += "</div>";
-	return str;
+
 }
 
 //添加留言
