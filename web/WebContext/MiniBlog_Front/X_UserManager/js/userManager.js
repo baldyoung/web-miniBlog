@@ -1,5 +1,6 @@
 
 window.onload=function(){
+    return;
     layui.use('form', function(){
         var form = layui.form;
 

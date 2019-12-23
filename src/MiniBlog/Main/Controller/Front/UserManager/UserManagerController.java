@@ -18,7 +18,7 @@ public class UserManagerController {
         }
 
 
-    @RequestMapping(value={"/UserManager"}, method=GET)
+    @RequestMapping(value={"/userManager"}, method=GET)
     public String indexMethod(){
         return "MiniBlog_Front/X_UserManager/userManager";
     }
