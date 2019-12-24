@@ -30,6 +30,9 @@ public class CommonUtil {
     }
 
     public static boolean isAnyNullObject(Object... args) {
+        if (Objects.isNull(args)) {
+            return true;
+        }
         for(Object temp : args) {
             if (null == temp) {
                 return true;

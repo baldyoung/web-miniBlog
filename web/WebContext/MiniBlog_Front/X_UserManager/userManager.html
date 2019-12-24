@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="../A_CommonRes/css/modules/layer/default/layer.css?v=3.11">
     <script src="../A_CommonRes/js/layui.js"></script>
     <script src="../A_CommonRes/js/blog.js"></script>
-    <script src="js/userManager.js"></script>
     <script src="../../MiniBlog_CommonRes/js/jquery.min.js"></script>
+    <script src="js/userManager.js"></script>
 
 </head>
 <body class="lay-blog">
@@ -22,31 +22,35 @@
             <div class="layui-form center">
                 <div class="layui-form-item" style="text-align:center; ">
                     <div style="margin:0 auto; display:inline-block;  ">
-                        <img class='info-img' style='width:150px; height:150px; padding: 0 0 0 0;' src='../../MiniBlog_CommonRes/res/img/default.jpg' alt="" />
+                        <img id='userPictureArea' onclick='' class='info-img' style='width:150px; height:150px; background-size:100% 100%; padding: 0 0 0 0;' src='../../MiniBlog_CommonRes/res/img/default.jpg' alt="" />
+                        <input id='userPictureFile' type='file' style='display:none'  accept='.jpg' onchange='UserInfoModule.changeUserPicture(this)'/>
+                    </div>
+                    <div id="tipA" style="display:none;">
+                        <span style="font-size:10px; color:orangered; ">点击图片修改头像</span>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label" style="font-size:15px;">用户名</label>
                     <div class="layui-input-block" style="">
-                        <input type="text" class="layui-input username" style="font-size:13px; height:33px; ">
+                        <input id='userNameArea' type="text" class="layui-input username" style="font-size:13px; height:33px; " readonly="true">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label"style="font-size:15px;">邮箱</label>
                     <div class="layui-input-block">
-                        <input type="text" class="layui-input username" style="font-size:13px; height:33px; ">
+                        <input id='userMailboxArea' type="text" class="layui-input username" style="font-size:13px; height:33px; " readonly="true">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label"style="font-size:15px;">登录名</label>
                     <div class="layui-input-block">
-                        <input type="text" class="layui-input username" style="font-size:13px; height:33px; ">
+                        <input id='userAccountArea' type="text" class="layui-input username" style="font-size:13px; height:33px; " readonly="true">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label"style="font-size:15px;">密码</label>
                     <div class="layui-input-block">
-                        <input type="text" class="layui-input username" style="font-size:13px; height:33px; ">
+                        <input id='userPasswordArea' type="text" class="layui-input username" style="font-size:13px; height:33px; " readonly="true">
                     </div>
                 </div>
 
@@ -66,8 +70,9 @@
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-input-block">
-                        <button class="layui-btn modify" style="float:right; margin-right:10px; ">取消</button>
-                        <button class="layui-btn layui-btn-primary select" style="float:right; margin-right:15px;  ">修改</button>
+                        <button id="btnCancel" onclick="UserInfoModule.updateAction('close')" class="layui-btn modify" style="float:right; margin-right:10px; display:none; ">取消</button>
+                        <button id='btnSubmit' onclick='UserInfoModule.updateUserInfo()' class="layui-btn layui-btn-primary select" style="float:right; margin-right:15px;  display:none;  ">保存</button>
+                        <button id='btnUpdate' onclick="UserInfoModule.updateAction('open')" class="layui-btn layui-btn-primary select" style="float:right; margin-right:15px;  ">修改</button>
                     </div>
                 </div>
             </div>
@@ -76,6 +81,30 @@
     </div>
     <!-- 引入公共尾部 -->
     <div th:replace="MiniBlog_Front/A_CommonRes/common :: common_footer"></div>
+
+
+    <!-- 信息提示框 -->
+    <div id='tooltipArea' style='position:fixed; width:100%; height:100%; left:0px; top:0px; background:rgb(77, 77, 77, 0.3); display:none;  overflow-y:auto;'>
+        <div class='item' style='width:20%; background:#FFFFFF; margin-top:10%; margin-left:40%; padding:2px 2px 2px 2px; '>
+            <!-- 标题 -->
+            <div id='tipTitleDiv' style='width:100%; background:#ecb89c; margin:3px 0px 2px 0px; text-align:center; padding:2px 0 3px 0; '>
+                <p style='font-weight:bolder; font-size:15px; color:black; '>提&nbsp;示</p>
+            </div>
+            <!-- 内容 -->
+            <div style='width:100%; background:#FFFFFF; margin:3px 0px 2px 0px; '>
+                <p id='tipContent' style='width:80%; margin:5px 0px 2px 0px; min-height:80px; ' >请确认是否删除?</p>
+            </div>
+            <!-- 选项 -->
+            <div style='background:#FFFFFF; text-align:right; ' >
+                <button id='btnTipYes' onclick='TooltipOption.ok()' style='cursor:pointer; width:60px; margin-right:5px; height: 31px;  background-color: #494949;color: #d5d3d3; text-align: center;font-size: 14px;border: none;border-radius: 2px; ' >
+                    确认
+                </button>
+                <button id='btnTipNo' onclick='TooltipOption.cancel()' style='cursor:pointer; width:60px; height:31px; margin-right:10px; background-color: #d5d3d3;color: #494949;text-align: center;font-size: 14px;border: none;border-radius: 2px; ' >
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>

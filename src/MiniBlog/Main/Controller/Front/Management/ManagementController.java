@@ -23,10 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.lang.System.*;
 
@@ -57,17 +54,17 @@ public class ManagementController {
     /**
      * 用户发帖接口
      * @param request
-     * @param response
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "/addNewArticle", method = {POST})
     @ResponseBody
-    public Result addNewArticle(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // Result result = new Result();
-        //out.println("addNewArticle get request");
-        //out.println("one arg : " + request.getParameter("NewImgNum"));
-        //out.println("one arg : " + request.getParameter("img0"));
+    public Result addNewArticle(HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession();
+        String userId = session.getAttribute("userId").toString();
+        if (Objects.isNull(userId)) {
+            return Result.fail();
+        }
         // 1.创建DiskFileItemFactory对象，配置缓存用
         DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
         // 2. 创建 ServletFileUpload对象
@@ -94,15 +91,7 @@ public class ManagementController {
             e.printStackTrace();
             return Result.fail("文件数据解析失败");
         }
-        HttpSession session = request.getSession();
-        String userId = null;
-        // if (null != session.getAttribute("account")) userId = session.getAttribute("account").toString();
-        // else out.println("userId is null");  //这里应该变更一下，如果无法获取到登录者的编号，应该给他返回为失败
-        userId = session.getAttribute("userId").toString(); //  --------------------------------------------------- --------------------------------------------------------- 这里的用户id暂时为了方便测试，所以写死了等于123
         newArticleParam.put("userId", userId);
-        //out.println("request param : " + newArticleParam);  //  test line !!!!!
-        //String test = request.getContextPath();
-        //test = request.getServletContext().getRealPath("");
         //初始化图片存储路径
         if (null == ImgPath) {
             synchronized (this) {
@@ -119,7 +108,7 @@ public class ManagementController {
         if (CommonUtil.isAnyNullObject(actionResult, actionResult.get("result")) || !"true".equals(actionResult.get("result"))) {
             return Result.fail("新增失败");
         }
-        return Result.success(null);
+        return Result.success();
     }
 
     /**

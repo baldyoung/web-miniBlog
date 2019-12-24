@@ -37,4 +37,44 @@
     <update id="createUserPictureByUserId" >
         INSERT INTO mb_userpicture(userId, pictureName) VALUES(#{userId}, #{userPicture})
     </update>
+
+
+    <select id="selectUserById" resultType="map">
+        SELECT _name 'userName', account 'userAccount', _password 'userPassword', mailbox 'userMailbox', registrationTime 'registrationTime', sex 'userSex'
+        FROM mb_user
+        WHERE id = #{userId}
+    </select>
+
+    <select id="selectUserPictureByUserId" resultType="string">
+        SELECT pictureName 'userPicture'
+        FROM mb_userpicture
+        WHERE userId = #{userId}
+    </select>
+
+    <update id="updateUserById" >
+        UPDATE mb_user
+        SET
+        <if test="userName != null" >
+            _name = #{userName},
+        </if>
+        <if test="userAccount != null">
+            account = #{userAccount},
+        </if>
+        <if test="userPassword != null">
+            _password = #{userPassword},
+        </if>
+        <if test="userMailbox != null">
+            mailbox = #{userMailbox},
+        </if>
+        lastModified = CURRENT_TIMESTAMP
+        WHERE id = #{userId}
+    </update>
+
+    <update id="updateUserPictureByUserId" >
+        UPDATE mb_userpicture
+        SET pictureName = #{userPicture}
+        WHERE userId = #{userId}
+    </update>
+
+
 </mapper>

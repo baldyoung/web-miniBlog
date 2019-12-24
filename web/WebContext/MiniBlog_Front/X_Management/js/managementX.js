@@ -272,7 +272,7 @@ var ImgOption = {
 		this.newImgNum++;
 	},
 	selectNewImg : function(){
-		console.log('selectNewImg get msg, the next newImg id is '+this.newImgNum);
+		// console.log('selectNewImg get msg, the next newImg id is '+this.newImgNum);
 		$('#fileCellForImg'+this.newImgNum).trigger('click');
 	},
 	deleteNewImg : function(t){
@@ -280,7 +280,6 @@ var ImgOption = {
 		TooltipOption.runIfOk('确定删除？', this.deleteAction);
 		//var str = $('#newImg'+t).attr('src');
 		//console.log(str);
-				
 	},
 	deleteAction : function(){
 		console.log('readyToDeleteId:'+ImgOption.readyToDeleteId);

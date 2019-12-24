@@ -1,5 +1,6 @@
 package MiniBlog.Main.ServeImpl.User;
 
+import MiniBlog.Main.Common.Utils.CommonUtil;
 import MiniBlog.Main.Dao.Intro.IntroDao;
 import MiniBlog.Main.Dao.User.UserDao;
 import MiniBlog.Main.Serve.User.UserServe;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class UserServeImpl  {
@@ -81,5 +83,36 @@ public class UserServeImpl  {
             result.put("userPicture", DEFAULT_USER_PICTURE);
         }
         return result;
+    }
+
+    /**
+     *
+     * @param userId
+     * @return
+     */
+    public Map<String, Object> getUserInfo(Integer userId) {
+        Map<String, Object> data = dao.selectUserById(userId);
+        if (Objects.isNull(data)) {
+            return null;
+        }
+        String userPicture = dao.selectUserPictureByUserId(userId);
+        if (Objects.isNull(userPicture)) {
+            return null;
+        }
+        data.put("userPicture", userPicture);
+        return data;
+    }
+
+    /**
+     *
+     * @param param
+     * @return
+     */
+    public Boolean updateUserInfo(Map<String, Object> param) {
+        dao.updateUserById(param);
+        if (!Objects.isNull(param.get("userPicture"))) {
+            dao.updateUserPictureByUserId(param);
+        }
+        return Boolean.TRUE;
     }
 }

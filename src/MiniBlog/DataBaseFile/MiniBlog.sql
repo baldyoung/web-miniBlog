@@ -3,6 +3,7 @@ MiniBlog_SingleUser
 版本号:Version1.00   ---------------------- 2019-12-4
 MB_User表新增_name字段，用来代表用户昵称   --- 2019-12-13
 MB_ArticleComment新增parent_comment_id字段，标识父级评论编号   --- 2019-12-13
+MB_User新增lastModified字段，代表用户信息的最新修改时间   --- 2019-12-13
 */
 
 
@@ -42,6 +43,7 @@ CREATE TABLE MB_User(
 	sex ENUM('男', '女', '你猜') DEFAULT '你猜' COMMENT'[可选]用户性别' ,
 	phoneNumber VARCHAR(20) DEFAULT 'unknow' COMMENT'[可选]用户联系电话'
 )COMMENT'普通用户表';
+ALTER TABLE mb_user ADD COLUMN lastModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最新修改时间';
 
 INSERT INTO MB_User(account, _password, mailbox, _name) VALUES ('dev', '123', '123@126.com', '乌龙');
 # SELECT _password 'password' FROM MB_User WHERE account = 'admin';

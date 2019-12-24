@@ -9,16 +9,24 @@ import java.util.Map;
 @Repository
 public interface UserDao {
 
-    public int insertNewUser(Map map);
+    int insertNewUser(Map map);
 
-    public Map queryByAccount(String Account);
+    Map queryByAccount(String Account);
 
-    public Map queryById(int id);
+    Map queryById(int id);
 
-    public Map<String, Object> getUserInfByUserId(@Param("userId")Integer userId);
+    Map<String, Object> getUserInfByUserId(@Param("userId")Integer userId);
 
-    public String getUserPictureByUserId(@Param("userId")Integer userId);
+    String getUserPictureByUserId(@Param("userId")Integer userId);
 
-    public Integer createUserPictureByUserId(@Param("userId")Integer userId, @Param("userPicture")String userPicture);
+    Integer createUserPictureByUserId(@Param("userId")Integer userId, @Param("userPicture")String userPicture);
+
+    Map<String, Object> selectUserById(@Param("userId")Integer userId);
+
+    String selectUserPictureByUserId(@Param("userId")Integer userId);
+
+    Integer updateUserById(Map map);
+
+    Integer updateUserPictureByUserId(Map map);
 
 }
