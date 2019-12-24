@@ -28,7 +28,10 @@ function initLoadPageModule(){
 	//PagingModule.MaxPagingNum = 5;
 	//PagingModule.TotalNumOfPageBtn = 5;
 	//PagingModule.TotalMaxPagingNum = 10;
-	loadTargetPage(PagingModule.CurrentIndexPage);
+	if (PagingModule.TotalMaxPagingNum > 0) {
+		loadTargetPage(PagingModule.CurrentIndexPage);
+	}
+
 }
 //在指定id的组件内创建一个分页条 --- 也可以直接直接在html中写好来，该调用应该在initLoadPageModule()调用之后
 function initCreateModuleBar(t){
@@ -39,7 +42,7 @@ function initCreateModuleBar(t){
 			str += "<button id='pageNumber"+i+"' class='layui-btn layui-btn-normal' style='margin-left:1px; margin-right:1px; "+(i==PagingModule.CurrentIndexPage?"background:#ffc361;":"")+" ' onclick='loadTargetPageX("+i+")' >"+i+"</button>";
 		}
 		str += "</span>";
-		str += "<button id='nextPageBtn' class='layui-btn layui-btn-normal' style='margin-left:2px; ' onclick='loadNextPageX()' >下一页</button>";
+		str += "<button id='nextPageBtn' class='layui-btn layui-btn-normal' style='background:#c3c9cf; cursor:not-allowed; margin-left:2px; ' onclick='loadNextPageX()' >下一页</button>";
 	target.html(str);
 }
 //获取并加载上一页数据

@@ -376,7 +376,7 @@ var ActionSelect = {
 
 $(function(){
 	init();
-	test();
+	//test();
 	
 });
 function init(){

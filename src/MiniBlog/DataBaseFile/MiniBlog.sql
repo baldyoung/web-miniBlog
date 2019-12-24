@@ -45,7 +45,7 @@ CREATE TABLE MB_User(
 )COMMENT'普通用户表';
 ALTER TABLE mb_user ADD COLUMN lastModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最新修改时间';
 
-INSERT INTO MB_User(account, _password, mailbox, _name) VALUES ('dev', '123', '123@126.com', '乌龙');
+INSERT INTO MB_User(account, _password, mailbox, _name) VALUES ('dev', 'pwd123#', 'admin@miniblog.com', '乌龙');
 # SELECT _password 'password' FROM MB_User WHERE account = 'admin';
 
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 管理员表
@@ -184,6 +184,8 @@ CREATE TABLE MB_Intro(
 	content VARCHAR(1000) NOT NULL COMMENT'简介的内容：不为空',
 	modifiedTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT'[默认]最新修改时间，不用操作由数据库默认操作'
 )COMMENT'论坛公告表';
+insert into MB_Intro(userId, content) values (1, '太懒了，居然什么都没写!');
+
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 用户头像表
 DROP TABLE IF EXISTS MB_UserPicture;
 CREATE TABLE MB_UserPicture(
@@ -192,6 +194,8 @@ CREATE TABLE MB_UserPicture(
 	pictureName VARCHAR(30) NOT NULL COMMENT'图片名称：不为空',
 	modifiedTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT'[默认]最新修改时间，不用操作由数据库默认操作'
 )COMMENT'用户头像表';
+insert into MB_UserPicture(userId, pictureName) values (1, 'default.jpg');
+
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 平台简介表
 DROP TABLE IF EXISTS MB_About;
 CREATE TABLE MB_About(
@@ -200,7 +204,7 @@ CREATE TABLE MB_About(
 	content VARCHAR(1000) NOT NULL DEFAULT'' COMMENT'公告内容：不为空',
 	createTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT'[默认]创建时间，不用操作由数据库默认操作'
 )COMMENT'平台简介表';
-INSERT INTO MB_About(id, userId, content) VALUES (1, 0, '太懒了，啥都还没写呢');
+INSERT INTO MB_About(id, userId, content) VALUES (1, 1, '太懒了，啥都还没写呢');
 
 
 
