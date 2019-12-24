@@ -47,7 +47,7 @@ var MessageModule  = {
 	        t.content = '什么也没写呢...'
         }
 		var str = "<div id='messageDiv"  + t.id +"' class='info-item' style='margin-bottom:5px;'>";
-		str += "<img class='info-img' style='width:70px; height:70px; ' src='../../MiniBlog_CommonRes/res/img/" + (t.userPicture == undefined ? "fail.jpg" : t.userPicture) + "' alt=''>";
+		str += "<img class='info-img' style='width:70px; height:70px; ' src='../../MiniBlog_CommonRes/res/img/" + (t.pictureName == undefined ? "fail.jpg" : t.pictureName) + "' alt=''>";
 		str += "<div class='info-text'>";
 		str += "<p class='title count'>";
 		str += "<span class='name'>" + (t.name == undefined ? '游客' : t.name) + "</span>";
