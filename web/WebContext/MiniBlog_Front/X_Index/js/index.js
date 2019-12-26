@@ -1,25 +1,7 @@
 
-//后台需要提供的对象所应有的属性，及其简介
-/*
-帖子所对应的对象应该有如下属性
-{
-	id:被展示单元的编号,
-	title:被展示单元的标题,
-	publishTime:被发布的时间,
-	content:详细内容,
-	images:[图片1,图片2, ...],
-	commentNumber:已有的评论数量,
-	likeNumber:已有的点赞数量,
-	isLike:当前用户是否已点赞('yes'/'no')
-}
-初始化分页数据应该有如下属性
-{
-	TotalNumOfPaging : undefined, //被分页的数据的总数，这里应该与已有评论数量等同
-}
-getIntro
-*/
-function requestAndShowIntro() {
 
+
+function requestAndShowIntro() {
 	$.ajax({
 		url: "getIntro",
 		type: 'GET',
@@ -52,7 +34,6 @@ function requestAndShowArticleList(fIndex, amount) {
 		contentType: "application/x-www-form-urlencoded;charset=utf-8",
 		data: temp,
 		success: function (data) {
-			console.log('ArticleOption.loadData()-ajax-receive-data:'+data.toString());
 			if(data.result == 'success'){
 				showDisplayCells(data.data);
 			} else{
@@ -75,7 +56,6 @@ function requestInitPagingData() {
 		contentType: "application/x-www-form-urlencoded;charset=utf-8",
 		data: {},
 		success: function (data) {
-			console.log('ArticleOption.loadData()-ajax-receive-data:'+data.toString());
 			if(data.result == 'success'){
 				result = data.data;
 			} else{
@@ -93,41 +73,7 @@ function requestInitPagingData() {
 
 $(function(){
 	init();
-	// test();
 });
-
-//前端测试函数
-function test(){
-	var temp = [{
-		id:'101',
-		title:'测试表数据一',
-		publishTime:'2019-10-5 17:33',
-		content:'这只是一组测试数据\n这只是一组测试数据这只是一组测试数据。',
-		images:['../A_CommonRes/res/img/item.png', '../A_CommonRes/res/img/item.png', '../A_CommonRes/res/img/item.png', '../A_CommonRes/res/img/item.png'],
-		commentNumber:'99',
-		likeNumber:'33',
-		isLike : 'yes'
-	},{
-		id:'102',
-		title:'测试表数据二',
-		publishTime:'2019-10-5 16:33',
-		content:'这只是一组测试数据\n这只是一组测试数据这只是一组测试数据。',
-		images:['../A_CommonRes/res/img/item.png', '../A_CommonRes/res/img/item.png'],
-		commentNumber:'66',
-		likeNumber:'3',
-		isLike : 'no'
-	}];
-	showDisplayCells(temp);
-	//初始化分页条的数据
-	PagingModule.CurrentIndexPage = 1; //默认页面是第一页
-	PagingModule.MaxPagingNum = 5; //一个页面最多展示5条数据
-	PagingModule.TotalNumOfPageBtn = 5; //被显示的分页按钮数量，不能大于数据分页后的页数
-	PagingModule.TotalMaxPagingNum = 10; //数据分页后的页数
-	//在指定的组件下创建分页条
-	initCreateModuleBar('pagingOptionArea');
-	initLoadPageModule();
-	
-}
 //初始化调用
 function init(){
 	requestAndShowIntro();
@@ -165,9 +111,11 @@ function createDisplayCellHTML(t){
 	str += "";
 	str += "<h5>"+t.name+"&nbsp;&nbsp;&nbsp;发布于："+t.publishTime+"<span></span></h5>";
 	str += "<p>"+t.content+"</p>";
-	if (undefined != imgs && undefined != imgs.length)
-		for(i=0;i<imgs.length;i++)
+	if (undefined != imgs && undefined != imgs.length){
+		for(i=0;i<imgs.length;i++) {
 			str += "<img style='width:200px; height:130px; margin-right:5px; margin-bottom:5px; ' src='../../MiniBlog_CommonRes/res/img/"+imgs[i]+"' alt=''>";
+		}
+	}
 	str += "</div>";
 	str += "<div class='comment count'>";
 	str += "<a href='../X_Details/details.html?articleId="+t.id+"'>评论"+t.commentAmount+"</a>";
