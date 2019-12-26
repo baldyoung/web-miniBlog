@@ -39,10 +39,10 @@
     <div class="container-wrap">
 		<div class="container" style='width:60%;  ' >
 			<div class='item' style='padding:5px 2px 3px 3px; margin-bottom:3px; background:#68c9f3;'>
-				<span style='margin:2px 3px 1px 1px; cursor:pointer; ' >关于我</span>|
-				<span style='margin:2px 3px 1px 3px; cursor:pointer; ' >个人信息</span>|
-				<span style='margin:2px 3px 1px 3px; cursor:pointer; ' >我的关注</span>|
-				<span style='margin:2px 3px 1px 3px; cursor:pointer; ' >跟我有关</span>
+				<a href="../X_About/about.html"><span style='margin:2px 3px 1px 1px; cursor:pointer; ' >关于我</span>|</a>
+				<a href="../X_UserManager/userManager.html"><span style='margin:2px 3px 1px 3px; cursor:pointer; ' >个人信息</span>|</a>
+				<a href="../X_Register/register.html"><span style='margin:2px 3px 1px 3px; cursor:pointer; ' >新增伙伴</span>|</a>
+				<span style='margin:2px 3px 1px 3px; cursor:pointer; display:none; ' >跟我有关</span>
 			</div>
 			<!-- 公告编辑区 -->
 			<div class='item' style='padding:0 3px 2px 3px; background:#9edef9; ' >
@@ -77,10 +77,12 @@
 	<!-- 功能区-我的关注 -->
 	<div onclick='' style='padding:3px 0 2px 2px; position:fixed; width:100px; height:120px; left:10%; top:30%; background:rgb(179, 214, 138, 0.7); border-radius:5px; cursor:default; ' >
 		<!-- button class="layui-btn layui-btn-normal" onclick="">发帖</button></br -->
-		<p style='font-size:12px; color:gray; margin:2px 0 1px 0; width:100%; text-align:center; '>关于</p>
-		<a href="../X_UserManager/userManager"><p style='font-size:13px; color:black; background:#c5ff66; width:90%; margin:2px 0 1px 0; cursor:pointer; border-radius:2px; padding:0 0 0 2px; '>个人信息</p></a>
-		<p style='font-size:13px; color:black; background:#ffbf66; width:90%; margin:2px 0 1px 0; cursor:pointer; border-radius:2px; padding:0 0 0 2px; '>文章评论</p>
-		<p style='font-size:13px; color:black; background:#ae66ff; width:90%; margin:2px 0 1px 0; cursor:pointer; border-radius:2px; padding:0 0 0 2px; '>论坛留言<span style='font-weight:bolder; color:red; '>!!!</span></p>
+		<a href="../X_About/about.html"><p style='font-size:12px; color:gray; margin:2px 0 1px 0; width:100%; text-align:center; '>关于</p></a>
+		<a href="../X_UserManager/userManager.html"><p style='font-size:13px; color:black; background:#c5ff66; width:90%; margin:2px 0 1px 0; cursor:pointer; border-radius:2px; padding:0 0 0 2px; '>个人信息</p></a>
+		<a href="../X_Register/register.html"><p style='font-size:13px; color:black; background:#ffbf66; width:90%; margin:2px 0 1px 0; cursor:pointer; border-radius:2px; padding:0 0 0 2px; '>新增伙伴</p></a>
+		<a href="../X_Message/message.html">
+			<p style='font-size:13px; color:black; background:#ae66ff; width:90%; margin:2px 0 1px 0; cursor:pointer; border-radius:2px; padding:0 0 0 2px; '>论坛留言<span style='font-weight:bolder; color:red; '>!!!</span></p>
+		</a>
 		<p style='font-size:13px; color:black; background:#f6d7d7; width:90%; margin:2px 0 1px 0; cursor:pointer; border-radius:2px; padding:0 0 0 2px; ' onclick="ActionSelect.logoutAction()">退出登录</p>
 	</div>
 	
