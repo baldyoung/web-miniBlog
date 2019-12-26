@@ -1,24 +1,4 @@
-/*评论 所对应的对象应该有如下属性
-{
-	id:被展示单元的编号,
-	userName:留言的用户名称,
-	userPicture:留言用户的头像,
-	content:留言内容,
-	likeNumber:已有的点赞数量
-}
-内容 所对应的对象应该有如下属性
-{
-	id:被展示单元的编号,
-	title:被展示单元的标题,
-	publishTime:被发布的时间,
-	content:详细内容,
-	images:[图片1,图片2, ...],
-	commentNumber:已有的评论数量,
-	likeNumber:已有的点赞数量,
-	readNum:已阅数量,
-	isLike:当前用户是否已点赞('yes'/'no')
-}
-*/
+
 var LikeFlagRecordId = '';
 function getArgFromURL(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");//构造一个含有目标参数的正则表达式对象
@@ -56,44 +36,8 @@ function initArticleDetailsPage() {
 
 $(function () {
     init();
-    //test();
 
 });
-
-function test() {
-
-    //内容加载测试
-    var temp = {
-        id: '101',
-        title: '测试表数据一',
-        publishTime: '2019-10-5 17:33',
-        content: '这只是一组测试数据\n这只是一组测试数据这只是一组测试数据。',
-        images: ['../A_CommonRes/res/img/item.png', '../A_CommonRes/res/img/item.png', '../A_CommonRes/res/img/item.png', '../A_CommonRes/res/img/item.png'],
-        commentNumber: '99',
-        likeNumber: '33',
-        readNum: 99,
-        isLike: 'yes'
-    };
-    showContent(temp);
-    //评论加载测试
-    temp = [{
-        id: 101,
-        userName: '肖人人',
-        userPicture: '../A_CommonRes/res/img/info-img.png',
-        content: '测试数据...测试数据...',
-        likeNumber: 33
-    }, {
-        id: 102,
-        userName: '肖姐姐',
-        userPicture: '../A_CommonRes/res/img/info-img.png',
-        content: '测试数据...测试数据...',
-        likeNumber: 36
-    }];
-    showCommentCells(temp);
-
-
-};
-
 function init() {
     $('#commentEditArea').hide();
     //初始化分页条的数据
