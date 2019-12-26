@@ -148,8 +148,12 @@ function showDisplayCells(t){
 	var i=0;
 	var target = $('#DisplayArea');
 	target.html('');
-	for(;i<t.length;i++)
+	for(;i<t.length;i++) {
 		target.append(createDisplayCellHTML(t[i]));
+		var artId = t[i].articleId;
+		articleLikeFlagMap[artId] = t[i].likeRecordId;
+	}
+
 }
 //拼接给定展示单元的HTML
 function createDisplayCellHTML(t){
@@ -215,7 +219,7 @@ function markLike(t){
 var articleLikeFlagMap = {
 };
 function markLikeOfContent(t) {
-	var LikeFlagRecordId = articleLikeFlagMap.t;
+	var LikeFlagRecordId = articleLikeFlagMap[t];
 	var target = $('#cellLikeFlag'+t);
 	console.log(target.attr('class'));
 	if (undefined == LikeFlagRecordId || null == LikeFlagRecordId) {
@@ -232,7 +236,7 @@ function markLikeOfContent(t) {
 		success: function (data) {
 			if(data.result == 'success'){
 				LikeFlagRecordId = (undefined == data.data ? '' : data.data.id);
-				articleLikeFlagMap.t = LikeFlagRecordId;
+				articleLikeFlagMap[t] = LikeFlagRecordId;
 				// result =  data.data;
 				if(target.attr('class') == 'layblog-this'){//已点赞
 					console.log('取消点赞');

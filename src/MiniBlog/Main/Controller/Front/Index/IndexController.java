@@ -74,6 +74,7 @@ public class IndexController {
         // param.put("userId", userId);
         param.put("firstIndex", firstIndex);
         param.put("maxAmount", maxAmount);
+        param.put("userId", CommonUtil.getUserIdWithOutException(session));
         data = serve.getAvailableArticleList(param);
         if (Objects.isNull(data)) {
             return Result.fail(ResultErrorInf.DATA_REQUEST_FAIL);

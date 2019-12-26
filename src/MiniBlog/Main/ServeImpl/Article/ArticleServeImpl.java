@@ -129,8 +129,14 @@ public class ArticleServeImpl {
         if (!Objects.isNull(result)) {
             for (Map<String, Object> temp : result) {
                 List<String> pictureList = dao.getPictureListByArticleId(temp.get("articleId").toString());
-                if (!Objects.isNull(param.get("userId")) && !Objects.isNull(dao.getTheLikeFlagOfTheArticle(Integer.parseInt(temp.get("id").toString()), Integer.parseInt(param.get("userId").toString())))) {
+                if (Objects.isNull(param.get("userId"))) {
+                    temp.put("isLike", "no");
+                    continue;
+                }
+                Integer recordId = dao.getTheLikeFlagOfTheArticle(Integer.parseInt(temp.get("articleId").toString()), Integer.parseInt(param.get("userId").toString()));
+                if (!Objects.isNull(recordId)) {
                     temp.put("isLike", "yes");
+                    temp.put("likeRecordId", recordId);
                 } else {
                     temp.put("isLike", "no");
                 }
