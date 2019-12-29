@@ -129,6 +129,8 @@ public class ArticleServeImpl {
         if (!Objects.isNull(result)) {
             for (Map<String, Object> temp : result) {
                 List<String> pictureList = dao.getPictureListByArticleId(temp.get("articleId").toString());
+                temp.put("pictureList", pictureList);
+                dao.plusOneReadAmountOfTheArticle(Integer.parseInt(temp.get("articleId").toString()));
                 if (Objects.isNull(param.get("userId"))) {
                     temp.put("isLike", "no");
                     continue;
@@ -140,8 +142,6 @@ public class ArticleServeImpl {
                 } else {
                     temp.put("isLike", "no");
                 }
-                temp.put("pictureList", pictureList);
-                dao.plusOneReadAmountOfTheArticle(Integer.parseInt(temp.get("articleId").toString()));
             }
         }
         return result;
