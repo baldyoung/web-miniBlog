@@ -216,7 +216,7 @@ function createCommentCellHTML(t) {
     str += "<span class='name' style='margin-left:63px; color:palevioletred;' onclick='deleteTheComment("+t.id+")'>" + (t.isOwner == 'yes' ? "删除" : "") + "</span>";
    // str += "<span id='commentParselike" + t.id + "' class='info-img' onclick='markLikeOfComment(\"" + t.id + "\")' ><i class='layui-icon layui-icon-praise'></i><span id='commentLike" + t.id + "' >" + t.likeAmount + "</span></span>";
     str += "</p>";
-    str += "<textarea class='info-intr' readonly='true' style='resize:none; background:#f2f2f2; width:100%; margin-top:-33px; border:0px solid;'>" + t.content + "</textarea>";
+    str += "<textarea id='commentArea" + t.id + "' class='info-intr' readonly='true' style='resize:none; background:#f2f2f2; width:100%; margin-top:-33px; border:0px solid;'>" + t.content + "</textarea>";
     str += "</div>";
     str += "</div>";
     return str;
