@@ -155,6 +155,8 @@ public interface ArticleDao {
      */
     public Map<String, Object> getCommentInfByCommentId(@Param("commentId")Integer commentId);
 
+    Map<String, Object> getSimpleCommentInfoByCommentId(@Param("commentId")Integer commentId);
+
 
     // public Integer deleteThePictureOfArticleByArticleId(@Param("articleId")Integer articleId);
 

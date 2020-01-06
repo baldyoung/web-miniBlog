@@ -266,7 +266,7 @@ public class ArticleServeImpl {
      */
     public Map<String, Object> deleteCommentAboutArticle(Integer recodeId) {
         Integer articleId = null;
-        Map<String, Object> result = dao.getCommentInfByCommentId(recodeId);
+        Map<String, Object> result = dao.getSimpleCommentInfoByCommentId(recodeId);
         if (null == result || null == result.get("articleId")) {
             result = new HashMap<>();
             result.put("result", "fail");

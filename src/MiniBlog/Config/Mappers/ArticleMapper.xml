@@ -95,6 +95,10 @@
         SELECT a.articleId 'articleId', a.userId 'userId', b._name 'name', a.content 'content', a.likeAmount 'likeAmount', DATE_FORMAT(a.recordTime, '%Y-%m-%d %H:%i:%s') 'recordTime' FROM mb_articlecomment a, mb_user b WHERE id = #{commentId} and a.userId = b.id
     </select>
 
+    <select id="getSimpleCommentInfoByCommentId" resultType="map" >
+        SELECT a.articleId 'articleId', a.userId 'userId' FROM mb_articlecomment a WHERE a.id = #{commentId}
+    </select>
+
     <select id="getAvailableArticleList" resultType="map" >
          SELECT a.id 'articleId', a.userId 'userId', c._name 'name', a.title 'title', b.content 'content', DATE_FORMAT(a.publishTime, '%Y-%m-%d %H:%i:%s') 'publishTime',
 	          a.readNum 'readNum', a.likeAmount 'likeAmount', a.commentAmount 'commentAmount', c.account 'userAccount'
