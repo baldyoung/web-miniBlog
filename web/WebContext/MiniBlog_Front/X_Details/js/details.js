@@ -210,13 +210,13 @@ function createCommentCellHTML(t) {
     var str = "<div class='info-item' style='margin-bottom:5px;'>";
     str += "<img class='info-img' style='width:70px; height:70px; ' src='../../MiniBlog_CommonRes/res/img/" + (t.userPicture == undefined ? "fail.jpg" : t.userPicture) + "' alt=''>";
     str += "<div class='info-text'>";
-    str += "<p class='title count'>";
+    str += "<p class='title count' style='margin-bottom:0px; margin-top:6px;'>";
     str += "<span class='name'>" + (t.name == undefined ? '游客' : t.name) + "</span>";
-    str += "<span class='name' style='margin-left:35px; '>评论时间：" + t.recordTime + "</span>";
+    str += "<span class='name' style='margin-left:35px; '> " + t.recordTime + "</span>";
     str += "<span class='name' style='margin-left:63px; color:palevioletred;' onclick='deleteTheComment("+t.id+")'>" + (t.isOwner == 'yes' ? "删除" : "") + "</span>";
    // str += "<span id='commentParselike" + t.id + "' class='info-img' onclick='markLikeOfComment(\"" + t.id + "\")' ><i class='layui-icon layui-icon-praise'></i><span id='commentLike" + t.id + "' >" + t.likeAmount + "</span></span>";
     str += "</p>";
-    str += "<p class='info-intr'>" + t.content + "</p>";
+    str += "<textarea class='info-intr' readonly='true' style='resize:none; background:#f2f2f2; width:100%; margin-top:-33px; border:0px solid;'>" + t.content + "</textarea>";
     str += "</div>";
     str += "</div>";
     return str;
