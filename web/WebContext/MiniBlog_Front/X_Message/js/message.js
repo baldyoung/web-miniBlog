@@ -55,7 +55,7 @@ var MessageModule  = {
 		str += "<span class='name' style='margin-left:63px; color:palevioletred; cursor:pointer; ' onclick='MessageModule.deleteMessage("+t.id+")'>" + (t.isOwner == 'yes' ? "删除" : "") + "</span>";
 		// str += "<span id='commentParselike" + t.id + "' class='info-img' onclick='markLikeOfComment(\"" + t.id + "\")' ><i class='layui-icon layui-icon-praise'></i><span id='commentLike" + t.id + "' >" + t.likeAmount + "</span></span>";
 		str += "</p>";
-		str += "<p class='info-intr'>" + t.content + "</p>";
+		str += "<textarea id='commentArea" + t.id + "' class='info-intr' readonly='true' style='resize:none; background:#f2f2f2; width:100%; margin-top:-33px; border:0px solid;'>" + t.content + "</textarea>";
 		str += "</div>";
 		str += "</div>";
 		return str;
@@ -73,6 +73,8 @@ var MessageModule  = {
 		for (i=0; i<t.length; i++) {
 			item = t[i];
 			target.append(MessageModule.createDisplayCellHTML(item))
+			var textarea=document.getElementById('commentArea' + t[i].id);
+			textarea.style.height = textarea.scrollHeight + 5 + 'px';
 		}
 	},
 	deleteDisplayCell : function(t) {
