@@ -223,12 +223,17 @@ function createCommentCellHTML(t) {
 }
 
 //将给定的评论集加载到展示区域
+//将给定的评论集加载到展示区域
 function showCommentCells(t) {
     var i = 0;
     var target = $('#commentDisplayArea');
     target.html('');
-    for (; i < t.length; i++)
+    for (; i < t.length; i++) {
         target.append(createCommentCellHTML(t[i]));
+        var textarea=document.getElementById('commentArea' + t[i].id);
+        textarea.style.height = textarea.scrollHeight + 5 + 'px';
+    }
+
 }
 
 //点赞操作
