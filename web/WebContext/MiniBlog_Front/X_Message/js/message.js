@@ -51,7 +51,7 @@ var MessageModule  = {
 		str += "<div class='info-text'>";
 		str += "<p class='title count'>";
 		str += "<span class='name'>" + (t.name == undefined ? '游客' : t.name) + "</span>";
-		str += "<span class='name' style='margin-left:35px; '>评论时间：" + t.recordTime + "</span>";
+		str += "<span class='name' style='margin-left:35px; '>" + t.recordTime + "</span>";
 		str += "<span class='name' style='margin-left:63px; color:palevioletred; cursor:pointer; ' onclick='MessageModule.deleteMessage("+t.id+")'>" + (t.isOwner == 'yes' ? "删除" : "") + "</span>";
 		// str += "<span id='commentParselike" + t.id + "' class='info-img' onclick='markLikeOfComment(\"" + t.id + "\")' ><i class='layui-icon layui-icon-praise'></i><span id='commentLike" + t.id + "' >" + t.likeAmount + "</span></span>";
 		str += "</p>";
@@ -72,6 +72,9 @@ var MessageModule  = {
 		}
 		for (i=0; i<t.length; i++) {
 			item = t[i];
+			item.content=item.content.replace(/</g, "&lt;");
+			item.content=item.content.replace(/>/g, "&gt;");
+			console.log(item.content);
 			target.append(MessageModule.createDisplayCellHTML(item))
 			var textarea=document.getElementById('commentArea' + t[i].id);
 			textarea.style.height = textarea.scrollHeight + 5 + 'px';

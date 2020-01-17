@@ -229,6 +229,9 @@ function showCommentCells(t) {
     var target = $('#commentDisplayArea');
     target.html('');
     for (; i < t.length; i++) {
+        var item = t[i];
+        item.content=item.content.replace(/</g, "&lt;");
+        item.content=item.content.replace(/>/g, "&gt;");
         target.append(createCommentCellHTML(t[i]));
         var textarea=document.getElementById('commentArea' + t[i].id);
         textarea.style.height = textarea.scrollHeight + 5 + 'px';
