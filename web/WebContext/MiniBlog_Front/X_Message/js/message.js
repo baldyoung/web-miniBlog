@@ -131,7 +131,7 @@ var MessageModule  = {
 				}
 			},
 			error : function(){
-				//TooltipOption.showWarningInf('服务器连接失败');
+				TooltipOption.showWarningInf('服务器连接失败');
 			}
 		});
 	}
@@ -155,6 +155,50 @@ function isEmpty(t) {
 
 
 
+//提示框控制模块-Y
+var TooltipOption = {
+	targetId : '#tooltipArea',
+	btnYesId : '#btnTipYes',
+	btnNoId : '#btnTipNo',
+	colorOfWarning : '#ff8585',
+	colorOfPrimary : '#93d0dd',
+	run : undefined,
+	showPrimaryInf : function(d){
+		$('#tipTitleDiv').css('background', this.colorOfPrimary);
+		$('#tipContent').text(d);
+		this.show();
+		$(this.btnNoId).hide();
+	},
+	showWarningInf : function(d){
+		$('#tipTitleDiv').css('background', this.colorOfWarning);
+		$('#tipContent').text(d);
+		this.show();
+		$(this.btnNoId).hide();
+	},
+	runIfOk : function(t, r){
+		this.run = r;
+		$('#tipTitleDiv').css('background', this.colorOfPrimary);
+		$('#tipContent').text(t);
+		$(this.btnNoId).show();
+		$(this.targetId).show();
+	},
+	ok : function(){
+		if(undefined!=this.run) this.run();
+		this.run = undefined;
+		this.hide();
+	},
+	cancel : function(){
+		this.run = undefined;
+		this.hide();
+	},
+	show : function(){
+		$(this.btnNoId).show();
+		$(this.targetId).show();
+	},
+	hide : function(){
+		$(this.targetId).hide();
+	}
+}
 
 
 

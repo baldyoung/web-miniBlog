@@ -44,7 +44,7 @@ CREATE TABLE MB_User(
 	phoneNumber VARCHAR(20) DEFAULT 'unknow' COMMENT'[可选]用户联系电话'
 )COMMENT'普通用户表';
 ALTER TABLE mb_user ADD COLUMN lastModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最新修改时间';
-
+INSERT INTO MB_User(id, account, _password, mailbox, _name) VALUES (0, 'luck', '333k,pd', '***@###.com', 'baldyoung');
 INSERT INTO MB_User(account, _password, mailbox, _name) VALUES ('dev', 'pwd123#', 'admin@miniblog.com', '乌龙');
 # SELECT _password 'password' FROM MB_User WHERE account = 'admin';
 

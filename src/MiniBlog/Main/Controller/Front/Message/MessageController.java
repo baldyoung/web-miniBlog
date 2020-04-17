@@ -54,10 +54,13 @@ public class MessageController {
     @RequestMapping(value = "addMessage", method = {POST})
     @ResponseBody
     public Result addMessage(@RequestParam("content")String content, HttpSession session) {
+        Integer userId = getUserIdWithOutException(session);
+        if (null == userId) {
+            return Result.fail("管理员已关闭游客服务");
+        }
         if (isAnyNullObject(content)) {
             return Result.fail(PARAM_IS_EMPTY);
         }
-        Integer userId = getUserIdWithOutException(session);
         userId = (Objects.isNull(userId) ? 0 : userId);
         messageServe.addNewMessage(userId, content);
         return Result.success();

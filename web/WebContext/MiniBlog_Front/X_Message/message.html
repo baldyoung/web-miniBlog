@@ -41,7 +41,7 @@
 							</div -->
 						</div>
 					</div>
-					<div style="width:100%: " >
+					<div style="width:100%; " >
 						<span onclick='MessageModule.requestAndShowMessage()' style="color:#0d8ddb; font-weight:bolder; font-size:15px; cursor:pointer; " >
 							点击加载更多...
 						</span>
@@ -52,6 +52,29 @@
 					-->
 				</div>
 			</div>
+</div>
+
+<!-- 信息提示框 -->
+<div id='tooltipArea' style='position:fixed; width:100%; height:100%; left:0px; top:0px; background:rgb(77, 77, 77, 0.3); display:none;  overflow-y:auto;'>
+	<div class='item' style='width:20%; background:#FFFFFF; margin-top:10%; margin-left:40%; padding:2px 2px 2px 2px; '>
+		<!-- 标题 -->
+		<div id='tipTitleDiv' style='width:100%; background:#ecb89c; margin:3px 0px 2px 0px; text-align:center; padding:2px 0 3px 0; '>
+			<p style='font-weight:bolder; font-size:15px; color:black; '>提&nbsp;示</p>
+		</div>
+		<!-- 内容 -->
+		<div style='width:100%; background:#FFFFFF; margin:3px 0px 2px 0px; '>
+			<p id='tipContent' style='width:80%; margin:5px 0px 2px 0px; min-height:80px; ' >请确认是否删除?</p>
+		</div>
+		<!-- 选项 -->
+		<div style='background:#FFFFFF; text-align:right; ' >
+			<button id='btnTipYes' onclick='TooltipOption.ok()' style='cursor:pointer; width:60px; margin-right:5px; height: 31px;  background-color: #494949;color: #d5d3d3; text-align: center;font-size: 14px;border: none;border-radius: 2px; ' >
+				确认
+			</button>
+			<button id='btnTipNo' onclick='TooltipOption.cancel()' style='cursor:pointer; width:60px; height:31px; margin-right:10px; background-color: #d5d3d3;color: #494949;text-align: center;font-size: 14px;border: none;border-radius: 2px; ' >
+				取消
+			</button>
+		</div>
+	</div>
 </div>
 <!-- 引入公共尾部 -->
 <div th:replace="MiniBlog_Front/A_CommonRes/common :: common_footer"></div>

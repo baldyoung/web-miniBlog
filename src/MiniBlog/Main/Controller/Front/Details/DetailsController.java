@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import static java.lang.System.out;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import static MiniBlog.Main.Common.Utils.CommonUtil.*;
@@ -112,7 +113,10 @@ public class DetailsController {
         Integer userId = null;
         if (!Objects.isNull(session.getAttribute("userId"))) {
             userId = Integer.parseInt(session.getAttribute("userId").toString());
+        } else {
+            return Result.fail("管理员已关闭游客服务");
         }
+        out.println(userId);
         Map<String, Object> result = serve.addCommentAboutArticle(articleId, parentId, userId, comment);
         if (StringUtils.equals("success", result.get("result").toString())) {
             return Result.success();

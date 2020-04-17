@@ -47,10 +47,17 @@
 
     <mvc:interceptors>
         <mvc:interceptor>
+            <mvc:mapping path="/WebContext/MiniBlog_Front/X_About/updateAbout"/>
+            <!--<mvc:mapping path="/WebContext/MiniBlog_Front/X_Details/addCommentAboutArticle"/>-->
+            <mvc:mapping path="/WebContext/MiniBlog_Front/X_Details/deleteCommentAboutArticle"/>
+            <!--<mvc:mapping path="/WebContext/MiniBlog_Front/X_Message/addMessage"/>-->
+            <mvc:mapping path="/WebContext/MiniBlog_Front/X_Message/deleteMessage"/>
             <mvc:mapping path="/WebContext/MiniBlog_Front/X_Management/**"/>
             <mvc:mapping path="/WebContext/MiniBlog_Front/X_Register/**" />
-            <mvc:exclude-mapping path="/WebContext/MiniBlog_Front/Details/**"/>
-            <mvc:exclude-mapping path="/WebContext/MiniBlog_Front/X_Login/**"/>
+            <mvc:mapping path="/WebContext/MiniBlog_Front/X_UserManager/**"/>
+
+            <!--<mvc:exclude-mapping path="/WebContext/MiniBlog_Front/Details/**"/>
+            <mvc:exclude-mapping path="/WebContext/MiniBlog_Front/X_Login/**"/>-->
             <bean class="MiniBlog.Main.Interceptor.Front.LoginInterceptor.FrontLoginInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>

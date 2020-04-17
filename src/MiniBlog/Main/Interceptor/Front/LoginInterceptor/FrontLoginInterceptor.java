@@ -27,7 +27,7 @@ public class FrontLoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
         Object obj = request.getSession().getAttribute("userId");
         if(Objects.isNull(obj)) {
-            System.out.println(request.getContextPath());
+            //System.out.println(request.getContextPath());
             response.sendRedirect(request.getContextPath()+"/WebContext/MiniBlog_Front/X_Login/login");
             return false;
         }

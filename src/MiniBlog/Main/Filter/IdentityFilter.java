@@ -23,10 +23,10 @@ public class IdentityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession(true);
+        /*HttpSession session = request.getSession(true);
         if (false && Objects.isNull(session.getAttribute("userId"))) {
             session.setAttribute("userId", DEFAULT_VISITOR_ID);
-        }
+        }*/
         filterChain.doFilter(request, response);
     }
 
